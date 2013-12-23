@@ -1,0 +1,12 @@
+{% extends "page.html" %}
+
+{% block title %} 
+<h1>{{this.title}}<br>
+    <small class="nobr">{{this.author}}</small>
+    <small class="nobr">{{this.date|dateformat}}</small>
+</h1>
+{% endblock %}
+
+{% block sharing %}
+{% include 'sharing.html' %}
+{% endblock %}

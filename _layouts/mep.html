@@ -1,0 +1,22 @@
+{% extends "article.html" %}
+
+{% block title %} 
+<h1>MEP {{this.mep}}: {{this.title}}&nbsp;&nbsp;
+</h1>
+{% endblock %}
+
+{% block preamble %}
+<table class="table table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>{{this.mep}}</td></tr>
+    <tr><td><strong>Author</strong></td><td>{{this.author}}</td></tr>
+    <tr><td><strong>Status</strong></td><td>{{this.status}}</td></tr>
+    <tr><td><strong>Created</strong></td><td>{{this.date|dateformat}}</td></tr>
+    {% if this.version|d %}
+    <tr><td><strong>MyHDL-version</strong></td><td>{{this.version}}</td></tr>
+    {% endif %}
+</tbody>
+</table>
+
+{% endblock %}
+

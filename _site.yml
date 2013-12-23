@@ -1,0 +1,27 @@
+brand: MyHDL / dev
+
+reflinks:
+    MyHDL: 
+        url: http://www.myhdl.org 
+        title: MyHDL site
+    Google: 
+        url: http://www.google.com
+        title: Google
+    jandecaluwe:
+        url: mailto:jan@jandecaluwe.com
+        title: Jan Decaluwe
+    bitbucket:
+        url: http://www.bitbucket.org
+        title: Bitbucket
+    mercurial:
+        url: http://www.selenic.com/mercurial
+        title: mercurial
+    repository:
+        url: https://bitbucket.org/jandecaluwe/myhdl 
+        title: MyHDL repository
+    mailing-list:
+        url: http://www.myhdl.org/doku.php/mailing_list
+        title: Mailing List  
+    license:
+        url: http://creativecommons.org/licenses/by-sa/3.0/
+        title: CC-BY-SA 
