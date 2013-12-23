@@ -53,13 +53,42 @@
  
 <h1>Developer's guide<br>
     <small class="nobr">Jan Decaluwe</small>
-    <small class="nobr">23-Dec-2013</small>
+    <small class="nobr">10-Jan-2014</small>
 </h1>
     </div>
 
     <div class="row">
 
         <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#">Top</a>
+                    <div class="toc">
+<ul>
+<li><a href="#the-repository">The repository</a></li>
+<li><a href="#tracking-development">Tracking development</a><ul>
+<li><a href="#basic-usage">Basic usage</a></li>
+<li><a href="#development-branches">Development branches</a></li>
+<li><a href="#using-the-repository-code">Using the repository code</a></li>
+</ul>
+</li>
+<li><a href="#creating-your-own-changesets">Creating your own changesets</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#first-step-communicate">First step: communicate</a></li>
+<li><a href="#creating-changesets">Creating changesets</a></li>
+<li><a href="#quality">Quality</a></li>
+<li><a href="#contributing-changesets">Contributing changesets</a></li>
+<li><a href="#small-changes">Small changes</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
         </div>
 
         <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
@@ -83,89 +112,172 @@ window.__gcfg = {
 </script>
 
 <script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
-            <p>====== Guide for developers ======</p>
-<p>--- //[[jan@jandecaluwe.com|Jan Decaluwe]] 2008/07/25 06:21//</p>
-<p>===== Introduction =====</p>
-<p>The MyHDL [[https://bitbucket.org/jandecaluwe/myhdl|source code repository]] can be used for several 
-things, such as browsing through the development history,
-and tracking development. In addition, you can use it to contribute your own
-changesets. The workflow is such that every contributed change
-is reviewed and applied or rejected by me. Therefore, your goal as a contributor should be to
-minimize my work :-) What is needed is the following:</p>
+            <h2 id="the-repository">The repository</h2>
+<p>MyHDL code development is managed on bitbucket using
+<a href="http://www.selenic.com/mercurial">mercurial</a>.</p>
+<p>The public repository resides <a href="https://bitbucket.org/jandecaluwe/myhdl" title="MyHDL repository">here</a>.  Bitbucket offers an
+excellent interface to through the repository and its history. </p>
+<p>The repository can be used for several purposes, such as browsing through the
+development history, and tracking development. In addition, you can use it to
+contribute your own changesets.  </p>
+<h2 id="tracking-development">Tracking development</h2>
+<h3 id="basic-usage">Basic usage</h3>
+<p>If you have mercurial installed, you can use the repository to track
+development.  First, use the instructions on Bitbucket to clone the repository
+to a local repository on your machine.</p>
+<p>In that directory you can check for new changesets at any time:</p>
+<div class="codehilite"><pre>$ hg in
+</pre></div>
+
+
+<p>To get new changesets:</p>
+<div class="codehilite"><pre>$ hg pull
+</pre></div>
+
+
+<p>To update the workspace with the new changesets: </p>
+<div class="codehilite"><pre>$ hg update
+</pre></div>
+
+
+<h3 id="development-branches">Development branches</h3>
+<p>The repository contains multiple branches. Each branch corresponds to a
+development line with a specific purpose. Before using the repository to
+install MyHDL or to develop your own changesets, make sure you are on the
+correct branch.</p>
+<p>To find out what branches are available, use:</p>
+<div class="codehilite"><pre>$ hg branches
+</pre></div>
+
+
+<p>Currently, the following branches are active:</p>
+<table class="table">
+<thead>
+<tr>
+<th>Branch name</th>
+<th>Purpose</th>
+<th>Policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>Stable</td>
+<td>0.8 release + bug fixes</td>
+</tr>
+<tr>
+<td>0.9-dev</td>
+<td>Development</td>
+<td>0.9 new features</td>
+</tr>
+</tbody>
+</table>
+<p>To switch to a particular branch, use:</p>
+<div class="codehilite"><pre>$ hg update
+</pre></div>
+
+
+<h3 id="using-the-repository-code">Using the repository code</h3>
+<p>To use the repository code the simplest way is to adjust the $PYTHONPATH shell
+variable. Let's assume you have checked out the MyHDL code from the mercurial
+repository to $HOME/dev/myhdl. Insert that path as the first entry to the
+$PYTHONPATH variable. When doing the import, the myhdl package in the
+$HOME/dev/myhdl path will be found first, before any other MyHDL version that
+may be installed.</p>
+<p>For convenience you can put the change of the $PYTHONPATH variable in a script
+and source it when needed. The bash shell script would look like this:</p>
+<div class="codehilite"><pre>PYTHONPATH=&quot;$HOME/dev/myhdl:${PYTHONPATH}&quot;
+export PYTHONPATH
+</pre></div>
+
+
+<p>If you save this in <code>myhdl.sh</code>, you can use it as follows: </p>
+<div class="codehilite"><pre>source myhdl.sh
+</pre></div>
+
+
+<h2 id="creating-your-own-changesets">Creating your own changesets</h2>
+<h3 id="introduction">Introduction</h3>
+<p>You can also make your own changesets and contribute them to the development. </p>
+<p>The workflow is such that every contributed change is reviewed and applied or
+rejected by me. Therefore, your goal as a contributor should be to minimize my
+work :-) What is needed is the following:</p>
 <ul>
-<li>I need to understand why the change is needed, and why it will be useful to many people</li>
-<li>I need some confidence that it won't break current and foreseeable things</li>
-<li>the changes have to be tested</li>
-<li>you have to use [[http://www.selenic.com/mercurial|mercurial]] to manage the changesets</li>
-<li>you have to use [[http://www.bitbucket.org|Bitbucket]] to fork the main repo and create Pull Requests.</li>
+<li>I need to understand why the change is needed, and why
+  it will be useful to many people</li>
+<li>I need some confidence that it won't break current
+   and foreseeable features </li>
+<li>the changes have to be tested  </li>
+<li>you have to use <a href="http://www.selenic.com/mercurial">mercurial</a>
+  to manage the changesets</li>
+<li>you have to use <a href="http://www.bitbucket.org">Bitbucket</a>
+  to fork the main repo and create Pull Requests.</li>
 </ul>
-<p>The implementation of these requirements is described in more detail in the following sections.</p>
-<p>===== First things first: communicate =====</p>
+<p>The implementation of these requirements is described in more detail in the
+following sections.</p>
+<h3 id="first-step-communicate">First step: communicate</h3>
 <p>Don't send me patches out of the blue.</p>
-<p>Your first step is to communicate about the problem or feature with the MyHDL community.
-Start a discussion in the [[:mailing_list]] or (if you are certain) add an
-entry in the [[http://sourceforge.net/tracker/?group_id=91207&amp;atid=596332|Bug Tracker]].</p>
-<p>The result will be a fruitful discussion :-) that hopefully results in a decision about
-what should be done. The byproduct will be a specification for the work.</p>
-<p>===== Creating changesets =====</p>
+<p>Your first step is to communicate about the problem or feature with the MyHDL
+community.  Start a discussion in the <a href="http://www.myhdl.org/doku.php/mailing_list" title="Mailing List">Mailing List</a> or (if you are certain)
+add an entry in the
+<a href="http://sourceforge.net/tracker/?group_id=91207&amp;atid=596332">Bug Tracker</a>.</p>
+<p>The result will be a fruitful discussion :-) that hopefully results in a
+decision about what should be done. The byproduct will be a specification for
+the work.</p>
+<h3 id="creating-changesets">Creating changesets</h3>
 <p>To manage your patches, use mercurial. By doing so, I can simply use
 my normal development workflow to incorporate your work. Moreover, your name
 will be preserved as the author, so you get the credit you deserve.</p>
 <p>In mercurial terminology, a set of patches that belong together is called
-a //changeset//. Assuming you know how to work with mercurial, creating changesets
+a <em>changeset</em>. Assuming you know how to work with mercurial, creating changesets
 is easy. You make changes in your local repository clone, and use:</p>
-<p>$ hg commit</p>
+<div class="codehilite"><pre>hg commit
+</pre></div>
+
+
 <p>to create a new changeset that contains your patches.</p>
-<p>===== First things first: quality =====</p>
-<p>At a certain point you will want to publish your changesets, so that everyone can
-benefit from them. However, don't publish your work until it is complete. Make
-sure there are no loose ends that others will have to address after you.
+<h3 id="quality">Quality</h3>
+<p>At a certain point you will want to publish your changesets, so that everyone
+can benefit from them. However, don't publish your work until it is complete.
+Make sure there are no loose ends that others will have to address after you.
 Most importantly, make sure your changes have been tested.</p>
-<p>Run the MyHDL regression tests to make sure nothing breaks.
-As a minimum, the tests in ''test/core'' should be run. If your changes
-are related to conversion to VHDL/Verilog, the test in the ''test/conversion''
-directories should be run also.</p>
+<p>Run the MyHDL regression tests to make sure nothing breaks.  As a minimum, the
+tests in <code>test/core</code> should be run. If your changes are related to conversion
+to VHDL/Verilog, the test in the <code>test/conversion</code> directories should be run
+also.</p>
 <p>Presumably, you have some test for your changes in place. If at all possible,
 turn it into a test that can be added to the regression test suites.</p>
-<p>You may need a number of changesets to complete your work. That isn't a problem at
-all, on the contrary. Finish the job before publishing.
-Note that this development flow relies on the decoupling of the creation and the
-publication of changesets.
-This is a distinguishing feature of distributed revision control systems versus centralized ones.</p>
-<p>===== Contributing changesets =====</p>
-<p>==== Pull Requests ====</p>
-<p>When you are ready with your changes, use mercurial and Bitbucket to
-publish them. The advantage of using mercurial instead of traditional
-patch files is that it minimizes the overhead to review and apply,
-and, more importantly, it keeps the authoring information intact.
-The advantage of [http://www.bitbucket.org|Bitbucket] is that has
-a great web interface to review and merge the changesets.</p>
-<p>Contributing changesets is done by creating Pull Requests. This
-process is documented here:</p>
-<p>[[https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request|Bitbucket]]</p>
-<p>I will review the Pull Request, and decide to merge them in or not.</p>
-<p>==== Alternative for small changes ====</p>
-<p>The Pull Request method is completely general, but it has
-some overhead. For small changes, you can also use mercurial to generate
-augmented patch files by exporting them. However, you then have to list the
-revisions to be exported yourself. Also, you should not use this
-method for merge changesets:</p>
-<p>hg export -o <patchfile> REV ...</p>
-<p>In the simplest case, to create a patch containing your latest
-commit, you would to this:</p>
-<p>hg export -o <patchfile> tip</p>
-<p>Send the bundle or patch file to [[jan@jandecaluwe.com|Jan Decaluwe]].</p>
-<p>==== Discussions ====</p>
-<p>Keep any technical discussion leading about the changesets on the mailing list. Only
-the final operation of sending the bundle file should not go there. That having
-said, I can imagine advanced scenario's in which people exchange bundles on the
-mailing list as a means to convince others about new features.
-===== Tips =====</p>
-<p>==== Commit messages ====</p>
-<p>When logging changesets and browsing through the repository, mercurial uses only the first
-line of the commit message. Therefore, the first line of your commit message should be a short, descriptive one-liner.
-There's nothing against a more verbose message (on the contrary), but start
-it on a new line.</p>
+<p>You may need a number of changesets to complete your work. That isn't a problem
+at all, on the contrary. Finish the job before publishing.  Note that this
+development flow relies on the decoupling of the creation and the publication
+of changesets.  This is a distinguishing feature of distributed revision
+control systems versus centralized ones.</p>
+<h3 id="contributing-changesets">Contributing changesets</h3>
+<p>When you are ready with your changes, use mercurial and Bitbucket to publish
+them. The advantage of using mercurial instead of traditional patch files is
+that it minimizes the overhead to review and apply, and, more importantly, it
+keeps the authoring information intact.  The advantage of <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> is that
+has a great web interface to review and merge the changesets.</p>
+<p>Contributing changesets is done by creating <em>pull requests</em>. This
+process is documented
+<a href="https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request">here</a>:</p>
+<p><a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a> will review the Pull Request, and decide to merge them in or not.</p>
+<h3 id="small-changes">Small changes</h3>
+<p>The pull request method is completely general, but it has some overhead. For
+small changes, you can also use mercurial to generate augmented patch files by
+exporting them. However, you then have to list the revisions to be exported
+yourself. Also, you should not use this method for merge changesets:</p>
+<div class="codehilite"><pre>hg export -o &lt;patchfile&gt; REV ...
+</pre></div>
+
+
+<p>In the simplest case, to create a patch containing your latest commit, you
+would to this:</p>
+<div class="codehilite"><pre>hg export -o &lt;patchfile&gt; tip
+</pre></div>
+
+
+<p>Send the bundle or patch file to <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>.</p>
         </div>
     </div>
 

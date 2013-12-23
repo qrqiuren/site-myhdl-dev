@@ -2,123 +2,193 @@
 title: Developer's guide
 layout: article
 author: Jan Decaluwe
-date: 2013-12-23
+date: 2014-01-10
 ---
 
-====== Guide for developers ======
+The repository
+==============
 
- --- //[[jan@jandecaluwe.com|Jan Decaluwe]] 2008/07/25 06:21//
+MyHDL code development is managed on bitbucket using
+[mercurial](http://www.selenic.com/mercurial).
 
-===== Introduction =====
+The public repository resides [here][repository].  Bitbucket offers an
+excellent interface to through the repository and its history. 
 
-The MyHDL [[https://bitbucket.org/jandecaluwe/myhdl|source code repository]] can be used for several 
-things, such as browsing through the development history,
-and tracking development. In addition, you can use it to contribute your own
-changesets. The workflow is such that every contributed change
-is reviewed and applied or rejected by me. Therefore, your goal as a contributor should be to
-minimize my work :-) What is needed is the following:
+The repository can be used for several purposes, such as browsing through the
+development history, and tracking development. In addition, you can use it to
+contribute your own changesets.  
 
-  * I need to understand why the change is needed, and why it will be useful to many people
-  * I need some confidence that it won't break current and foreseeable things
-  * the changes have to be tested
-  * you have to use [[http://www.selenic.com/mercurial|mercurial]] to manage the changesets
-  * you have to use [[http://www.bitbucket.org|Bitbucket]] to fork the main repo and create Pull Requests.
+Tracking development
+====================
 
-The implementation of these requirements is described in more detail in the following sections.
+Basic usage
+-----------
 
-===== First things first: communicate =====
+If you have mercurial installed, you can use the repository to track
+development.  First, use the instructions on Bitbucket to clone the repository
+to a local repository on your machine.
+
+In that directory you can check for new changesets at any time:
+
+    $ hg in
+
+To get new changesets:
+
+    $ hg pull
+
+To update the workspace with the new changesets: 
+
+    $ hg update
+
+Development branches
+--------------------
+
+The repository contains multiple branches. Each branch corresponds to a
+development line with a specific purpose. Before using the repository to
+install MyHDL or to develop your own changesets, make sure you are on the
+correct branch.
+
+To find out what branches are available, use:
+
+    $ hg branches
+
+Currently, the following branches are active:
+
+Branch name   |  Purpose    | Policy                                                       
+--------------|-------------|------------------------
+ default      | Stable      | 0.8 release + bug fixes 
+ 0.9-dev      | Development | 0.9 new features 
+
+To switch to a particular branch, use:
+ 
+    $ hg update
+
+Using the repository code
+-------------------------
+
+To use the repository code the simplest way is to adjust the $PYTHONPATH shell
+variable. Let's assume you have checked out the MyHDL code from the mercurial
+repository to $HOME/dev/myhdl. Insert that path as the first entry to the
+$PYTHONPATH variable. When doing the import, the myhdl package in the
+$HOME/dev/myhdl path will be found first, before any other MyHDL version that
+may be installed.
+
+For convenience you can put the change of the $PYTHONPATH variable in a script
+and source it when needed. The bash shell script would look like this:
+
+    PYTHONPATH="$HOME/dev/myhdl:${PYTHONPATH}"
+    export PYTHONPATH
+
+If you save this in `myhdl.sh`, you can use it as follows: 
+
+    source myhdl.sh
+
+Creating your own changesets 
+============================
+
+Introduction
+------------
+
+You can also make your own changesets and contribute them to the development. 
+
+The workflow is such that every contributed change is reviewed and applied or
+rejected by me. Therefore, your goal as a contributor should be to minimize my
+work :-) What is needed is the following:
+
+* I need to understand why the change is needed, and why
+  it will be useful to many people
+* I need some confidence that it won't break current
+   and foreseeable features 
+* the changes have to be tested  
+* you have to use [mercurial](http://www.selenic.com/mercurial)
+  to manage the changesets
+* you have to use [Bitbucket](http://www.bitbucket.org)
+  to fork the main repo and create Pull Requests.
+
+The implementation of these requirements is described in more detail in the
+following sections.
+
+First step: communicate 
+-----------------------
 
 Don't send me patches out of the blue.
 
-Your first step is to communicate about the problem or feature with the MyHDL community.
-Start a discussion in the [[:mailing_list]] or (if you are certain) add an
-entry in the [[http://sourceforge.net/tracker/?group_id=91207&atid=596332|Bug Tracker]].
+Your first step is to communicate about the problem or feature with the MyHDL
+community.  Start a discussion in the [mailing-list] or (if you are certain)
+add an entry in the
+[Bug Tracker](http://sourceforge.net/tracker/?group_id=91207&atid=596332).
 
-The result will be a fruitful discussion :-) that hopefully results in a decision about
-what should be done. The byproduct will be a specification for the work.
+The result will be a fruitful discussion :-) that hopefully results in a
+decision about what should be done. The byproduct will be a specification for
+the work.
 
-===== Creating changesets =====
+Creating changesets
+-------------------
 
 To manage your patches, use mercurial. By doing so, I can simply use
 my normal development workflow to incorporate your work. Moreover, your name
 will be preserved as the author, so you get the credit you deserve.
 
 In mercurial terminology, a set of patches that belong together is called
-a //changeset//. Assuming you know how to work with mercurial, creating changesets
+a *changeset*. Assuming you know how to work with mercurial, creating changesets
 is easy. You make changes in your local repository clone, and use:
 
-  $ hg commit
+    hg commit
 
 to create a new changeset that contains your patches.
 
-===== First things first: quality =====
+Quality
+-------
 
-At a certain point you will want to publish your changesets, so that everyone can
-benefit from them. However, don't publish your work until it is complete. Make
-sure there are no loose ends that others will have to address after you.
+At a certain point you will want to publish your changesets, so that everyone
+can benefit from them. However, don't publish your work until it is complete.
+Make sure there are no loose ends that others will have to address after you.
 Most importantly, make sure your changes have been tested.
 
-Run the MyHDL regression tests to make sure nothing breaks.
-As a minimum, the tests in ''test/core'' should be run. If your changes
-are related to conversion to VHDL/Verilog, the test in the ''test/conversion''
-directories should be run also.
+Run the MyHDL regression tests to make sure nothing breaks.  As a minimum, the
+tests in `test/core` should be run. If your changes are related to conversion
+to VHDL/Verilog, the test in the `test/conversion` directories should be run
+also.
 
 Presumably, you have some test for your changes in place. If at all possible,
 turn it into a test that can be added to the regression test suites.
 
-You may need a number of changesets to complete your work. That isn't a problem at
-all, on the contrary. Finish the job before publishing.
-Note that this development flow relies on the decoupling of the creation and the
-publication of changesets.
-This is a distinguishing feature of distributed revision control systems versus centralized ones.
+You may need a number of changesets to complete your work. That isn't a problem
+at all, on the contrary. Finish the job before publishing.  Note that this
+development flow relies on the decoupling of the creation and the publication
+of changesets.  This is a distinguishing feature of distributed revision
+control systems versus centralized ones.
 
-===== Contributing changesets =====
+Contributing changesets
+-----------------------
 
-==== Pull Requests ====
+When you are ready with your changes, use mercurial and Bitbucket to publish
+them. The advantage of using mercurial instead of traditional patch files is
+that it minimizes the overhead to review and apply, and, more importantly, it
+keeps the authoring information intact.  The advantage of [Bitbucket] is that
+has a great web interface to review and merge the changesets.
 
-When you are ready with your changes, use mercurial and Bitbucket to
-publish them. The advantage of using mercurial instead of traditional
-patch files is that it minimizes the overhead to review and apply,
-and, more importantly, it keeps the authoring information intact.
-The advantage of [http://www.bitbucket.org|Bitbucket] is that has
-a great web interface to review and merge the changesets.
+Contributing changesets is done by creating *pull requests*. This
+process is documented
+[here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request):
 
-Contributing changesets is done by creating Pull Requests. This
-process is documented here:
+[jandecaluwe] will review the Pull Request, and decide to merge them in or not.
 
-[[https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request|Bitbucket]]
+Small changes
+-------------
 
-I will review the Pull Request, and decide to merge them in or not.
+The pull request method is completely general, but it has some overhead. For
+small changes, you can also use mercurial to generate augmented patch files by
+exporting them. However, you then have to list the revisions to be exported
+yourself. Also, you should not use this method for merge changesets:
 
-==== Alternative for small changes ====
-
-The Pull Request method is completely general, but it has
-some overhead. For small changes, you can also use mercurial to generate
-augmented patch files by exporting them. However, you then have to list the
-revisions to be exported yourself. Also, you should not use this
-method for merge changesets:
-
-  hg export -o <patchfile> REV ...
+    hg export -o <patchfile> REV ...
   
-In the simplest case, to create a patch containing your latest
-commit, you would to this:
+In the simplest case, to create a patch containing your latest commit, you
+would to this:
 
-  hg export -o <patchfile> tip
+    hg export -o <patchfile> tip
 
-Send the bundle or patch file to [[jan@jandecaluwe.com|Jan Decaluwe]].
+Send the bundle or patch file to [jandecaluwe].
 
-==== Discussions ====
-
-Keep any technical discussion leading about the changesets on the mailing list. Only
-the final operation of sending the bundle file should not go there. That having
-said, I can imagine advanced scenario's in which people exchange bundles on the
-mailing list as a means to convince others about new features.
-===== Tips =====
-
-==== Commit messages ====
-
-When logging changesets and browsing through the repository, mercurial uses only the first
-line of the commit message. Therefore, the first line of your commit message should be a short, descriptive one-liner.
-There's nothing against a more verbose message (on the contrary), but start
-it on a new line.
 
