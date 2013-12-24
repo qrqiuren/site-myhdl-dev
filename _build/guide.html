@@ -53,7 +53,7 @@
  
 <h1>Developer's guide<br>
     <small class="nobr">Jan Decaluwe</small>
-    <small class="nobr">10-Jan-2014</small>
+    <small class="nobr">24-Dec-2013</small>
 </h1>
     </div>
 
@@ -68,6 +68,7 @@
                     <a href="#">Top</a>
                     <div class="toc">
 <ul>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#the-repository">The repository</a></li>
 <li><a href="#tracking-development">Tracking development</a><ul>
 <li><a href="#basic-usage">Basic usage</a></li>
@@ -76,12 +77,11 @@
 </ul>
 </li>
 <li><a href="#creating-your-own-changesets">Creating your own changesets</a><ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#introduction_1">Introduction</a></li>
 <li><a href="#first-step-communicate">First step: communicate</a></li>
 <li><a href="#creating-changesets">Creating changesets</a></li>
 <li><a href="#quality">Quality</a></li>
 <li><a href="#contributing-changesets">Contributing changesets</a></li>
-<li><a href="#small-changes">Small changes</a></li>
 </ul>
 </li>
 </ul>
@@ -112,8 +112,13 @@ window.__gcfg = {
 </script>
 
 <script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
-            <h2 id="the-repository">The repository</h2>
-<p>MyHDL code development is managed on bitbucket using
+            <h2 id="introduction">Introduction</h2>
+<p>As MyHDL's original developer, I (<a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>) would like to retain
+the final say about its design and development decisions. To make that
+explicit, I have written this text from a personal viewpoint, referring
+to "me" and "I" to highlight my role.</p>
+<h2 id="the-repository">The repository</h2>
+<p>MyHDL code development is managed on <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> using
 <a href="http://www.selenic.com/mercurial">mercurial</a>.</p>
 <p>The public repository resides <a href="https://bitbucket.org/jandecaluwe/myhdl" title="MyHDL repository">here</a>.  Bitbucket offers an
 excellent interface to through the repository and its history. </p>
@@ -178,13 +183,13 @@ correct branch.</p>
 
 
 <h3 id="using-the-repository-code">Using the repository code</h3>
-<p>To use the repository code the simplest way is to adjust the $PYTHONPATH shell
+<p>To use the repository code the simplest way is to adjust the <code>$PYTHONPATH</code> shell
 variable. Let's assume you have checked out the MyHDL code from the mercurial
-repository to $HOME/dev/myhdl. Insert that path as the first entry to the
-$PYTHONPATH variable. When doing the import, the myhdl package in the
-$HOME/dev/myhdl path will be found first, before any other MyHDL version that
+repository to <code>$HOME/dev/myhdl</code>. Insert that path as the first entry to the
+<code>$PYTHONPATH</code> variable. When doing the import, the <code>myhdl</code> package in the
+<code>$HOME/dev/myhdl</code> path will be found first, before any other MyHDL version that
 may be installed.</p>
-<p>For convenience you can put the change of the $PYTHONPATH variable in a script
+<p>For convenience you can put the change of the <code>$PYTHONPATH</code> variable in a script
 and source it when needed. The bash shell script would look like this:</p>
 <div class="codehilite"><pre>PYTHONPATH=&quot;$HOME/dev/myhdl:${PYTHONPATH}&quot;
 export PYTHONPATH
@@ -197,7 +202,7 @@ export PYTHONPATH
 
 
 <h2 id="creating-your-own-changesets">Creating your own changesets</h2>
-<h3 id="introduction">Introduction</h3>
+<h3 id="introduction_1">Introduction</h3>
 <p>You can also make your own changesets and contribute them to the development. </p>
 <p>The workflow is such that every contributed change is reviewed and applied or
 rejected by me. Therefore, your goal as a contributor should be to minimize my
@@ -206,7 +211,7 @@ work :-) What is needed is the following:</p>
 <li>I need to understand why the change is needed, and why
   it will be useful to many people</li>
 <li>I need some confidence that it won't break current
-   and foreseeable features </li>
+  and foreseeable features </li>
 <li>the changes have to be tested  </li>
 <li>you have to use <a href="http://www.selenic.com/mercurial">mercurial</a>
   to manage the changesets</li>
@@ -216,7 +221,7 @@ work :-) What is needed is the following:</p>
 <p>The implementation of these requirements is described in more detail in the
 following sections.</p>
 <h3 id="first-step-communicate">First step: communicate</h3>
-<p>Don't send me patches out of the blue.</p>
+<p>Don't send patches out of the blue.</p>
 <p>Your first step is to communicate about the problem or feature with the MyHDL
 community.  Start a discussion in the <a href="http://www.myhdl.org/doku.php/mailing_list" title="Mailing List">Mailing List</a> or (if you are certain)
 add an entry in the
@@ -253,31 +258,15 @@ development flow relies on the decoupling of the creation and the publication
 of changesets.  This is a distinguishing feature of distributed revision
 control systems versus centralized ones.</p>
 <h3 id="contributing-changesets">Contributing changesets</h3>
-<p>When you are ready with your changes, use mercurial and Bitbucket to publish
+<p>When you are ready with your changes, use mercurial and <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> to publish
 them. The advantage of using mercurial instead of traditional patch files is
 that it minimizes the overhead to review and apply, and, more importantly, it
-keeps the authoring information intact.  The advantage of <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> is that
+keeps the authoring information intact.  The advantage of Bitbucket is that
 has a great web interface to review and merge the changesets.</p>
 <p>Contributing changesets is done by creating <em>pull requests</em>. This
 process is documented
-<a href="https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request">here</a>:</p>
-<p><a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a> will review the Pull Request, and decide to merge them in or not.</p>
-<h3 id="small-changes">Small changes</h3>
-<p>The pull request method is completely general, but it has some overhead. For
-small changes, you can also use mercurial to generate augmented patch files by
-exporting them. However, you then have to list the revisions to be exported
-yourself. Also, you should not use this method for merge changesets:</p>
-<div class="codehilite"><pre>hg export -o &lt;patchfile&gt; REV ...
-</pre></div>
-
-
-<p>In the simplest case, to create a patch containing your latest commit, you
-would to this:</p>
-<div class="codehilite"><pre>hg export -o &lt;patchfile&gt; tip
-</pre></div>
-
-
-<p>Send the bundle or patch file to <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>.</p>
+<a href="https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request">here</a>.</p>
+<p>I will review the pull request, and decide to merge them in or not.</p>
         </div>
     </div>
 

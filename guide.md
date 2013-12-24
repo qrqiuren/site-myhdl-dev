@@ -2,13 +2,21 @@
 title: Developer's guide
 layout: article
 author: Jan Decaluwe
-date: 2014-01-10
+date: 2013-12-24
 ---
+
+Introduction
+============
+
+As MyHDL's original developer, I ([jandecaluwe]) would like to retain
+the final say about its design and development decisions. To make that
+explicit, I have written this text from a personal viewpoint, referring
+to "me" and "I" to highlight my role.
 
 The repository
 ==============
 
-MyHDL code development is managed on bitbucket using
+MyHDL code development is managed on [bitbucket] using
 [mercurial](http://www.selenic.com/mercurial).
 
 The public repository resides [here][repository].  Bitbucket offers an
@@ -66,14 +74,14 @@ To switch to a particular branch, use:
 Using the repository code
 -------------------------
 
-To use the repository code the simplest way is to adjust the $PYTHONPATH shell
+To use the repository code the simplest way is to adjust the `$PYTHONPATH` shell
 variable. Let's assume you have checked out the MyHDL code from the mercurial
-repository to $HOME/dev/myhdl. Insert that path as the first entry to the
-$PYTHONPATH variable. When doing the import, the myhdl package in the
-$HOME/dev/myhdl path will be found first, before any other MyHDL version that
+repository to `$HOME/dev/myhdl`. Insert that path as the first entry to the
+`$PYTHONPATH` variable. When doing the import, the `myhdl` package in the
+`$HOME/dev/myhdl` path will be found first, before any other MyHDL version that
 may be installed.
 
-For convenience you can put the change of the $PYTHONPATH variable in a script
+For convenience you can put the change of the `$PYTHONPATH` variable in a script
 and source it when needed. The bash shell script would look like this:
 
     PYTHONPATH="$HOME/dev/myhdl:${PYTHONPATH}"
@@ -98,7 +106,7 @@ work :-) What is needed is the following:
 * I need to understand why the change is needed, and why
   it will be useful to many people
 * I need some confidence that it won't break current
-   and foreseeable features 
+  and foreseeable features 
 * the changes have to be tested  
 * you have to use [mercurial](http://www.selenic.com/mercurial)
   to manage the changesets
@@ -111,7 +119,7 @@ following sections.
 First step: communicate 
 -----------------------
 
-Don't send me patches out of the blue.
+Don't send patches out of the blue.
 
 Your first step is to communicate about the problem or feature with the MyHDL
 community.  Start a discussion in the [mailing-list] or (if you are certain)
@@ -162,33 +170,15 @@ control systems versus centralized ones.
 Contributing changesets
 -----------------------
 
-When you are ready with your changes, use mercurial and Bitbucket to publish
+When you are ready with your changes, use mercurial and [Bitbucket] to publish
 them. The advantage of using mercurial instead of traditional patch files is
 that it minimizes the overhead to review and apply, and, more importantly, it
-keeps the authoring information intact.  The advantage of [Bitbucket] is that
+keeps the authoring information intact.  The advantage of Bitbucket is that
 has a great web interface to review and merge the changesets.
 
 Contributing changesets is done by creating *pull requests*. This
 process is documented
-[here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request):
+[here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request).
 
-[jandecaluwe] will review the Pull Request, and decide to merge them in or not.
-
-Small changes
--------------
-
-The pull request method is completely general, but it has some overhead. For
-small changes, you can also use mercurial to generate augmented patch files by
-exporting them. However, you then have to list the revisions to be exported
-yourself. Also, you should not use this method for merge changesets:
-
-    hg export -o <patchfile> REV ...
-  
-In the simplest case, to create a patch containing your latest commit, you
-would to this:
-
-    hg export -o <patchfile> tip
-
-Send the bundle or patch file to [jandecaluwe].
-
+I will review the pull request, and decide to merge them in or not.
 
