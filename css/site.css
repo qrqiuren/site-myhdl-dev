@@ -22,7 +22,7 @@ body {
   margin-top: 20px;
   padding-top: 16px;
   color: #777;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ecf0f1;
 }
 
 /* code */
@@ -30,10 +30,16 @@ body {
 code {
   padding: 0 2px 0 2px;
   font-size: inherit;
-  color: inherit;
+  color: #333;
   white-space: nowrap;
   background-color: transparent;
   border-radius: 0px;
+}
+
+pre {
+  border: 1px solid #ecf0f1; 
+  color: #333;
+  background-color: transparent;
 }
 
 /* toc */
