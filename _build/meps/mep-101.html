@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User-defined Verilog code</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+ 
+	    <li><a href="/">Home</a></li>    
+            <li><a href="/guide.html">Developer's guide</a></li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-101.html">MEP 101</a></li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>MEP 101: User-defined Verilog code&nbsp;&nbsp;
+</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#">Top</a>
+                    <div class="toc">
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#proposed-solution">Proposed solution</a></li>
+<li><a href="#limitations">Limitations</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+             
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script><table class="table table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>101</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe</td></tr>
+    <tr><td><strong>Status</strong></td><td>Final</td></tr>
+    <tr><td><strong>Created</strong></td><td>09-Nov-2005</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.5</td></tr>
+</tbody>
+</table>
+
+
+            <h2 id="background">Background</h2>
+<p>In order to provide a path to implementation, MyHDL code can be converted to
+Verilog. However, in some cases the conversion may fail or the result may not
+be acceptable. For example:</p>
+<ul>
+<li>
+<p>conversion will fail if the MyHDL code doesn't follow the rules of the
+  convertible subset</p>
+</li>
+<li>
+<p>a user may want to explicitly instantiate an existing Verilog module,
+  instead of converting the corresponding MyHDL code</p>
+</li>
+<li>
+<p>it may be necessary to include technology-dependent modules in the Verilog
+  output</p>
+</li>
+</ul>
+<p>As a conclusion, MyHDL users need a method to include user-defined Verilog code
+during the conversion process.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>
+<p>A primary application for user-defined Verilog code is an instantiation of an
+existing Verilog module. However, the solution should be more general. Any
+Verilog code that can be placed where an instantiation can be placed should
+be possible, including always blocks and assign statements.</p>
+</li>
+<li>
+<p>The behavioral MyHDL code and user-defined Verilog code should be
+independent. In particular, the MyHDL simulation should not be influenced by
+the user-defined Verilog code.</p>
+</li>
+<li>
+<p>When user-defined Verilog code is specified, the MyHDL code at the same
+hierarchical level and below should be ignored by the convertor. In
+particular, it can be inconvertible code.</p>
+</li>
+<li>
+<p>The user-defined Verilog code should be able to refer to all signals and
+parameters of its MyHDL context.</p>
+</li>
+<li>
+<p>It should be possible to include custom Verilog code without corresponding
+behavioral MyHDL code.</p>
+</li>
+</ul>
+<h2 id="proposed-solution">Proposed solution</h2>
+<p>The proposed solution is to define a hook that is understood by <code>toVerilog</code> but
+ignored by the MyHDL simulator. </p>
+<p>The Python convention to name special methods or hooks is to use double
+underscores. Consequently, the hook is called <code>__verilog__</code>. Its operation can
+be understood as a special return value. When a MyHDL function defines
+<code>__verilog__</code>, the Verilog converter will use its value instead of the regular
+return value.</p>
+<p>The value of <code>__verilog__</code> should be a template string. More specifically, it
+should be a format string that uses keys in its format specifiers. The keys
+refer to the variable names in the context of the string.</p>
+<p>XXX Should the new (Python 2.4) template string, that understands perl-like
+subsitution, be supported also? In that case, substitution can be triggered by
+simply prefixing variable with <code>$</code>.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">inc_comb</span><span class="p">(</span><span class="n">nextCount</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
+        <span class="n">nextCount</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
+
+    <span class="n">__verilog__</span> <span class="o">=</span> \
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">assign %(nextCount)s = (%(count)s + 1) %% %(n)s;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s">&quot;wire&quot;</span>
+
+    <span class="k">return</span> <span class="n">logic</span>
+</pre></div>
+
+
+<p>In this example, conversion of the <code>inc_comb</code> function is bypassed and the
+user-defined Verilog code is inserted instead. Note that the user-defined code
+refers to signals and parameters in the MyHDL context by using format
+specifiers. During conversion, the appropriate hierarchical names and parameter
+values will be filled in. Note also that the format specifier indicator <code>%</code>
+needs to be escaped (by doubling it) if it is required in the user-defined
+code.</p>
+<p>There is one more issue that needs user attention. Normally, the Verilog
+convertor infers inputs, internal signals, and outputs. It also detects
+undriven and multiple driven signals. To do this, it assumes that signals are
+not driven by default. It then processes the code to find out which signals are
+driven from where. However, it cannot do this for user-defined code. Without
+additional help, this will result in warnings or errors during the inference
+process, or in compilation errors from invalid Verilog code. The user should
+solve this by setting the <code>driven</code> attribute for signals that are driven from
+the user-defined code. In the example code above, note the following
+assignment:</p>
+<div class="codehilite"><pre>    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s">&quot;wire&quot;</span>
+</pre></div>
+
+
+<p>This specifies that the <code>nextCount</code> signal is driven as a Verilog wire from
+this module. The allowed values of the <code>driven</code> attribute are <code>"wire"</code> and
+<code>"reg"</code>. The value specifies how the user-defined Verilog code drives the
+signal in Verilog. To decide which value to use, consider how the signal should
+be declared in Verilog after the user-defined code is inserted.</p>
+<h2 id="limitations">Limitations</h2>
+<p>It is not possible to use the <code>__verilog__</code> hook in a generator - it should be
+in a function. This is because functions are completely run (elaborated) before
+the conversion starts, while generators are not.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p class="text-center"> Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+        </p> 
+    </div>
+</div 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
