@@ -9,7 +9,9 @@
        {% for bc in this.breadcrumbs[:-1] %}
        <li><a href="{{bc.url}}">{{bc.title}}</a></li>
        {% endfor %}
+       {% block breadcrumb %}
        <li class="active">{{this.breadcrumbs[-1].title}}</li>
+       {% endblock %}
     </ol>
 
     <div class="page-header">
