@@ -16,9 +16,12 @@ reflinks:
     mercurial:
         url: http://www.selenic.com/mercurial
         title: mercurial
-    repository:
+    myhdl-repo:
         url: https://bitbucket.org/jandecaluwe/myhdl 
         title: MyHDL repository
+    site-myhdl-dev-repo:
+        url: https://bitbucket.org/jandecaluwe/site-myhdl-dev 
+        title: MyHDL development website repository 
     mailing-list:
         url: http://www.myhdl.org/doku.php/mailing_list
         title: Mailing List  

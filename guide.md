@@ -19,7 +19,7 @@ The repository
 MyHDL code development is managed on [bitbucket] using
 [mercurial](http://www.selenic.com/mercurial).
 
-The public repository resides [here][repository].  Bitbucket offers an
+The public repository resides [here][myhdl-repo].  Bitbucket offers an
 excellent interface to through the repository and its history. 
 
 The repository can be used for several purposes, such as browsing through the
@@ -173,8 +173,8 @@ Contributing changesets
 When you are ready with your changes, use mercurial and [Bitbucket] to publish
 them. The advantage of using mercurial instead of traditional patch files is
 that it minimizes the overhead to review and apply, and, more importantly, it
-keeps the authoring information intact.  The advantage of Bitbucket is that
-has a great web interface to review and merge the changesets.
+keeps the authoring information intact. Bitbucket has a great web interface to
+review and merge the changesets.
 
 Contributing changesets is done by creating *pull requests*. This
 process is documented
