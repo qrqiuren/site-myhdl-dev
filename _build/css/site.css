@@ -43,6 +43,12 @@ pre {
   background-color: transparent;
 }
 
+/* blockquote */
+blockquote p {
+  font-size: inherit;
+  line-height: inherit;
+}
+
 /* toc */
 
 .toc ul  {

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modular bit vector types</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+ 
+	    <li><a href="/">Home</a></li>    
+            <li><a href="/guide.html">Developer's guide</a></li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-106.html">MEP 106</a></li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>MEP 106: Modular bit vector types&nbsp;&nbsp;
+</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#">Top</a>
+                    <div class="toc">
+<ul>
+<li><a href="#rationale">Rationale</a></li>
+<li><a href="#wrap-around-type-proposals">Wrap-around type proposals</a></li>
+<li><a href="#ada-modular-types">Ada modular types</a></li>
+<li><a href="#a-proposal-for-myhdl-the-modbv-type">A proposal for MyHDL: the modbv type</a></li>
+<li><a href="#implementation-notes">Implementation notes</a></li>
+<li><a href="#conversion-notes">Conversion notes</a></li>
+<li><a href="#status">Status</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+             
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script><table class="table table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>106</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe</td></tr>
+    <tr><td><strong>Status</strong></td><td>Draft</td></tr>
+    <tr><td><strong>Created</strong></td><td>25-May-2011</td></tr>
+</tbody>
+</table>
+
+
+            <h2 id="rationale">Rationale</h2>
+<p>Recently, there has been a lot of activity regarding "wrap-around" types. I
+have looked at the proposals. My own thoughts on the matter have evolved also.
+Here is my analysis and proposal.</p>
+<p>First some background.  One of my main critiques on the mainstream use of
+Verilog/VHDL is the focus on "representational" types for integer arithmetic.
+In other words, the starting point is a bit vector representation to which an
+integer interpretation is added later. The hidden assumption is that this is
+necessary for implementation efficiency.</p>
+<p>I believe that MyHDL has convincingly demonstrated that there is a better way
+by taking a top-down perspective. In MyHDL, integer arithmetic simply works as
+expected. The convertor takes care of representational details as required by
+the Verilog/VHDL target.</p>
+<p>This is not just a semantic discussion. In MyHDL, you don't need castings,
+manual sign extensions or resizings to get integer arithmetic to work. In
+Verilog/VHDL, that is the name of the game. Best of all, there is no
+implementation efficiency price to pay.</p>
+<p>Understandably, I would like to use a similar approach when considering to
+introduce new types: first look at the modelling aspect, that is, how a
+designer would prefer to use a type, and only then move to conversion and
+efficiency concerns.</p>
+<h2 id="wrap-around-type-proposals">Wrap-around type proposals</h2>
+<p>There is no question that there is a genuine need for the elegant modeling of
+wrap-around behavior in hardware modeling. The question is whether this is
+important enough to warrant dedicated language support.</p>
+<p>In the past, I have suggested that this need may not be that high. For example,
+in the common case of an incrementer or decrementor, it is often necessary to
+decode the end count anyway:</p>
+<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">some_decode_action</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>However, I would agree that even then it could be clearer to keep the
+incrementer description separate from the decoding:</p>
+<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="n">some_decode</span> <span class="n">action</span><span class="p">()</span>
+
+<span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
+</pre></div>
+
+
+<p>I have also argued that the modulo operator offers an explicit and elegant
+high-level solution to describe wrap-around behavior in a one-liner. However,
+it has been pointed out that this doesn't work for the case of a "signed"
+integer.  A <code>wrap()</code> method was proposed as a solution.</p>
+<p>Both the modulo operator and a <code>wrap()</code> method have some disadvantages. Though
+they are explicit in good Python style, there is a conflict with another good
+principle: DRY (Don't Repeat Yourself). If wrap-around is the desired behavior,
+it is probably a property of an object and its type, not of a particular
+assignment.</p>
+<p>The two techniques have another problem that I have successfully managed to
+keep out of spotlights in earlier discussions :-). I believe a common use case
+for wrap-around behavior would be to describe an incrementor/decrementer using
+augmented asssignment with a variable:</p>
+<div class="codehilite"><pre><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>The two techniques discussed above cannot support this.</p>
+<p>Another proposal is  a <code>wrap</code> parameter to the intbv constructor, with default
+False. When True, it would modify the assignment behavior as desired.</p>
+<p>This technique addresses the issues mentioned above, but has some problems
+itself.  An additional parameter makes object construction heavier. Also, the
+use of a default value suggests that one type of behavior is the rule, and the
+other the exception.  I don't like the idea of modifying the fundamental
+behavior of a type in such a way.  If wrap-around behavior is considered
+important enough to warrant direct language support, it should be as easy to
+use as other behaviors.</p>
+<p>Finally, a parameter cannot support the following conversion
+trick:</p>
+<div class="codehilite"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">N</span><span class="p">:]</span>
+</pre></div>
+
+
+<p>to construct an "N bits wide" positive intbv, even though such "closer to
+hardware" objects are probably popular candidates for wrap-around behavior.</p>
+<p>The most important problem that I have with the discussed proposals is still
+elsewhere: they go against the MyHDL-specific philosophy that I described
+earlier.  The starting point of the proposals is that wrap-around behavior will
+only supported on "full range" bit-vectors. This is likely influenced by
+implicit assumptions of efficient hardware implementation.</p>
+<p>In my modeling work, I use wrap-around counters all the time. However, more
+often than not, their bounds are not powers of 2. I suspect this is the same
+for many designers. As I have argued earlier, we should look at modeling first,
+and at hardware efficiency later. In previous cases, such as the <code>intbv</code> type,
+we have been able to achieve much easier modeling without having to pay a price
+in efficiency.</p>
+<h2 id="ada-modular-types">Ada modular types</h2>
+<p>Recently I got introduced to Ada modular types. These are
+natural integer types with wrap-around behaviour.</p>
+<p>The wrap-around behavior of modular types is based on the sound mathematical
+concept of 
+<a href="http://en.wikipedia.org/wiki/Modular_arithmetic">modulo arithmetic</a>.  Therefore, the
+modulus is not limited to powers of 2.</p>
+<p>The rationale behind modular types is interesting. For
+example:</p>
+<p>"The modulus of a modular type need not be a power of two although it often
+will be. It might, however, be convenient to use some obscure prime number as
+the modulus perhaps in the implementation of hash tables."
+<a href="http://www.adaic.org/resources/add_content/standards/95rat/rat95html/rat95-p2-3.html">[Ref]</a></p>
+<p>Another reference says:</p>
+<p>"Modular types don't need to be powers of two, but if they are the Ada
+compiler will select especially efficient  operations to implement them."
+<a href="http://www.dwheeler.com/lovelace/s17sf.htm">[Ref]</a></p>
+<p>This is exactly the kind of reasoning I'm looking for. Ada considers module
+arithmetic important enough to warrant direct language support, but in the
+general, mathematically sound sense. On the other hand, it recognizes that
+powers of 2 bounds are very important. There is actually a predefined package
+with power of 2 based subtypes. Moreover, the compiler can select "especially
+efficient operations" to implement them.</p>
+<p>Interestingly, Ada even defines and/or/xor bit operations on modular types,
+unlike other integer types. Apparently it chooses modular types for this
+purpose because their "unsigned" interpretation poses less problems than bit
+operations on "signed" representations. In any case, the dual nature of the
+type - both high-level and representation-friendly - is similar to what MyHDL
+does with the <code>intbv</code>. When reading all this, I can only conclude that VHDL
+lost a big opportunity by forgetting about its origins.</p>
+<p>I believe the Ada example is the route to follow. Two issues still have to be
+addressed:</p>
+<ul>
+<li>Ada modular types are restricted to natural values. 
+We want to support integer values in general.</li>
+<li>Ada modular types are types, which means that conversions would be needed
+to let them work with other integer-like types. 
+(Disclaimer: I am not sure that this statement is true.)</li>
+</ul>
+<h2 id="a-proposal-for-myhdl-the-modbv-type">A proposal for MyHDL: the modbv type</h2>
+<p>Ada's modular type is called <code>mod</code>. By analogy, I am proposing a <code>modbv</code> type
+in MyHDL. Behaviorally, the only difference with <code>intbv</code> would be how bounds
+are handled: out-of-bound values result in an error with <code>intbv</code>, and in
+wrap-around with <code>modbv</code>. In particular, <code>modbv</code> would have exactly the same
+interface as the intbv. The wap-around behavior would be defined as follows,
+with <code>val</code> denoting the current value and <code>min</code>/<code>max</code> the bounds:</p>
+<div class="codehilite"><pre><span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">max</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">+</span> <span class="nb">min</span>
+</pre></div>
+
+
+<p>Unlike Ada, <code>intbv</code> and <code>modbv</code> would be subtypes of a general
+integer-bitvector type. Therefore, they can be mixed transparantly in
+expressions. This should be not problem as the bound handling only occurs at
+assignment time in the assigned object.</p>
+<p>This proposal addresses the issues mentioned earlier. In particular:</p>
+<div class="codehilite"><pre><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>and</p>
+<div class="codehilite"><pre><span class="n">count</span> <span class="o">=</span> <span class="n">modbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">32</span><span class="p">:]</span>
+</pre></div>
+
+
+<p>would have wrap-around behavior.</p>
+<h2 id="implementation-notes">Implementation notes</h2>
+<p>Technically, the cleanest implementation would probably be to make both <code>intbv</code>
+and <code>modbv</code> a subtype of some general integer-bitvector class. In a first
+phase, it would probably be OK to simply subclass intbv.</p>
+<p>To make this kind of subclassing possible, the intbv class has to be made more
+robust. For example, at some points were it returns a literal <code>intbv</code> object,
+it should use the actual subtype itself.</p>
+<p>The basic difference with <code>intbv</code> is bound handling. Currently, this is already
+done in a separate method called <code>intbv._checkBounds()</code>. This method should
+probably be renamed to <code>intbv._handleBounds()</code>, and then overwritten with the
+proper behavior in the subclass.</p>
+<h2 id="conversion-notes">Conversion notes</h2>
+<p>It is expected that conversion would work directly for the case of "full range"
+<code>modbv</code> objects. (Note that it is not sufficient that both bounds are powers of
+2.) In a first phase, the convertor could impose that restriction.</p>
+<p>To demonstrate the advantage of the chosen approach, we could attempt to lift
+some restrictions for interesting use cases. For example, a common use case for
+wrap-around behavior would be incrementors and decrementors. The analyzer could
+detect such cases and mark them. For such patterns, we could then support
+general wrap-around for non full-range objects also. For example:</p>
+<div class="codehilite"><pre><span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>would be converted to the Verilog/VHDL equivalent of:</p>
+<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">MAX</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">MIN</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
+<p>It is probably possible to remove more restrictions in a gradual process. When
+doing so, we would be adding items to the list of useful features that MyHDL
+can fully support, even though they have no native support in Verilog/VHDL. At
+some point, this list of features, unique to MyHDL, could become very
+attractive to Verilog/VHDL designers.</p>
+<h2 id="status">Status</h2>
+<p>A draft implementation has been developed in the 0.8-dev branch in the
+mercurial repo.</p>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>Chris Felton has kept this feature on the map.  Thanks to Chris Felton, Tom
+Dillon and Benoît Allard for proposals, tests, and discussions</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p class="text-center"> Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+        </p> 
+    </div>
+</div 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
