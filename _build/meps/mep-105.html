@@ -122,24 +122,56 @@ window.__gcfg = {
 
 
             <h2 id="introduction">Introduction</h2>
-<p>Compared to mainstream HDLs, MyHDL signals are less flexible. For example, slicing a signal returns a slice of the current value. For behavioral code, this is just fine. However, it implies that you cannot use such as slice in structural descriptions. In other words, a signal slice cannot be used as a signal. Obviously, this behavior is restrictive and confusing to users of mainstream HDLs.</p>
-<p>In this MEP, we will propose a solution for most use cases of signal slicing and similar modelling problems. The basis of the solution is new kind of signal subclass, called the "shadow signal".</p>
+<p>Compared to mainstream HDLs, MyHDL signals are less flexible. For example,
+slicing a signal returns a slice of the current value. For behavioral code,
+this is just fine. However, it implies that you cannot use such as slice in
+structural descriptions. In other words, a signal slice cannot be used as a
+signal. Obviously, this behavior is restrictive and confusing to users of
+mainstream HDLs.</p>
+<p>In this MEP, we will propose a solution for most use cases of signal slicing
+and similar modelling problems. The basis of the solution is new kind of signal
+subclass, called the <em>shadow signal</em>.</p>
 <h2 id="analysis">Analysis</h2>
 <p>Consider signal slicing. In MyHDL, you take a slice as follows:</p>
 <div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
 </pre></div>
 
 
-<p>Under the hood, the slicing operation is delegated to the signal's current value, just like for any other operator. Within behavioral code - the code you write within a generator - this works just like expected. However, it is clear that such a slice is useless when writing structural code. Structure requires signals as composing elements, not plain values.</p>
-<p>This behavior is restrictive and confusing because in HDLs such as Verilog and VHDL, signal slices can indeed be used as signals. To understand this better, let's define two forms of slicing:</p>
-<ul>
-<li><strong>Behavioral slicing</strong> Slicing is delegated to the current signal value. This is how MyHDL signals behave, as described above.</li>
-<li><strong>Structural slicing</strong> The slice behaves as another signal.</li>
-</ul>
-<p>It is clear that behavioral slicing is easy and cheap. On the other hand, structural slicing in its most general form is complex and expensive. Structural slices should behave as some kind of proxy objects of the original signal, reflecting and propagating changes to the original signal. At the same time, they should be behave as signals themselves.</p>
-<p>In Verilog and VHDL, structural and behavioral slicing are supported by the same slicing syntax. If you think about it, this is remarkable, because the two forms of slicing are so different in behavior and complexity. In Verilog and VHDL, this is possible because they are compiled languages. From the context, the compiler can find out whether behavioral or structural slicing should be used. Obviously, it will avoid the complexities of structural slicing within code that merely needs a slice of the current signal value.</p>
-<p>In MyHDL, we don't have this luxury as there is no compiler. Slicing therefore behaves the same in all contexts. As the primary focus of MyHDL is behavioral descriptions, signal slicing is implemented in the easy way, as behavioral slicing. To support structural slicing, we will need new concepts and new syntax.</p>
-<p>To find a solution for structural slicing, let's consider the current workaround. If you want to use a signal slice as a signal elsewhere, you can define a new signal and a generator as follows:</p>
+<p>Under the hood, the slicing operation is delegated to the signal's current
+value, just like for any other operator. Within behavioral code - the code you
+write within a generator - this works just like expected. However, it is clear
+that such a slice is useless when writing structural code. Structure requires
+signals as composing elements, not plain values.</p>
+<p>This behavior is restrictive and confusing because in HDLs such as Verilog and
+VHDL, signal slices can indeed be used as signals. To understand this better,
+let's define two forms of slicing:</p>
+<dl>
+<dt>Behavioral slicing</dt>
+<dd>Slicing is delegated to the current signal value. 
+This is how MyHDL signals behave, as described above.</dd>
+<dt>Structural slicing</dt>
+<dd>The slice behaves as another signal.</dd>
+</dl>
+<p>It is clear that behavioral slicing is easy and cheap. On the other hand,
+structural slicing in its most general form is complex and expensive.
+Structural slices should behave as some kind of proxy objects of the original
+signal, reflecting and propagating changes to the original signal. At the same
+time, they should be behave as signals themselves.</p>
+<p>In Verilog and VHDL, structural and behavioral slicing are supported by the
+same slicing syntax. If you think about it, this is remarkable, because the two
+forms of slicing are so different in behavior and complexity. In Verilog and
+VHDL, this is possible because they are compiled languages. From the context,
+the compiler can find out whether behavioral or structural slicing should be
+used. Obviously, it will avoid the complexities of structural slicing within
+code that merely needs a slice of the current signal value.</p>
+<p>In MyHDL, we don't have this luxury as there is no compiler. Slicing therefore
+behaves the same in all contexts. As the primary focus of MyHDL is behavioral
+descriptions, signal slicing is implemented in the easy way, as behavioral
+slicing. To support structural slicing, we will need new concepts and new
+syntax.</p>
+<p>To find a solution for structural slicing, let's consider the current
+workaround. If you want to use a signal slice as a signal elsewhere, you can
+define a new signal and a generator as follows:</p>
 <div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">:</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="nd">@always_comb</span>
@@ -148,14 +180,39 @@ window.__gcfg = {
 </pre></div>
 
 
-<p>While this may feel redundant and inconvenient, it works just fine functionally. It is also conceptually simple. However, note that this workaround is not fully general. It works perfectly for reading signal slices elsewhere in the code. However, it doesn't work for <em>driving</em> signal slices. Nor is there an obvious similar solution for that functionality. In short, we have a good and simple workaround for reading but not for driving. Let's reflect on this to see whether it is a problem or not.</p>
-<p>Reading and driving a signal are not symmetrical. Reading may occur on any place in the design without any problem. However, for the most common case of unresolved signals, driving should normally happen from a single generator only. In Verilog and VHDL, it is possible to write to exclusive parts of such a signal from different processes or always blocks. But even then, I wouldn't call that good practice. I don't think many users would miss that functionality if it were not available. My conclusion is that it is not a problem if we don't have a solution to drive signal slices structurally. Reading signal slices should cover most, if not all, of the practical use cases.</p>
+<p>While this may feel redundant and inconvenient, it works just fine
+functionally. It is also conceptually simple. However, note that this
+workaround is not fully general. It works perfectly for reading signal slices
+elsewhere in the code. However, it doesn't work for <em>driving</em> signal slices.
+Nor is there an obvious similar solution for that functionality. In short, we
+have a good and simple workaround for reading but not for driving. Let's
+reflect on this to see whether it is a problem or not.</p>
+<p>Reading and driving a signal are not symmetrical. Reading may occur on any
+place in the design without any problem. However, for the most common case of
+unresolved signals, driving should normally happen from a single generator
+only. In Verilog and VHDL, it is possible to write to exclusive parts of such a
+signal from different processes or always blocks. But even then, I wouldn't
+call that good practice. I don't think many users would miss that functionality
+if it were not available. My conclusion is that it is not a problem if we don't
+have a solution to drive signal slices structurally. Reading signal slices
+should cover most, if not all, of the practical use cases.</p>
 <p>To summarize, my conclusion for structural slicing is as follows:</p>
 <ul>
-<li><strong>Read-only is OK</strong> A solution that only covers reading slices is just fine.</li>
-<li><strong>Delta cycles are OK</strong> In Verilog and VHDL, a structural slice directly refers to the original signal. In the MyHDL workaround as describe above, we simply introduce a new signal that follows the original slice after a delta cycle. But this is just fine: delta cycles are intended to maintain illusion of zero time delays while preserving proper event ordering.</li>
+<li><strong>Read-only is OK</strong>. 
+A solution that only covers reading slices is just fine.</li>
+<li><strong>Delta cycles are OK</strong>. 
+In Verilog and VHDL, a structural slice directly refers to the original signal.
+In the MyHDL workaround as describe above, we simply introduce a new signal
+that follows the original slice after a delta cycle. But this is just fine:
+delta cycles are intended to maintain illusion of zero time delays while
+preserving proper event ordering.</li>
 </ul>
-<p>We have come up with a solution that basically implements the workaround automatically. However, structural slicing is not the only modeling issue. Obviously, indexing is a similar problem. Moreover, other modeling problems can be interpreted and solved in a similar way. Therefore, the first step is an abstract signal subclass that implements the general ideas outlined above: the shadow signal.</p>
+<p>We have come up with a solution that basically implements the workaround
+automatically. However, structural slicing is not the only modeling issue.
+Obviously, indexing is a similar problem. Moreover, other modeling problems can
+be interpreted and solved in a similar way. Therefore, the first step is an
+abstract signal subclass that implements the general ideas outlined above: the
+shadow signal.</p>
 <h2 id="introducing-shadow-signals">Introducing shadow signals</h2>
 <p>A shadow signal is related to another signal or signals as a shadow
 to its parent object. It follows any change to its parent signal
@@ -179,13 +236,13 @@ added to the convertor output.</p>
 structural slicing. This is the purpose of the <code>_SliceSignal</code> 
 subclass.</p>
 <p><strong><code>class _SliceSignal</code></strong><code>(sig, left[, right=None])</code></p>
-<p>This class implements read-only structural slicing and indexing. It creates a new
-signal that shadows the slice or index of the parent signal <code>sig</code>. If the
-<code>right</code> parameter is ommitted, you get indexing instead of slicing.
-Parameters <code>left</code>  and <code>right</code> have the usual meaning for slice
-indices: in particular, <code>left</code> is non-inclusive but <code>right</code>
-is inclusive. <code>sig</code> should be appropriate for slicing and indexing, which
-means it should be based on <code>intbv</code> in practice.</p>
+<p>This class implements read-only structural slicing and indexing. It creates a
+new signal that shadows the slice or index of the parent signal <code>sig</code>. If the
+<code>right</code> parameter is ommitted, you get indexing instead of slicing.  Parameters
+<code>left</code>  and <code>right</code> have the usual meaning for slice indices: in particular,
+<code>left</code> is non-inclusive but <code>right</code> is inclusive. <code>sig</code> should be appropriate
+for slicing and indexing, which means it should be based on <code>intbv</code> in
+practice.</p>
 <p>The class constructors is not intended to be used explicitly. Instead,
 regular signals now have a call interface that returns a _SliceSignal:</p>
 <p><strong><code>__call__</code></strong><code>(left[, right=None])</code></p>
@@ -199,61 +256,58 @@ regular signals now have a call interface that returns a _SliceSignal:</p>
 </pre></div>
 
 
-<p>Obviously, the call interface was intended to be similar to a slicing interface. Of course,
-it is not exacly the same which may seem inconvenient. On the other hand, there are Python
-functions with a similar slicing functionality and a similar interface, such as the
-<code>range</code> function.
-Moreover, the call interface conveys the notion that something is being constructed, which
-is what really happens.</p>
+<p>Obviously, the call interface was intended to be similar to a slicing
+interface. Of course, it is not exacly the same which may seem inconvenient. On
+the other hand, there are Python functions with a similar slicing functionality
+and a similar interface, such as the <code>range</code> function.  Moreover, the call
+interface conveys the notion that something is being constructed, which is what
+really happens.</p>
 <h3 id="concatsignal">ConcatSignal</h3>
 <p><code>_SliceSignal</code> creates a shadow signal on a part of another signal. The
-opposite is also useful: a signal that shadows a composition of other
-signals. This is the purpose of the <code>ConcatSignal</code> subclass.</p>
+opposite is also useful: a signal that shadows a composition of other signals.
+This is the purpose of the <code>ConcatSignal</code> subclass.</p>
 <p><strong><code>class ConcatSignal</code></strong><code>(*args)</code></p>
-<p>This class creates a new signal that shadows the concatenation
-of its parent signal values. You can pass an arbitrary number
-of signals to the constructor. The signal arguments should be bit-oriented
-with a defined number of bits.</p>
+<p>This class creates a new signal that shadows the concatenation of its parent
+signal values. You can pass an arbitrary number of signals to the constructor.
+The signal arguments should be bit-oriented with a defined number of bits.</p>
 <h3 id="tristatesignal">TristateSignal</h3>
 <p>As often is the case, the idea of shadow signals had some useful side effects.
 In particular, I realized that the <code>TristateSignal</code> proposed in <a href="/meps/mep-103.html" title="Tristate and bidirectional signals">Tristate and bidirectional signals</a>
 could be interpreted as a shadow signal of its drivers. With the machinery of
-the shadow signal in place, it became easier to support this for simulation
-and conversion.</p>
+the shadow signal in place, it became easier to support this for simulation and
+conversion.</p>
 <p><strong><code>class TristateSignal</code></strong><code>(val)</code></p>
 <p>A shadow signal that supports tristate values. For more info,
 see <a href="/meps/mep-103.html" title="Tristate and bidirectional signals">Tristate and bidirectional signals</a>.</p>
 <h2 id="methodology-notes">Methodology notes</h2>
-<p>Shadow signals are intended to be constructed at elaboration
-time, that is, before the simulation or conversion starts.
-If required, it may be possible to lift this restriction
-for modeling (not for conversion), but I don't think this
+<p>Shadow signals are intended to be constructed at elaboration time, that is,
+before the simulation or conversion starts.  If required, it may be possible to
+lift this restriction for modeling (not for conversion), but I don't think this
 will be necessary.</p>
-<p>The implication is that shadow signals should be constructed
-outside generator code (like other signals normally.) A happy
-side effect is that you can use any Python code in the book to
-construct them, without compromising convertibility.
-Therefore, they should be ideal to describe complex
-structures and convert them to Verilog and VHDL.</p>
-<p>Be careful though. Shadow signals, being signals, are expensive
-and slow compared to plain variables. Using them to describe
-complex structures elegantly is fine. For other purposes,
-prefer behavioral code and variables within generators.</p>
+<p>The implication is that shadow signals should be constructed outside generator
+code (like other signals normally.) A happy side effect is that you can use any
+Python code in the book to construct them, without compromising convertibility.
+Therefore, they should be ideal to describe complex structures and convert them
+to Verilog and VHDL.</p>
+<p>Be careful though. Shadow signals, being signals, are expensive and slow
+compared to plain variables. Using them to describe complex structures
+elegantly is fine. For other purposes, prefer behavioral code and variables
+within generators.</p>
 <h2 id="examples">Examples</h2>
 <p>The examples are taken from design problems described
 <a href="http://www.antfarm.org/blog/aaronf/2008/02/myhdl_example_permute.html">here</a>.</p>
 <h3 id="a-permutation-circuit">A permutation circuit</h3>
-<p>Consider a circuit whose output should be a permutation of the
-inputs bits. In a particular instance, the structure is fixed,
-but we want to make the design parametrizable by defining the
-permutation by a <code>mapping</code> parameter. Using shadow signals,
-the design can be described as follows:</p>
+<p>Consider a circuit whose output should be a permutation of the inputs bits. In
+a particular instance, the structure is fixed, but we want to make the design
+parametrizable by defining the permutation by a <code>mapping</code> parameter. Using
+shadow signals, the design can be described as follows:</p>
 <div class="codehilite"><pre><span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
 <span class="sd">&quot;&quot;&quot; Permute input bits.</span>
 
 <span class="sd">    x: output port</span>
 <span class="sd">    a: input port</span>
-<span class="sd">    mapping: tuple that maps input bit indices to output bit positions</span>
+<span class="sd">    mapping: tuple that maps input bit indices </span>
+<span class="sd">             to output bit positions</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
     <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span> <span class="c"># index signals</span>
@@ -299,25 +353,24 @@ For example, consider the following parameter definitions:</p>
 
 
 <h3 id="an-error-bit-adapter-circuit">An error bit adapter circuit</h3>
-<p>A more complicated example shows the capabilities of inline
-scripting with shadow signals. The circuit maps input error
-bits <code>i_err</code> to output error bits <code>o_err</code>, according to a
-spec. The output spec <code>o_spec</code> is a tuple of strings.
-The input spec <code>i_spec</code> is a mapping of strings to bit indices.
-For example:</p>
+<p>A more complicated example shows the capabilities of inline scripting with
+shadow signals. The circuit maps input error bits <code>i_err</code> to output error bits
+<code>o_err</code>, according to a spec. The output spec <code>o_spec</code> is a tuple of strings.
+The input spec <code>i_spec</code> is a mapping of strings to bit indices.  For example:</p>
 <div class="codehilite"><pre><span class="n">o_spec</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;other&#39;</span><span class="p">,</span> <span class="s">&#39;nomatch&#39;</span><span class="p">)</span>
-<span class="n">i_spec</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&#39;e&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#39;f&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="p">}</span>
+<span class="n">i_spec</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> 
+           <span class="s">&#39;e&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#39;f&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="p">}</span>
 </pre></div>
 
 
-<p>Strings 'other' and 'nomatch' are special. 'nomatch' specifies that the output error bit
-on that position should be assigned to zero. 'other' specifies a bit that is
-the or-ing of all input error bits whose string key is not present in the output spec.
-For other output spec
-strings, the corresponding input bit index is looked up in the input spec.</p>
-<p>For the design description, the idea is to assemble the individual bits for 
-the <code>other</code> and <code>o_err</code> vectors in a list, and then use <code>ConcatSignal</code>
-to make new signals out of them:</p>
+<p>Strings 'other' and 'nomatch' are special. 'nomatch' specifies that the output
+error bit on that position should be assigned to zero. 'other' specifies a bit
+that is the or-ing of all input error bits whose string key is not present in
+the output spec.  For other output spec strings, the corresponding input bit
+index is looked up in the input spec.</p>
+<p>For the design description, the idea is to assemble the individual bits for the
+<code>other</code> and <code>o_err</code> vectors in a list, and then use <code>ConcatSignal</code> to make new
+signals out of them:</p>
 <div class="codehilite"><pre><span class="k">def</span> <span class="nf">adapter</span><span class="p">(</span><span class="n">o_err</span><span class="p">,</span> <span class="n">i_err</span><span class="p">,</span> <span class="n">o_spec</span><span class="p">,</span> <span class="n">i_spec</span><span class="p">):</span>
 
     <span class="n">nomatch</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -344,7 +397,7 @@ to make new signals out of them:</p>
 
     <span class="nd">@always_comb</span>
     <span class="k">def</span> <span class="nf">assign</span><span class="p">():</span>
-    <span class="n">nomatch</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">nomatch</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">other</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">other_vec</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">o_err</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">o_err_vec</span>
 
@@ -368,8 +421,6 @@ the following Verilog code for the design instance:</p>
 <span class="kt">wire</span> <span class="n">other</span><span class="p">;</span>
 <span class="kt">wire</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">other_vec</span><span class="p">;</span>
 
-
-
 <span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">0</span><span class="p">];</span>
 <span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">1</span><span class="p">];</span>
 <span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">other</span><span class="p">;</span>
@@ -378,7 +429,6 @@ the following Verilog code for the design instance:</p>
 <span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">4</span><span class="p">];</span>
 <span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">3</span><span class="p">];</span>
 <span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">5</span><span class="p">];</span>
-
 
 <span class="k">assign</span> <span class="n">nomatch</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
 <span class="k">assign</span> <span class="n">other</span> <span class="o">=</span> <span class="p">(</span><span class="n">other_vec</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">);</span>
@@ -389,11 +439,11 @@ the following Verilog code for the design instance:</p>
 
 
 <h2 id="status-and-conclusion">Status and conclusion</h2>
-<p>A initial version of shadow signal support has been pushed to the mercurial repository
-under development version 0.7dev. There are some unit tests that check basic
-functionality, but there are no appropriate usage, type or value checks. The
-purpose is to get feedback from the community to see if shadow signals
-solve the problems they are intended to solve.</p>
+<p>A initial version of shadow signal support has been pushed to the mercurial
+repository under development version 0.7dev. There are some unit tests that
+check basic functionality, but there are no appropriate usage, type or value
+checks. The purpose is to get feedback from the community to see if shadow
+signals solve the problems they are intended to solve.</p>
         </div>
     </div>
 
