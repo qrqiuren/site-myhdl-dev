@@ -10,8 +10,7 @@ Introduction
 
 As MyHDL's original developer, I ([jandecaluwe]) would like to retain
 the final say about its design and development decisions. To make that
-explicit, I have written this text from a personal viewpoint, referring
-to "me" and "I" to highlight my role.
+explicit, I have written this text from a personal viewpoint.
 
 The repository
 ==============

@@ -4,4 +4,5 @@ layout: home
 content:
     - guide 
     - meps
+    - migration
 ---

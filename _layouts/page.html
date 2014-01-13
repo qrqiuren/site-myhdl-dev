@@ -22,6 +22,7 @@
 
     <div class="row">
 
+        {% block sidebar %}
         <div class="col-md-3" role="navigation"> 
             {% if this.toc %} 
             <div class="sidebar" data-spy="affix" 
@@ -34,6 +35,7 @@
             </div>
             {% endif %}
         </div>
+        {% endblock %}
 
         <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
              
