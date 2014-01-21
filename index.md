@@ -5,4 +5,5 @@ content:
     - guide 
     - meps
     - migration
+    - about
 ---

@@ -25,4 +25,5 @@ You can contribute through pull requests, or I will consider to give you direct
 access to the repository.
 
 Publishing the content is automatic after a push, but it may take up to ten
-minutes before the edits are online.
+minutes before the edits are online. The website content is pulled from
+the repo, so make sure to commit the built website also.

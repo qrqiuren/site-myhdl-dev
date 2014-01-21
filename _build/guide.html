@@ -31,13 +31,19 @@
           <a class="navbar-brand" href="/">MyHDL / dev</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+
+          <ul class="nav navbar-nav navbar-left">
  
 	    <li><a href="/">Home</a></li>    
             <li class="active"><a href="/guide.html">Developer's guide</a></li>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/migration.html"><strong>SITE MIGRATION GUIDE</strong></a></li>
           </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/migration.html"><strong>SITE MIGRATION GUIDE</strong></a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -118,7 +124,7 @@ window.__gcfg = {
 the final say about its design and development decisions. To make that
 explicit, I have written this text from a personal viewpoint.</p>
 <h2 id="the-repository">The repository</h2>
-<p>MyHDL code development is managed on <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> using
+<p>MyHDL code development is managed on <a href="http://www.bitbucket.com" title="Bitbucket">Bitbucket</a> using
 <a href="http://www.selenic.com/mercurial">mercurial</a>.</p>
 <p>The public repository resides <a href="https://bitbucket.org/jandecaluwe/myhdl" title="MyHDL repository">here</a>.  Bitbucket offers an
 excellent interface to through the repository and its history. </p>
@@ -258,7 +264,7 @@ development flow relies on the decoupling of the creation and the publication
 of changesets.  This is a distinguishing feature of distributed revision
 control systems versus centralized ones.</p>
 <h3 id="contributing-changesets">Contributing changesets</h3>
-<p>When you are ready with your changes, use mercurial and <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> to publish
+<p>When you are ready with your changes, use mercurial and <a href="http://www.bitbucket.com" title="Bitbucket">Bitbucket</a> to publish
 them. The advantage of using mercurial instead of traditional patch files is
 that it minimizes the overhead to review and apply, and, more importantly, it
 keeps the authoring information intact. Bitbucket has a great web interface to
@@ -273,6 +279,7 @@ process is documented
     <div class="footer">
         <p class="text-center"> Content licensed under the
            <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="">Terms of Use</a>.
         </p> 
     </div>
 </div> 

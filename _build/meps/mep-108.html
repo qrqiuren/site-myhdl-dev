@@ -31,13 +31,19 @@
           <a class="navbar-brand" href="/">MyHDL / dev</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+
+          <ul class="nav navbar-nav navbar-left">
  
 	    <li><a href="/">Home</a></li>    
             <li><a href="/guide.html">Developer's guide</a></li>
             <li class="active"><a href="/meps/">MEPs</a></li>
-            <li><a href="/migration.html"><strong>SITE MIGRATION GUIDE</strong></a></li>
           </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/migration.html"><strong>SITE MIGRATION GUIDE</strong></a></li>
+            <li><a href="/about.html">About</a></li>
+          </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -123,10 +129,10 @@ by the existing conversion code because the object reference (self) is treated
 as a port.  Modifications to the conversion code need to be added
 to ignore the object reference argument in class methods.</p>
 <h2 id="example-existing-function-conversion">Example (existing function conversion)</h2>
-<p>The "ports" are the signals that connect different HDL functions.
+<p>The "ports" are the signals that connect different <abbr title="Hardware Description Language">HDL</abbr> functions.
 The converter code identifies the arguments of Signal type to an 
-HDL function and adds them to the port list.  The
-converter also assumes that the "ports" are the first arguments, i.e. no
+<abbr title="Hardware Description Language">HDL</abbr> function and adds them to the port list.  The
+converter also assumes that the ports are the first arguments, i.e. no
 parameters before or inter-mixed with the ports.</p>
 <div class="codehilite"><pre><span class="k">def</span> <span class="nf">adder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
     <span class="nd">@always_comb</span>
@@ -171,36 +177,35 @@ sufficient as an example for class method conversion.</p>
 
 
 <p>In the above example with the existing (0.7) conversion code the
-"self" argument in the "hdl" class method will be converted to a 
+<code>self</code> argument in the "hdl" class method will be converted to a 
 port in the lower-level Verilog/VHDL.</p>
 <h2 id="implementation-comments">Implementation Comments</h2>
 <p>This enhancement proposal is intended to modify the conversion code to support
-top-level class methods, so that the object reference (the first argument in a class 
-method) is not used.  </p>
+top-level class methods, so that the object reference (the first argument in a
+class method) is not used.  </p>
 <h3 id="top-function-visitor">Top Function Visitor</h3>
-<p>The use of the "self" argument, is only an issue for the top-level 
-class method parsing.  This is because the parser flattens the 
-design.  A top-level function / class method is passed to 
-the converter code, in the function</p>
+<p>The use of the <code>self</code> argument, is only an issue for the top-level class method
+parsing.  This is because the parser flattens the design.  A top-level function
+/ class method is passed to the converter code, in the function</p>
 <p>_AnalyzeTopFuncVisitor.visit_FunctionDev(...)</p>
-<p>This is where the modifications are made.  The 
-modifications only add arguments to the port list if the argument
-is of type SignalType.  This avoids the issue of the object reference
-being used as port.  The modifications also make it possible for 
-parameters (non type(SignalType arguments) and ports (type(SignalType) 
-arguments) to be inter-mixed.</p>
+<p>This is where the modifications are made.  The modifications only add arguments
+to the port list if the argument is of type SignalType.  This avoids the issue
+of the object reference being used as port.  The modifications also make it
+possible for parameters (non-<code>SignalType</code> arguments) and ports
+(<code>SignalType</code> arguments) to be inter-mixed.</p>
 <h3 id="extract-hierarchy">Extract Hierarchy</h3>
 <p>Also, the extract hierarchy needs to be modified to identify the class methods
-that describe hardware and determine if the verilog or vhdl function/method 
-attributes are present.  The current implementation checks for the an 
-argument named "self".  Although this is common practice to use "self" it
-is not enforced by the Python interrupter.</p>
+that describe hardware and determine if the Verilog or VHDL function/method
+attributes are present.  The current implementation checks for the an argument
+named <code>self</code>.  Although this is common practice, it is not enforced by the
+Python interpreter.</p>
         </div>
     </div>
 
     <div class="footer">
         <p class="text-center"> Content licensed under the
            <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="">Terms of Use</a>.
         </p> 
     </div>
 </div> 
