@@ -16,7 +16,7 @@ as a HDL.
 Website development
 ===================
 
-This website is collaboratively by the MyHDL development
+This website is developed collaboratively by the MyHDL development
 community. 
 
 It is developed using the [urubu] software, in a
