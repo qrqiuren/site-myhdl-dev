@@ -34,6 +34,9 @@ reflinks:
     dev_myhdl_site: 
         url: http://dev.myhdl.org 
         title: MyHDL development website
+    dev.myhdl.org:
+        url: http://dev.myhdl.org 
+        title: dev.myhdl.org 
     content_license:
         url: http://creativecommons.org/licenses/by-sa/3.0/
         title: CC-BY-SA License

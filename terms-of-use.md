@@ -15,7 +15,7 @@ Wikipedia][1].
 Information for text contributors
 =================================
 
-All users contributing to dev.myhdl.org are required to grant broad permissions
+All users contributing to [dev.myhdl.org] are required to grant broad permissions
 to the general public to re-distribute and re-use their contributions freely,
 as long as the use is attributed and the same freedom to re-use and
 re-distribute applies to any derivative works. Therefore, for any text you hold
@@ -42,7 +42,7 @@ exclude very small or irrelevant contributions.)
 Information for re-users
 ========================
 
-To re-use content from dev.myhdl.org, please follow the guidelines below:
+To re-use content from [dev.myhdl.org], please follow the guidelines below:
 
 * **Attribution:** To re-distribute a text page in any form, provide credit to the
 authors either by including a) a hyperlink (where possible) or URL to the

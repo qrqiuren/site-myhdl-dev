@@ -7,7 +7,7 @@ date: 2014-01-10
 Purpose
 =======
 
-The dev.myhdl.org website aims to document all aspects of the development
+The [dev.myhdl.org] website aims to document all aspects of the development
 process of the [MyHDL project][myhdl]. MyHDL is a Python library to use Python
 as a HDL.
 
@@ -16,7 +16,7 @@ as a HDL.
 Website development
 ===================
 
-This website is developed collaboratively by the MyHDL development
+This website is collaboratively by the MyHDL development
 community. 
 
 It is developed using the [urubu] software, in a
