@@ -1,5 +1,5 @@
 ---
-title: <strong>SITE MIGRATION GUIDE</strong>
+title: <strong>MIGRATION GUIDE</strong>
 layout: simple_page 
 author: Jan Decaluwe
 date: 2014-01-13

@@ -4,6 +4,10 @@ body {
     padding-bottom: 20px
 }
 
+.navbar-brand {
+  line-height: 19px;
+}
+
 .page-header {
      margin-top: 30px;
 }
