@@ -11,7 +11,7 @@
 <tbody>
 {% for item in this.content %}
     {% if item|mepkind == kind %}
-    <tr><td width="60px">{{item.mep}}</td><td><a href="{{item.url}}">{{item.title}}</a> {{item.defined}}</td></tr>
+    <tr><td width="60px">{{item.mep}}</td><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
     {% endif %}
 {% endfor %}
 </tbody>

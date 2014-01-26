@@ -20,7 +20,7 @@
         <div class="col-md-7" role="main">
             {% block index_list %}
             {% for item in this.content %}
-                <h4><a href="{{item.url}}">{{item.title}}</a></h4>
+                <h4><a href="{{item.url}}">{{item.title}}</a> <small>{{item.date|dateformat}}</small></h4>
                 <p>{{item.abstract}}</p>
             {% endfor %}
             {% endblock %}

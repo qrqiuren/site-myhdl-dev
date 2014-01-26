@@ -35,7 +35,9 @@
           <ul class="nav navbar-nav navbar-left">
  
             <li class="active"><a href="/guide.html">Developer's guide</a></li>
+            <li><a href="/myhdl-0.9.html">MyHDL 0.9</a></li>
             <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/archive/">Archive</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -57,9 +59,7 @@
 
     <div class="page-header">
  
-<h1>Developer's guide<br>
-    <small class="nobr">Jan Decaluwe</small>
-    <small class="nobr">24-Dec-2013</small>
+<h1>Developer's guide
 </h1>
     </div>
 
@@ -74,7 +74,7 @@
                     <a href="#"><em>Developer's guide</em></a>
                     <div class="toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#background-info">Background info</a></li>
 <li><a href="#the-repository">The repository</a></li>
 <li><a href="#tracking-development">Tracking development</a><ul>
 <li><a href="#basic-usage">Basic usage</a></li>
@@ -83,7 +83,7 @@
 </ul>
 </li>
 <li><a href="#creating-your-own-changesets">Creating your own changesets</a><ul>
-<li><a href="#introduction_1">Introduction</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#first-step-communicate">First step: communicate</a></li>
 <li><a href="#creating-changesets">Creating changesets</a></li>
 <li><a href="#quality">Quality</a></li>
@@ -117,11 +117,12 @@ window.__gcfg = {
   })();
 </script>
 
-<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
-            <h2 id="introduction">Introduction</h2>
-<p>As MyHDL's original developer, I (<a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>) would like to retain
-the final say about its design and development decisions. To make that
-explicit, I have written this text from a personal viewpoint.</p>
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 13-Jan-2014 by Jan Decaluwe</em></p>
+
+            <h2 id="background-info">Background info</h2>
+<p>MyHDL's original developer, <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>, is MyHDL's <abbr title="Benevolent Dictator For Life">BFDL</abbr>. He has the final
+say about its design and development decisions.  The development workflow takes
+that into account.</p>
 <h2 id="the-repository">The repository</h2>
 <p>MyHDL code development is managed on <a href="http://www.bitbucket.com" title="Bitbucket">Bitbucket</a> using
 <a href="http://www.selenic.com/mercurial">mercurial</a>.</p>
@@ -207,15 +208,16 @@ export PYTHONPATH
 
 
 <h2 id="creating-your-own-changesets">Creating your own changesets</h2>
-<h3 id="introduction_1">Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p>You can also make your own changesets and contribute them to the development. </p>
-<p>The workflow is such that every contributed change is reviewed and applied or
-rejected by me. Therefore, your goal as a contributor should be to minimize my
-work :-) What is needed is the following:</p>
+<p>The workflow is such that every contributed change is reviewed by other
+developers and applied or rejected by the <abbr title="Benevolent Dictator For Life">BFDL</abbr>. Therefore, your goal as a
+contributor should be to minimize the work of other developers. What is needed
+is the following:</p>
 <ul>
-<li>I need to understand why the change is needed, and why
+<li>an understanding why the change is needed, and why
   it will be useful to many people</li>
-<li>I need some confidence that it won't break current
+<li>some confidence that it won't break current
   and foreseeable features </li>
 <li>the changes have to be tested  </li>
 <li>you have to use <a href="http://www.selenic.com/mercurial">mercurial</a>
@@ -231,13 +233,13 @@ following sections.</p>
 community.  Start a discussion in the <a href="http://www.myhdl.org/doku.php/mailing_list" title="Mailing List">Mailing List</a> or (if you are certain)
 add an entry in the
 <a href="http://sourceforge.net/tracker/?group_id=91207&amp;atid=596332">Bug Tracker</a>.</p>
-<p>The result will be a fruitful discussion :-) that hopefully results in a
-decision about what should be done. The byproduct will be a specification for
-the work.</p>
+<p>The result will be a fruitful discussion that hopefully results in a decision
+about what should be done. The byproduct will be a specification for the work.</p>
 <h3 id="creating-changesets">Creating changesets</h3>
-<p>To manage your patches, use mercurial. By doing so, I can simply use
-my normal development workflow to incorporate your work. Moreover, your name
-will be preserved as the author, so you get the credit you deserve.</p>
+<p>To manage your patches, use mercurial. By doing so, the other developers can
+simply use their normal development workflow to incorporate your work.
+Moreover, your name will be preserved as the author, so you get the credit you
+deserve.</p>
 <p>In mercurial terminology, a set of patches that belong together is called
 a <em>changeset</em>. Assuming you know how to work with mercurial, creating changesets
 is easy. You make changes in your local repository clone, and use:</p>
@@ -271,7 +273,8 @@ review and merge the changesets.</p>
 <p>Contributing changesets is done by creating <em>pull requests</em>. This
 process is documented
 <a href="https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request">here</a>.</p>
-<p>I will review the pull request, and decide to merge them in or not.</p>
+<p>Other developers will review the pull request, and the <abbr title="Benevolent Dictator For Life">BFDL</abbr> will decide to
+merge it in or not.</p>
         </div>
     </div>
 

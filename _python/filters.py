@@ -8,7 +8,6 @@ def mepkind(item):
         return 'Final' 
     else: 
         return 'Open' 
-    
 
 filters = {}
 filters['dateformat'] = dateformat

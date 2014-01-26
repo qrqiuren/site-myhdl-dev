@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><strong>MIGRATION GUIDE</strong></title>
+    <title>MyHDL 0.9</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -35,13 +35,13 @@
           <ul class="nav navbar-nav navbar-left">
  
             <li><a href="/guide.html">Developer's guide</a></li>
-            <li><a href="/myhdl-0.9.html">MyHDL 0.9</a></li>
+            <li class="active"><a href="/myhdl-0.9.html">MyHDL 0.9</a></li>
             <li><a href="/meps/">MEPs</a></li>
             <li><a href="/archive/">Archive</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="/migration.html"><strong>MIGRATION GUIDE</strong></a></li>
+            <li><a href="/migration.html"><strong>MIGRATION GUIDE</strong></a></li>
             <li><a href="/about.html">About</a></li>
           </ul>
 
@@ -54,38 +54,59 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li class="active"><strong>MIGRATION GUIDE</strong></li>
+       <li class="active">MyHDL 0.9</li>
     </ol>
 
     <div class="page-header">
  
-<h1><strong>MIGRATION GUIDE</strong>
-    <small class="nobr">13-Jan-2014</small>
+<h1>MyHDL 0.9
 </h1>
     </div>
 
     <div class="row">
 
+        <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><em>MyHDL 0.9</em></a>
+                    <div class="toc">
+<ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#features">Features</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+        </div>
 
         <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
              
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-            <p>This site is work in progress. It is being migrated from the <a href="http://myhdl.org/doku.php/dev:intro">Developent Zone
-at myhdl.org</a>.  This guide is intended for all those who want to
-help with the migration.</p>
-<p>The site is being migrated from a dokuwiki site to an <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a> site. Please
-consult the <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a> website to install the software and get an overview of how
-it works. As a content contributor, you don't need all the details about
-templating and so on: the main task will be editing content in Markdown format.</p>
-<p>The site is being developed on BitBucket in the <a href="https://bitbucket.org/jandecaluwe/site-myhdl-dev" title="MyHDL development website repository">MyHDL development website repository</a>. The
-orginal code from myhdl.org is checked in under <code>_ori</code>. There is a <code>convert.py</code>
-script that can help to convert the original dokuwiki format to Markdown. It is
-far from comprehensive, but should provide a good starting point.</p>
-<p>You can contribute through pull requests, or I will consider to give you direct
-access to the repository.</p>
-<p>Publishing the content is automatic after a push, but it may take up to ten
-minutes before the edits are online. The website content is pulled from
-the repo, so make sure to commit the built website also.</p>
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
+            <h2 id="status">Status</h2>
+<p>Under development.</p>
+<h2 id="features">Features</h2>
         </div>
     </div>
 

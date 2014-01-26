@@ -41,6 +41,9 @@
              
             {% block sharing %}
             {% endblock %}
+            {% if this.lastedit|d %}
+            <p><em>{{this.lastedit}}</em></p>
+            {% endif %}
             {% block preamble %}
             {% endblock %}
 
