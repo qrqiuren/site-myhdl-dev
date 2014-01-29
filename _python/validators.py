@@ -36,6 +36,9 @@ def infer_lastedit(item):
         # remove mailinfo from author info
         author = mailinfo.sub('', log.author).strip() 
         item['lastedit'] = "Last edit on {} by {}".format(date, author)
+
+def validate_default(item):
+    infer_lastedit(item)
         
 def validate_article(item):
     # check_keys(item, ['date'])
@@ -56,3 +59,6 @@ validators= {}
 
 validators['article'] = validate_article 
 validators['mep'] = validate_mep
+for pn in ('page', 'simple_page'):
+    validators[pn] = validate_default
+

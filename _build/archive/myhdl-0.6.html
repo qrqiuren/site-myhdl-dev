@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MyHDL 0.5</title>
+    <title>MyHDL 0.6</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -55,13 +55,13 @@
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
        <li><a href="/archive/">Archive</a></li>
-       <li class="active">MyHDL 0.5</li>
+       <li class="active">MyHDL 0.6</li>
     </ol>
 
     <div class="page-header">
  
-<h1>MyHDL 0.5
-    <small class="nobr">19-Oct-2006</small>
+<h1>MyHDL 0.6
+    <small class="nobr">12-May-2009</small>
 </h1>
     </div>
 
@@ -73,12 +73,17 @@
                  data-offset-top="80" 
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><em>MyHDL 0.5</em></a>
+                    <a href="#"><em>MyHDL 0.6</em></a>
                     <div class="toc">
 <ul>
 <li><a href="#status">Status</a></li>
-<li><a href="#to-do-for-051">To do for 0.5.1</a></li>
-<li><a href="#to-do-for-05">To do for 0.5</a></li>
+<li><a href="#to-do">To do</a></li>
+<li><a href="#open-issues">Open issues</a><ul>
+<li><a href="#name-clashes">Name clashes</a></li>
+<li><a href="#rom-inference-support">Rom inference support</a></li>
+<li><a href="#user-defined-vhdl-code">User-defined VHDL code</a></li>
+</ul>
+</li>
 </ul>
 </div>
 
@@ -106,60 +111,42 @@ window.__gcfg = {
   })();
 </script>
 
-<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 26-Jan-2014 by Jan Decaluwe</em></p>
-
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
             <h2 id="status">Status</h2>
-<p>0.5.1 has been released</p>
-<h2 id="to-do-for-051">To do for 0.5.1</h2>
+<p>0.6 has been released.</p>
+<h2 id="to-do">To do</h2>
 <ul class="checklist">
-<li><input type="checkbox" disabled checked> solve bug with right shifting of negative numbers - use arithmetic shift in Verilog</li>
-<li><input type="checkbox" disabled checked> solve inconsistency bug with Python versions in setup.py</li>
+<li><input type="checkbox" disabled checked> RAM support using array types </li>
+<li><input type="checkbox" disabled checked> operators with signed operands </li>
+<li><input type="checkbox" disabled checked> augmented operators </li>
+<li><input type="checkbox" disabled checked> enhanced <code>print</code> statement support </li>
+<li><input type="checkbox" disabled checked> user-defined VHDL support </li>
+<li><input type="checkbox" disabled checked> <code>inout</code> handling</li>
+<li><input type="checkbox" disabled checked> enhance <code>toVerilog</code> so that it can work with the new verification method also.
+In particular, <code>print</code> statements should be handled properly.</li>
+<li><input type="checkbox" disabled checked> write conversion verification test benches for some cookbook examples</li>
+<li><input type="checkbox" disabled checked> include date/tool info in conversion output </li>
+<li><input type="checkbox" disabled checked> review <code>if __debug__</code> functionality with new verification capabilities  </li>
+<li><input type="checkbox" disabled checked> encoding attributes to enumeration types  </li>
+<li><input type="checkbox" disabled checked> use a package in a separate file for general VHDL output code </li>
 </ul>
-<p>toVerilog:</p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> review shortcutting boolean operations, may be too restrictive</li>
-<li><input type="checkbox" disabled checked> use if instead of case with a single test</li>
-<li><input type="checkbox" disabled checked> document undocumented feature to hide MyHDL code from the Verilog convertor, using "<code>if __debug__</code>" </li>
+<h2 id="open-issues">Open issues</h2>
+<h3 id="name-clashes">Name clashes</h3>
+<ul>
+<li>
+<p>Find a good solution to avoid name clashes. In the Verilog output, I relied on using <code>_</code> as a prefix, but because VHDL doesn't allow this, and I want a general solution, this needs to change.</p>
+</li>
+<li>
+<p>Find a good solution to avoid name clashes with Verilog and VHDL keywords.</p>
+</li>
 </ul>
-<h2 id="to-do-for-05">To do for 0.5</h2>
-<p>User-defined Verilog: error handling </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> acceptable values of the <code>driven</code> attribute </li>
-<li><input type="checkbox" disabled checked> error messages when exceptions occur with user-defined code </li>
-<li><input type="checkbox" disabled checked> <code>__toVerilog__</code> not supported in generator functions </li>
-</ul>
-<p>Signed arithmetic: </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> investigate fine-grained approach </li>
-<li><input type="checkbox" disabled checked> use base classes for Enum and EnumItem, so that type-checking is possible </li>
-</ul>
-<p>Miscellaneous: </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> check typo bug with signal tracing </li>
-<li><input type="checkbox" disabled checked> check simulation suspend mechanism </li>
-</ul>
-<p>Decorators: </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> investigate approach to remove limitations on <code>@always</code> decorator </li>
-<li><input type="checkbox" disabled checked> infer specialized _Waiter class depending on sensitivity list  </li>
-</ul>
-<p>Verification and error reporting: </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> argument tests on <code>@always</code> </li>
-<li><input type="checkbox" disabled checked> test waiter inference for <code>@always</code> and <code>@always_comb</code> </li>
-<li><input type="checkbox" disabled checked> argument tests on <code>@instance</code> </li>
-</ul>
-<p>Get feedback on style issues </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> <code>clk.posedge</code> instead of <code>posedge(clk)</code> </li>
-<li><input type="checkbox" disabled checked> promoting general usage of decorators </li>
-</ul>
-<p>Update documentation ... </p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> update what's new document </li>
-<li><input type="checkbox" disabled checked> add note on positive numbers returned by slicing of intbv </li>
-<li><input type="checkbox" disabled checked> make full pass over manual with new info </li>
-</ul>
+<h3 id="rom-inference-support">Rom inference support</h3>
+<p>Currently, ROMs are inferred from case statements, as in Verilog. Users and synthesis tools may prefer arrays of integers. Feedback welcome.</p>
+<h3 id="user-defined-vhdl-code">User-defined VHDL code</h3>
+<p><del>It is straightforward to support the <code>__toVHDL__</code> attribute for
+user-defined VHDL, similar to the Verilog solution. This may not be sufficient
+however, because VHDL requires instantiated components to be declared in the
+code. We may have to add a way to add such user-defined declarations.</del></p>
         </div>
     </div>
 

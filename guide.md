@@ -7,11 +7,11 @@ author: Jan Decaluwe
 Background info
 ===============
 
-MyHDL's original developer, [jandecaluwe], is MyHDL's BFDL. He has the final
+MyHDL's original developer, [jandecaluwe], is MyHDL's BDFL. He has the final
 say about its design and development decisions.  The development workflow takes
 that into account.
 
-*[BFDL]: Benevolent Dictator For Life
+*[BDFL]: Benevolent Dictator For Life
 
 The repository
 ==============
@@ -100,7 +100,7 @@ Introduction
 You can also make your own changesets and contribute them to the development. 
 
 The workflow is such that every contributed change is reviewed by other
-developers and applied or rejected by the BFDL. Therefore, your goal as a
+developers and applied or rejected by the BDFL. Therefore, your goal as a
 contributor should be to minimize the work of other developers. What is needed
 is the following:
 
@@ -181,6 +181,6 @@ Contributing changesets is done by creating *pull requests*. This
 process is documented
 [here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request).
 
-Other developers will review the pull request, and the BFDL will decide to
+Other developers will review the pull request, and the BDFL will decide to
 merge it in or not.
 

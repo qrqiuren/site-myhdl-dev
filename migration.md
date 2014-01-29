@@ -2,7 +2,6 @@
 title: <strong>MIGRATION GUIDE</strong>
 layout: simple_page 
 author: Jan Decaluwe
-date: 2014-01-13
 ---
 
 This site is work in progress. It is being migrated from the [Developent Zone

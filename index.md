@@ -7,5 +7,5 @@ content:
     - meps
     - archive
     - migration
-    - about
+    - site-info 
 ---
