@@ -1,7 +1,7 @@
 ---
 title: myhdl.org 
 layout: article
-date: 2011-05-06
+date: 2008-05-29
 ---
 
 Background

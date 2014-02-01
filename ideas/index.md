@@ -5,6 +5,6 @@ content:
     - myhdl.org 
 abstract:
     The place to develop new 
-    ideas and proposal, and to
+    ideas and proposals, and to
     keep them alive.
 ---
