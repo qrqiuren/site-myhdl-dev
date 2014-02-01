@@ -35,7 +35,7 @@
           <ul class="nav navbar-nav navbar-left">
             {% block home %} 
             {% endblock %}
-            {% for item in site.reflinks['/'].content[:-2] %}
+            {% for item in site.reflinks['/'].content[:-1] %}
             {%   set context = '' %}
             {%   if item.components|d and this.components[0] == item.components[0] %}
             {%     set context = ' class="active"' %}
@@ -55,7 +55,7 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            {% for item in site.reflinks['/'].content[-2:] %}
+            {% for item in site.reflinks['/'].content[-1:] %}
             {%   set context = '' %}
             {%   if item.components|d and this.components[0] == item.components[0] %}
             {%     set context = ' class="active"' %}

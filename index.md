@@ -3,9 +3,9 @@ title: MyHDL development documentation
 layout: home
 content:
     - guide 
-    - myhdl-0.9
+    - current 
     - meps
+    - ideas
     - archive
-    - migration
     - site-info 
 ---

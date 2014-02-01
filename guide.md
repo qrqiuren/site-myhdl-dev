@@ -1,5 +1,5 @@
 ---
-title: Developer's guide
+title: Guide
 layout: article
 author: Jan Decaluwe
 ---

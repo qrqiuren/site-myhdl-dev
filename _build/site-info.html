@@ -34,14 +34,18 @@
 
           <ul class="nav navbar-nav navbar-left">
  
-            <li><a href="/guide.html">Developer's guide</a></li>
-            <li><a href="/myhdl-0.9.html">MyHDL 0.9</a></li>
+            <li><a href="/guide.html">Guide</a></li>
+            <li class="dropdown">
+              <a href="/current/" class="dropdown-toggle" data-toggle="dropdown">Current <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
+              </ul>
             <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
             <li><a href="/archive/">Archive</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="/migration.html"><strong>MIGRATION GUIDE</strong></a></li>
             <li class="active"><a href="/site-info.html">Site info</a></li>
           </ul>
 
@@ -73,13 +77,12 @@
                     <a href="#"><em>Site info</em></a>
                     <div class="toc">
 <ul>
+<li><a href="#wzxhzdk0migration-guidewzxhzdk1"><strong>MIGRATION GUIDE</strong></a></li>
 <li><a href="#purpose">Purpose</a></li>
 <li><a href="#website-development">Website development</a></li>
 <li><a href="#theme">Theme</a></li>
-<li><a href="#license">License</a><ul>
+<li><a href="#license">License</a></li>
 <li><a href="#terms-of-use">Terms of Use</a></li>
-</ul>
-</li>
 </ul>
 </div>
 
@@ -91,7 +94,24 @@
              
             <p><em>Last edit on 29-Jan-2014 by Jan Decaluwe</em></p>
 
-            <h2 id="purpose">Purpose</h2>
+            <h2 id="wzxhzdk0migration-guidewzxhzdk1"><strong>MIGRATION GUIDE</strong></h2>
+<p>This site is work in progress. It is being migrated from the <a href="http://myhdl.org/doku.php/dev:intro">Developent Zone
+at myhdl.org</a>.  This guide is intended for all those who want to
+help with the migration.</p>
+<p>The site is being migrated from a dokuwiki site to an <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a> site. Please
+consult the <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a> website to install the software and get an overview of how
+it works. As a content contributor, you don't need all the details about
+templating and so on: the main task will be editing content in Markdown format.</p>
+<p>The site is being developed on BitBucket in the <a href="https://bitbucket.org/jandecaluwe/site-myhdl-dev" title="MyHDL development website repository">MyHDL development website repository</a>. The
+orginal code from myhdl.org is checked in under <code>_ori</code>. There is a <code>convert.py</code>
+script that can help to convert the original dokuwiki format to Markdown. It is
+far from comprehensive, but should provide a good starting point.</p>
+<p>You can contribute through pull requests, or I will consider to give you direct
+access to the repository.</p>
+<p>Publishing the content is automatic after a push, but it may take up to ten
+minutes before the edits are online. The website content is pulled from
+the repo, so make sure to commit the built website also.</p>
+<h2 id="purpose">Purpose</h2>
 <p>The <a href="http://dev.myhdl.org" title="dev.myhdl.org">dev.myhdl.org</a> website aims to document all aspects of the development
 process of the <a href="http://www.myhdl.org" title="MyHDL site">MyHDL project</a>. MyHDL is a Python library to use Python
 as a <abbr title="Hardware Description Language">HDL</abbr>.</p>
@@ -106,7 +126,7 @@ community. </p>
 <h2 id="license">License</h2>
 <p>The content on this website is licensed
 under the <a href="http://creativecommons.org/licenses/by-sa/3.0/" title="CC-BY-SA License">CC-BY-SA License</a>.</p>
-<h3 id="terms-of-use"><a href="/terms-of-use.html" title="Terms of Use">Terms of Use</a></h3>
+<h2 id="terms-of-use"><a href="/terms-of-use.html" title="Terms of Use">Terms of Use</a></h2>
         </div>
     </div>
 

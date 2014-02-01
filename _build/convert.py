@@ -33,6 +33,7 @@ with open(fn) as f:
             m = heading.match(line[6:])
             if m: 
                 print 'title: ', m.group(1)
+                print '---'
         elif line[:5] == '=====':
             m = heading.match(line[5:])
             if m: 
