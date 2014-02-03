@@ -2,11 +2,12 @@
 title: The toVHDL project 
 author: Jan Decaluwe
 layout: article
-date: 2005-11-14
+date: 2007-11-02
 ---
 
-**Warning: The following text is obsolete with MyHDL 0.6. It is kept here for
-background reading.**
+**Warning** The following text is obsolete with MyHDL 0.6. It is kept here for
+background reading.
+{: .text-warning}
 
 Introduction
 ============

@@ -3,7 +3,7 @@
 {% block title %} 
 <h1>{{this.title}}
     {% if this.date|d %}
-    <small class="nobr">{{this.date|dateformat}}</small>
+    &nbsp;&nbsp;<small class="nobr">{{this.date|dateformat}}</small>
     {% endif %}
 </h1>
 {% endblock %}

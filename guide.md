@@ -7,6 +7,12 @@ author: Jan Decaluwe
 Background info
 ===============
 
+The [dev.myhdl.org] website aims to document all aspects of the development
+process of the MyHDL project. MyHDL is a Python library to use
+Python as a HDL. The main projects website is [here][myhdl]. 
+
+*[HDL]: Hardware Description Language 
+
 MyHDL's original developer, [jandecaluwe], is MyHDL's BDFL. He has the final
 say about its design and development decisions.  The development workflow takes
 that into account.
@@ -20,7 +26,7 @@ MyHDL code development is managed on [bitbucket] using
 [mercurial](http://www.selenic.com/mercurial).
 
 The public repository resides [here][myhdl-repo].  Bitbucket offers an
-excellent interface to through the repository and its history. 
+excellent interface to the repository and its history. 
 
 The repository can be used for several purposes, such as browsing through the
 development history, and tracking development. In addition, you can use it to

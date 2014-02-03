@@ -4,6 +4,6 @@ layout: index
 order: date 
 reverse: true
 abstract:
-    Old and obsolete documents, 
-    for background reading.
+    Old or obsolete documents. 
+    For background reading.
 ---
