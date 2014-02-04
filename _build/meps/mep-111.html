@@ -129,9 +129,9 @@ window.__gcfg = {
  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
 </script>
 
-<p>Introduction (Motivation)
-+++++++++++++++++++++++++
-Constraint <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> integer numbers, such as <em>intbv</em>, are the foundation
+<p>Introduction (Motivation)</p>
+<hr />
+<p>Constraint <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> integer numbers, such as <em>intbv</em>, are the foundation
 for hardware development.  But in some cases real numbers, 
 numbers with fraction, are more appropriate.  This is certainly 
 true with digital signal processing applications.  This document
@@ -140,9 +140,9 @@ signed rational real numbers.</p>
 <p>The fixed-point type provides a mechanism to represent a constraint 
 real number with the same hardware realization required by the 
 integers - which is not the case for floating-point types.</p>
-<p>Specification
-++++++++++++++
-A review of the fixed-point representation is required before 
+<p>Specification</p>
+<hr />
+<p>A review of the fixed-point representation is required before 
 presenting the <em>fixbv</em> specification.</p>
 <h2 id="what-is-fixed-point">What is fixed-point</h2>
 <p>Most people are familiar with fixed-point and floating-point 
@@ -265,71 +265,68 @@ $$</p>
 <h2 id="fixbv-operations">fixbv operations</h2>
 <p>First, lets review fixed-point mathematics, given two fixed-point 
 variables, <em>x</em> and <em>y</em>:</p>
-<div class="codehilite"><pre>x = fixbv(0, min=-8, max=8, res=1/16)   # siii.ffff
-y = fixbv(0, min=-1, max=1, rest=1/128) # s.fffffff
+<div class="codehilite"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span>   <span class="c"># siii.ffff</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rest</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">128</span><span class="p">)</span> <span class="c"># s.fffffff</span>
 </pre></div>
 
 
 <p>Addition and subtraction require the operands to be aligned, 
 they don't necessarily need to be the same word-length (wl) but 
 the "point" needs to be aligned, using the above as operands:</p>
-<div class="codehilite"><pre>siii.ffff000
+<div class="codehilite"><pre>  siii.ffff000
++ ssss.fffffff
+--------------
+ siiii.fffffff
 </pre></div>
 
 
-<ul>
-<li>ssss.fffffff</li>
-</ul>
-<hr />
-<p>siiii.fffffff</p>
 <p>once the operands are aligned normal 2's complement addition/
 subtraction can be performed.  The maximum result would be 
 2*max(x.max,y.max) (or max(len(x),len(y))+1).  If addition or 
 subtraction is attempted and the values are not aligned an error
 will be thrown, example:</p>
-<div class="codehilite"><pre>&gt;&gt;&gt; x = fixbv(0, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; y = fixbv(0, min=-1, max=1, res=1/128.)
-&gt;&gt;&gt; x + y
-AssertionError: Add: points not aligned 
-       fixbv(0.00, format=(8,3,4), ) and fixbv(0.00, format=(8,0,7), )
-</pre></div>
+<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">128.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+<span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Add</span><span class="p">:</span> <span class="n">points</span> <span class="ow">not</span> <span class="n">aligned</span> 
+       <span class="n">fixbv</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">)</span> <span class="ow">and</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">)</span>
+<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
 
+<span class="n">It</span> <span class="ow">is</span> <span class="n">assumed</span> <span class="n">the</span> <span class="o">*</span><span class="n">fixbv</span><span class="o">*</span> <span class="n">operations</span> <span class="n">will</span> <span class="k">return</span> <span class="n">an</span>
+<span class="o">*</span><span class="n">fixbv</span><span class="o">*.</span>
 
-<p>It is assumed the <em>fixbv</em> operations will return an
-<em>fixbv</em>.</p>
-<div class="codehilite"><pre>&gt;&gt;&gt; x1 = fixbv(2.5, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; x2 = fixbv(1.25, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; x1 + x2
-fixbv(15)
+<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">1.25</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span>
+<span class="n">fixbv</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
 
 <p>When assigned to another <em>fixbv</em> the value will fit in the 
 format of the accepting object.</p>
-<div class="codehilite"><pre>&gt;&gt;&gt; x1 = fixbv(2.5, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; x2 = fixbv(1.25, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; z = fixbv(0, min=-16, max=16, res=1/16.)
-&gt;&gt;&gt; z[:] = x1 + x2 
-fixbv(3.75, format=(9,4,4))
+<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">1.25</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">16</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">z</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span> 
+<span class="n">fixbv</span><span class="p">(</span><span class="mf">3.75</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
 </pre></div>
 
 
 <p>For multiplication the operands do not need to be aligned before
 the operation but the "point" bookkeeping needs to be accounted.</p>
-<div class="codehilite"><pre>      siii.ffff
+<div class="codehilite"><pre>        siii.ffff
+*       s.fffffff
+-----------------
+ssiii.fffffffffff  (total 16 bits)
 </pre></div>
 
 
-<ul>
-<li>s.fffffff</li>
-</ul>
-<hr />
-<p>ssiii.fffffffffff  (total 16 bits)</p>
 <p>A multiplication example:</p>
-<div class="codehilite"><pre>&gt;&gt;&gt; x = fixbv(1.5, min=-8, max=8, res=1/16.)
-&gt;&gt;&gt; y = fixbv(0.25, min=-1, max=1, res=1/128.)
-&gt;&gt;&gt; myhdl.bin(x*y, 16)
-&#39;00000.01100000000&#39;  # 3/2*1/4 = 3/8 = 1/4+1/8
+<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">128.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">myhdl</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="s">&#39;00000.01100000000&#39;</span>  <span class="c"># 3/2*1/4 = 3/8 = 1/4+1/8</span>
 </pre></div>
 
 
@@ -357,9 +354,9 @@ resized does not fit, it needs to be saturated or wrapped.</p>
 <p>This enhancement proposal does not include the definition of
 a <em>resize</em> function.  A separate MEP will be created for the
 <em>resize</em> function and implementation.</p>
-<p>Conversion
-+++++++++++
-The beauty of the <em>fixbv</em> is it has a base class of an
+<p>Conversion</p>
+<hr />
+<p>The beauty of the <em>fixbv</em> is it has a base class of an
 <em>intbv</em>.  This makes sense because the fixed-point is an 
 integer representation at the hardware.  Nothing is required
 for conversion, the fixed-point is simply a logical representation
@@ -372,26 +369,23 @@ convertible conversion to other type:</p>
 <li>fixbv.ord() : the underlying intbv value</li>
 <li>fixbv.frac() : just the fraction portion</li>
 </ul>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>x = fixbv(2.5, min=-8, max=8. res=1/256.)
-x.int()
-   2
-x.ord()
-   640 (0x280)
-x.frac()
-   128</p>
-</blockquote>
-</blockquote>
-</blockquote>
+<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">8.</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">256.</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">ord</span><span class="p">()</span>
+<span class="mi">640</span> <span class="p">(</span><span class="mh">0x280</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="o">.</span><span class="n">frac</span><span class="p">()</span>
+<span class="mi">128</span>
+</pre></div>
+
+
 <p>These functions are proposed because the factory functions 
 int() and ord() are not convertible, this is consistent with 
 the current implementation (other than the current 
 implementation would have no need to use int(intbv()).
 There is a reasonable use extra</p>
-<p>Limitations
-+++++++++++</p>
+<p>Limitations</p>
+<hr />
 <ul>
 <li>
 <p>int(fixbv) and float(fixbv) are not convertible.  They can
@@ -410,9 +404,9 @@ There is a reasonable use extra</p>
      integer, divide by power of two's </p>
 </li>
 </ul>
-<p>Closing Remarks
-+++++++++++++++
-The <em>fixbv</em> type provides a clean an straightforward type to
+<p>Closing Remarks</p>
+<hr />
+<p>The <em>fixbv</em> type provides a clean an straightforward type to
 represent constrained real numbers (fixed-point numbers).  The 
 <em>fixbv</em> provides the basic number representation.  The addition
 of the <em>resize</em> will complete the fixed-point support.</p>
