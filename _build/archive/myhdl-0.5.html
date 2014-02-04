@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MyHDL 0.5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li><a href="/guide.html">Guide</a></li>
+            <li class="dropdown">
+              <a href="/current/" class="dropdown-toggle" data-toggle="dropdown">Current <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
+              </ul>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li class="active"><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/site-info.html">Site info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/archive/">Archive</a></li>
+       <li class="active">MyHDL 0.5</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>MyHDL 0.5
+    &nbsp;&nbsp;<small class="nobr">19-Oct-2006</small>
+</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><em>MyHDL 0.5</em></a>
+                    <div class="toc">
+<ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#to-do-for-051">To do for 0.5.1</a></li>
+<li><a href="#to-do-for-05">To do for 0.5</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+             
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 26-Jan-2014 by Jan Decaluwe</em></p>
+
+            <h2 id="status">Status</h2>
+<p>0.5.1 has been released</p>
+<h2 id="to-do-for-051">To do for 0.5.1</h2>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> solve bug with right shifting of negative numbers - use arithmetic shift in Verilog</li>
+<li><input type="checkbox" disabled checked> solve inconsistency bug with Python versions in setup.py</li>
+</ul>
+<p>toVerilog:</p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> review shortcutting boolean operations, may be too restrictive</li>
+<li><input type="checkbox" disabled checked> use if instead of case with a single test</li>
+<li><input type="checkbox" disabled checked> document undocumented feature to hide MyHDL code from the Verilog convertor, using "<code>if __debug__</code>" </li>
+</ul>
+<h2 id="to-do-for-05">To do for 0.5</h2>
+<p>User-defined Verilog: error handling </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> acceptable values of the <code>driven</code> attribute </li>
+<li><input type="checkbox" disabled checked> error messages when exceptions occur with user-defined code </li>
+<li><input type="checkbox" disabled checked> <code>__toVerilog__</code> not supported in generator functions </li>
+</ul>
+<p>Signed arithmetic: </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> investigate fine-grained approach </li>
+<li><input type="checkbox" disabled checked> use base classes for Enum and EnumItem, so that type-checking is possible </li>
+</ul>
+<p>Miscellaneous: </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> check typo bug with signal tracing </li>
+<li><input type="checkbox" disabled checked> check simulation suspend mechanism </li>
+</ul>
+<p>Decorators: </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> investigate approach to remove limitations on <code>@always</code> decorator </li>
+<li><input type="checkbox" disabled checked> infer specialized _Waiter class depending on sensitivity list  </li>
+</ul>
+<p>Verification and error reporting: </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> argument tests on <code>@always</code> </li>
+<li><input type="checkbox" disabled checked> test waiter inference for <code>@always</code> and <code>@always_comb</code> </li>
+<li><input type="checkbox" disabled checked> argument tests on <code>@instance</code> </li>
+</ul>
+<p>Get feedback on style issues </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> <code>clk.posedge</code> instead of <code>posedge(clk)</code> </li>
+<li><input type="checkbox" disabled checked> promoting general usage of decorators </li>
+</ul>
+<p>Update documentation ... </p>
+<ul class="checklist">
+<li><input type="checkbox" disabled checked> update what's new document </li>
+<li><input type="checkbox" disabled checked> add note on positive numbers returned by slicing of intbv </li>
+<li><input type="checkbox" disabled checked> make full pass over manual with new info </li>
+</ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p class="text-center"> Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>.
+        </p> 
+    </div>
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

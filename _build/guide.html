@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Developer's guide</title>
+    <title>Guide</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -31,13 +31,24 @@
           <a class="navbar-brand" href="/">MyHDL / dev</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+
+          <ul class="nav navbar-nav navbar-left">
  
-	    <li><a href="/">Home</a></li>    
-            <li class="active"><a href="/guide.html">Developer's guide</a></li>
+            <li class="active"><a href="/guide.html">Guide</a></li>
+            <li class="dropdown">
+              <a href="/current/" class="dropdown-toggle" data-toggle="dropdown">Current <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
+              </ul>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/migration.html"><strong>SITE MIGRATION GUIDE</strong></a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
           </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/site-info.html">Site info</a></li>
+          </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </div>
@@ -47,14 +58,12 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li class="active">Developer's guide</li>
+       <li class="active">Guide</li>
     </ol>
 
     <div class="page-header">
  
-<h1>Developer's guide<br>
-    <small class="nobr">Jan Decaluwe</small>
-    <small class="nobr">24-Dec-2013</small>
+<h1>Guide
 </h1>
     </div>
 
@@ -66,10 +75,10 @@
                  data-offset-top="80" 
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><em>Developer's guide</em></a>
+                    <a href="#"><em>Guide</em></a>
                     <div class="toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#background-info">Background info</a></li>
 <li><a href="#the-repository">The repository</a></li>
 <li><a href="#tracking-development">Tracking development</a><ul>
 <li><a href="#basic-usage">Basic usage</a></li>
@@ -78,7 +87,7 @@
 </ul>
 </li>
 <li><a href="#creating-your-own-changesets">Creating your own changesets</a><ul>
-<li><a href="#introduction_1">Introduction</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#first-step-communicate">First step: communicate</a></li>
 <li><a href="#creating-changesets">Creating changesets</a></li>
 <li><a href="#quality">Quality</a></li>
@@ -112,16 +121,20 @@ window.__gcfg = {
   })();
 </script>
 
-<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>
-            <h2 id="introduction">Introduction</h2>
-<p>As MyHDL's original developer, I (<a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>) would like to retain
-the final say about its design and development decisions. To make that
-explicit, I have written this text from a personal viewpoint.</p>
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 03-Feb-2014 by Jan Decaluwe</em></p>
+
+            <h2 id="background-info">Background info</h2>
+<p>The <a href="http://dev.myhdl.org" title="dev.myhdl.org">dev.myhdl.org</a> website aims to document all aspects of the development
+process of the MyHDL project. MyHDL is a Python library to use
+Python as a <abbr title="Hardware Description Language">HDL</abbr>. The main projects website is <a href="http://www.myhdl.org" title="MyHDL site">here</a>. </p>
+<p>MyHDL's original developer, <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>, is MyHDL's <abbr title="Benevolent Dictator For Life">BDFL</abbr>. He has the final
+say about its design and development decisions.  The development workflow takes
+that into account.</p>
 <h2 id="the-repository">The repository</h2>
-<p>MyHDL code development is managed on <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> using
+<p>MyHDL code development is managed on <a href="http://www.bitbucket.com" title="Bitbucket">Bitbucket</a> using
 <a href="http://www.selenic.com/mercurial">mercurial</a>.</p>
 <p>The public repository resides <a href="https://bitbucket.org/jandecaluwe/myhdl" title="MyHDL repository">here</a>.  Bitbucket offers an
-excellent interface to through the repository and its history. </p>
+excellent interface to the repository and its history. </p>
 <p>The repository can be used for several purposes, such as browsing through the
 development history, and tracking development. In addition, you can use it to
 contribute your own changesets.  </p>
@@ -202,15 +215,16 @@ export PYTHONPATH
 
 
 <h2 id="creating-your-own-changesets">Creating your own changesets</h2>
-<h3 id="introduction_1">Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p>You can also make your own changesets and contribute them to the development. </p>
-<p>The workflow is such that every contributed change is reviewed and applied or
-rejected by me. Therefore, your goal as a contributor should be to minimize my
-work :-) What is needed is the following:</p>
+<p>The workflow is such that every contributed change is reviewed by other
+developers and applied or rejected by the <abbr title="Benevolent Dictator For Life">BDFL</abbr>. Therefore, your goal as a
+contributor should be to minimize the work of other developers. What is needed
+is the following:</p>
 <ul>
-<li>I need to understand why the change is needed, and why
+<li>an understanding why the change is needed, and why
   it will be useful to many people</li>
-<li>I need some confidence that it won't break current
+<li>some confidence that it won't break current
   and foreseeable features </li>
 <li>the changes have to be tested  </li>
 <li>you have to use <a href="http://www.selenic.com/mercurial">mercurial</a>
@@ -226,13 +240,13 @@ following sections.</p>
 community.  Start a discussion in the <a href="http://www.myhdl.org/doku.php/mailing_list" title="Mailing List">Mailing List</a> or (if you are certain)
 add an entry in the
 <a href="http://sourceforge.net/tracker/?group_id=91207&amp;atid=596332">Bug Tracker</a>.</p>
-<p>The result will be a fruitful discussion :-) that hopefully results in a
-decision about what should be done. The byproduct will be a specification for
-the work.</p>
+<p>The result will be a fruitful discussion that hopefully results in a decision
+about what should be done. The byproduct will be a specification for the work.</p>
 <h3 id="creating-changesets">Creating changesets</h3>
-<p>To manage your patches, use mercurial. By doing so, I can simply use
-my normal development workflow to incorporate your work. Moreover, your name
-will be preserved as the author, so you get the credit you deserve.</p>
+<p>To manage your patches, use mercurial. By doing so, the other developers can
+simply use their normal development workflow to incorporate your work.
+Moreover, your name will be preserved as the author, so you get the credit you
+deserve.</p>
 <p>In mercurial terminology, a set of patches that belong together is called
 a <em>changeset</em>. Assuming you know how to work with mercurial, creating changesets
 is easy. You make changes in your local repository clone, and use:</p>
@@ -258,7 +272,7 @@ development flow relies on the decoupling of the creation and the publication
 of changesets.  This is a distinguishing feature of distributed revision
 control systems versus centralized ones.</p>
 <h3 id="contributing-changesets">Contributing changesets</h3>
-<p>When you are ready with your changes, use mercurial and <a href="http://www.bitbucket.org" title="Bitbucket">Bitbucket</a> to publish
+<p>When you are ready with your changes, use mercurial and <a href="http://www.bitbucket.com" title="Bitbucket">Bitbucket</a> to publish
 them. The advantage of using mercurial instead of traditional patch files is
 that it minimizes the overhead to review and apply, and, more importantly, it
 keeps the authoring information intact. Bitbucket has a great web interface to
@@ -266,13 +280,15 @@ review and merge the changesets.</p>
 <p>Contributing changesets is done by creating <em>pull requests</em>. This
 process is documented
 <a href="https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request">here</a>.</p>
-<p>I will review the pull request, and decide to merge them in or not.</p>
+<p>Other developers will review the pull request, and the <abbr title="Benevolent Dictator For Life">BDFL</abbr> will decide to
+merge it in or not.</p>
         </div>
     </div>
 
     <div class="footer">
         <p class="text-center"> Content licensed under the
            <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>.
         </p> 
     </div>
 </div> 

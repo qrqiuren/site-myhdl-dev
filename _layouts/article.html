@@ -1,9 +1,10 @@
 {% extends "page.html" %}
 
 {% block title %} 
-<h1>{{this.title}}<br>
-    <small class="nobr">{{this.author}}</small>
-    <small class="nobr">{{this.date|dateformat}}</small>
+<h1>{{this.title}}
+    {% if this.date|d %}
+    &nbsp;&nbsp;<small class="nobr">{{this.date|dateformat}}</small>
+    {% endif %}
 </h1>
 {% endblock %}
 

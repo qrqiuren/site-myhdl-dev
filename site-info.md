@@ -1,9 +1,10 @@
 ---
-title: <strong>SITE MIGRATION GUIDE</strong>
-layout: simple_page 
-author: Jan Decaluwe
-date: 2014-01-13
+title: Site info 
+layout: page 
 ---
+
+<strong>MIGRATION GUIDE</strong>
+================================
 
 This site is work in progress. It is being migrated from the [Developent Zone
 at myhdl.org][myhdl_dev].  This guide is intended for all those who want to
@@ -25,4 +26,48 @@ You can contribute through pull requests, or I will consider to give you direct
 access to the repository.
 
 Publishing the content is automatic after a push, but it may take up to ten
-minutes before the edits are online.
+minutes before the edits are online. The website content is pulled from
+the repo, so make sure to commit the built website also.
+
+Purpose
+=======
+
+The [dev.myhdl.org] website aims to document all aspects of the development
+process of the MyHDL project. MyHDL is a Python library to use
+Python as a HDL. The main projects website is [here][myhdl]. 
+
+*[HDL]: Hardware Description Language 
+
+Website development
+===================
+
+This website is developed collaboratively by the MyHDL development
+community. 
+
+It is developed with the [urubu] software, in a
+[mercurial repository][site-myhdl-dev-repo] on [bitbucket].
+
+Theme
+=====
+
+The theme of this website uses the [bootstrap] framework.  It is based on the
+[Flatly][flatly] theme, provided by [bootswatch].
+
+[flatly]:  http://bootswatch.com/flatly/
+
+License
+=======
+
+The content on this website is licensed
+under the [content_license].
+
+[terms-of-use]
+==============
+
+
+
+
+
+
+
+

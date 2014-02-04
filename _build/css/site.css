@@ -1,7 +1,11 @@
 body {
     position: relative;
     padding-top: 50px;
-    padding-bottom: 20px
+    padding-bottom: 20px;
+}
+
+.navbar-brand {
+  line-height: 19px;
 }
 
 .page-header {
@@ -14,6 +18,11 @@ body {
 
 .preamble {
     margin-top: 30px;
+}
+
+.checklist {
+    padding: 0;
+    list-style: none;
 }
 
 /* footer */

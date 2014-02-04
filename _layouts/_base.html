@@ -31,11 +31,11 @@
           <a class="navbar-brand" href="/">{{site.brand}}</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+
+          <ul class="nav navbar-nav navbar-left">
             {% block home %} 
-	    <li><a href="/">Home</a></li>    
             {% endblock %}
-            {% for item in site.reflinks['/'].content %}
+            {% for item in site.reflinks['/'].content[:-1] %}
             {%   set context = '' %}
             {%   if item.components|d and this.components[0] == item.components[0] %}
             {%     set context = ' class="active"' %}
@@ -53,6 +53,27 @@
             {%   endif %}
             {% endfor %}
           </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% for item in site.reflinks['/'].content[-1:] %}
+            {%   set context = '' %}
+            {%   if item.components|d and this.components[0] == item.components[0] %}
+            {%     set context = ' class="active"' %}
+            {%   endif %}
+            {%   if item.content|d and item.navstyle == 'expand' %}
+            <li{{context}} class="dropdown">
+              <a href="{{item.url}}" class="dropdown-toggle" data-toggle="dropdown">{{item.title}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                {% for subitem in item.content %}
+                <li><a href="{{subitem.url}}">{{subitem.title}}</a></li>    
+                {% endfor %}
+              </ul>
+            {% else %}
+            <li{{context}}><a href="{{item.url}}">{{item.title}}</a></li>
+            {%   endif %}
+            {% endfor %}
+          </ul>
+
         </div><!--/.nav-collapse -->
       </div>
     </div>

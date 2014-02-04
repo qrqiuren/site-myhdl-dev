@@ -1,16 +1,23 @@
 ---
-title: Developer's guide
+title: Guide
 layout: article
 author: Jan Decaluwe
-date: 2013-12-24
 ---
 
-Introduction
-============
+Background info
+===============
 
-As MyHDL's original developer, I ([jandecaluwe]) would like to retain
-the final say about its design and development decisions. To make that
-explicit, I have written this text from a personal viewpoint.
+The [dev.myhdl.org] website aims to document all aspects of the development
+process of the MyHDL project. MyHDL is a Python library to use
+Python as a HDL. The main projects website is [here][myhdl]. 
+
+*[HDL]: Hardware Description Language 
+
+MyHDL's original developer, [jandecaluwe], is MyHDL's BDFL. He has the final
+say about its design and development decisions.  The development workflow takes
+that into account.
+
+*[BDFL]: Benevolent Dictator For Life
 
 The repository
 ==============
@@ -19,7 +26,7 @@ MyHDL code development is managed on [bitbucket] using
 [mercurial](http://www.selenic.com/mercurial).
 
 The public repository resides [here][myhdl-repo].  Bitbucket offers an
-excellent interface to through the repository and its history. 
+excellent interface to the repository and its history. 
 
 The repository can be used for several purposes, such as browsing through the
 development history, and tracking development. In addition, you can use it to
@@ -98,13 +105,14 @@ Introduction
 
 You can also make your own changesets and contribute them to the development. 
 
-The workflow is such that every contributed change is reviewed and applied or
-rejected by me. Therefore, your goal as a contributor should be to minimize my
-work :-) What is needed is the following:
+The workflow is such that every contributed change is reviewed by other
+developers and applied or rejected by the BDFL. Therefore, your goal as a
+contributor should be to minimize the work of other developers. What is needed
+is the following:
 
-* I need to understand why the change is needed, and why
+* an understanding why the change is needed, and why
   it will be useful to many people
-* I need some confidence that it won't break current
+* some confidence that it won't break current
   and foreseeable features 
 * the changes have to be tested  
 * you have to use [mercurial](http://www.selenic.com/mercurial)
@@ -125,16 +133,16 @@ community.  Start a discussion in the [mailing-list] or (if you are certain)
 add an entry in the
 [Bug Tracker](http://sourceforge.net/tracker/?group_id=91207&atid=596332).
 
-The result will be a fruitful discussion :-) that hopefully results in a
-decision about what should be done. The byproduct will be a specification for
-the work.
+The result will be a fruitful discussion that hopefully results in a decision
+about what should be done. The byproduct will be a specification for the work.
 
 Creating changesets
 -------------------
 
-To manage your patches, use mercurial. By doing so, I can simply use
-my normal development workflow to incorporate your work. Moreover, your name
-will be preserved as the author, so you get the credit you deserve.
+To manage your patches, use mercurial. By doing so, the other developers can
+simply use their normal development workflow to incorporate your work.
+Moreover, your name will be preserved as the author, so you get the credit you
+deserve.
 
 In mercurial terminology, a set of patches that belong together is called
 a *changeset*. Assuming you know how to work with mercurial, creating changesets
@@ -179,5 +187,6 @@ Contributing changesets is done by creating *pull requests*. This
 process is documented
 [here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request).
 
-I will review the pull request, and decide to merge them in or not.
+Other developers will review the pull request, and the BDFL will decide to
+merge it in or not.
 
