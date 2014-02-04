@@ -79,6 +79,8 @@
                     <a href="#"><em>Fixed-point type</em></a>
                     <div class="toc">
 <ul>
+<li><a href="#introduction-motivation">Introduction (Motivation)</a></li>
+<li><a href="#specification">Specification</a><ul>
 <li><a href="#what-is-fixed-point">What is fixed-point</a><ul>
 <li><a href="#resolution">Resolution</a></li>
 <li><a href="#range">Range</a></li>
@@ -86,6 +88,11 @@
 </li>
 <li><a href="#fixbv-class">fixbv class</a></li>
 <li><a href="#fixbv-operations">fixbv operations</a></li>
+</ul>
+</li>
+<li><a href="#conversion">Conversion</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#closing-remarks">Closing Remarks</a></li>
 </ul>
 </div>
 
@@ -129,8 +136,7 @@ window.__gcfg = {
  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">
 </script>
 
-<p>Introduction (Motivation)</p>
-<hr />
+<h2 id="introduction-motivation">Introduction (Motivation)</h2>
 <p>Constraint <sup id="fnref:1"><a class="footnote-ref" href="#fn:1" rel="footnote">1</a></sup> integer numbers, such as <em>intbv</em>, are the foundation
 for hardware development.  But in some cases real numbers, 
 numbers with fraction, are more appropriate.  This is certainly 
@@ -140,11 +146,10 @@ signed rational real numbers.</p>
 <p>The fixed-point type provides a mechanism to represent a constraint 
 real number with the same hardware realization required by the 
 integers - which is not the case for floating-point types.</p>
-<p>Specification</p>
-<hr />
+<h2 id="specification">Specification</h2>
 <p>A review of the fixed-point representation is required before 
 presenting the <em>fixbv</em> specification.</p>
-<h2 id="what-is-fixed-point">What is fixed-point</h2>
+<h3 id="what-is-fixed-point">What is fixed-point</h3>
 <p>Most people are familiar with fixed-point and floating-point 
 representation but by slightly different names and a different
 base.  When dealing with real numbers we commonly write real
@@ -158,12 +163,12 @@ numbers either in fixed-point or scientific notation
 bits to the left of the "point" are the integer values, the 
 positive powers of two:</p>
 <p>$$ 
-    \sum{N-1}{j=0}{c_j 2**j} 
+    \sum^{N-1}_{j=0}{c_j 2^j} 
 $$</p>
 <p>and to the right of the point are negative powers of two,
 the fraction:</p>
 <p>$$ 
-    \sum{N-1}{j=0}{f_j 2**-j} 
+    \sum^{N-1}_{j=0}{f_j 2^{-j}} 
 $$</p>
 <p>The "point" is a logical assignment, there is nothing that 
 locks the point to a position.  The point logically defines
@@ -202,15 +207,15 @@ of two:</p>
 </pre></div>
 
 
-<h3 id="resolution">Resolution</h3>
+<h4 id="resolution">Resolution</h4>
 <p>The resolution is the smallest quantity representable.  The resolution
 is defined by the number of fractional bits, $ 2^{-fwl} $.  It indicates
 what the minium increment quantity is.  </p>
-<h3 id="range">Range</h3>
+<h4 id="range">Range</h4>
 <p>The range of the <em>fixbv</em> is the maximum and minimum values.  The maximum
 values is actually max-res.  The max is $2^{iwl}-res$ and the min is 
 $-2^{iwl}$.</p>
-<h2 id="fixbv-class">fixbv class</h2>
+<h3 id="fixbv-class">fixbv class</h3>
 <p>Creating a <em>fixbv</em> object should be straightforward and an extension
 to the natural usage of real numbers.  Because the <em>fixbv</em> represents
 a constraint range and resolution, these need to be defined when 
@@ -262,7 +267,7 @@ integer word-length (iwl), and fractional word-length
 <p>$$
     wl = iwl + fwl + 1
 $$</p>
-<h2 id="fixbv-operations">fixbv operations</h2>
+<h3 id="fixbv-operations">fixbv operations</h3>
 <p>First, lets review fixed-point mathematics, given two fixed-point 
 variables, <em>x</em> and <em>y</em>:</p>
 <div class="codehilite"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span>   <span class="c"># siii.ffff</span>
@@ -354,8 +359,7 @@ resized does not fit, it needs to be saturated or wrapped.</p>
 <p>This enhancement proposal does not include the definition of
 a <em>resize</em> function.  A separate MEP will be created for the
 <em>resize</em> function and implementation.</p>
-<p>Conversion</p>
-<hr />
+<h2 id="conversion">Conversion</h2>
 <p>The beauty of the <em>fixbv</em> is it has a base class of an
 <em>intbv</em>.  This makes sense because the fixed-point is an 
 integer representation at the hardware.  Nothing is required
@@ -384,8 +388,7 @@ int() and ord() are not convertible, this is consistent with
 the current implementation (other than the current 
 implementation would have no need to use int(intbv()).
 There is a reasonable use extra</p>
-<p>Limitations</p>
-<hr />
+<h2 id="limitations">Limitations</h2>
 <ul>
 <li>
 <p>int(fixbv) and float(fixbv) are not convertible.  They can
@@ -404,8 +407,7 @@ There is a reasonable use extra</p>
      integer, divide by power of two's </p>
 </li>
 </ul>
-<p>Closing Remarks</p>
-<hr />
+<h2 id="closing-remarks">Closing Remarks</h2>
 <p>The <em>fixbv</em> type provides a clean an straightforward type to
 represent constrained real numbers (fixed-point numbers).  The 
 <em>fixbv</em> provides the basic number representation.  The addition
