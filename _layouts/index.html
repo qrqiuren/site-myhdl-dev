@@ -17,15 +17,16 @@
 
     <div class="row">
 
-        <div class="col-md-7" role="main">
-            {% block index_list %}
+        {% block index_list %}
+        <div class="col-md-6" role="main">
             {% for item in this.content %}
                 <h4><a href="{{item.url}}">{{item.title}}</a>&nbsp;&nbsp;
                     <small>{{item.date|dateformat}}</small></h4>
                 <p>{{item.abstract}}</p>
             {% endfor %}
-            {% endblock %}
         </div>
+        {% endblock %}
+
     </div>
 </div>
 

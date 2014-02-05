@@ -2,9 +2,10 @@
 
 {% block index_list %}
 
+<div class="col-md-6" role="main">
+
 {% for kind, msg in (('Info', 'Informational MEPs'), 
                      ('Final', 'Implemented MEPs'),
-                     ('Open', 'MEPs under consideration')
                     ) %}
 <h4>{{msg}}</h4>
 <table class="table table-condensed">
@@ -17,5 +18,25 @@
 </tbody>
 </table>
 {% endfor %}
+
+</div>
+
+<div class="col-md-6" role="main">
+
+{% for kind, msg in ( ('Open', 'MEPs under consideration'),
+                    ) %}
+<h4>{{msg}}</h4>
+<table class="table table-condensed">
+<tbody>
+{% for item in this.content %}
+    {% if item|mepkind == kind %}
+    <tr><td width="60px">{{item.mep}}</td><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+{% endfor %}
+
+</div>
 
 {% endblock %} 
