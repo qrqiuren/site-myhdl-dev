@@ -120,7 +120,7 @@ window.__gcfg = {
   })();
 </script>
 
-<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 04-Feb-2014 by Christopher Felton</em></p>
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 03-Feb-2014 by Christopher Felton</em></p>
 <table class="table table-condensed preamble">
 <tbody>
     <tr><td><strong>MEP</strong></td><td>111</td></tr>
@@ -295,13 +295,12 @@ will be thrown, example:</p>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 <span class="ne">AssertionError</span><span class="p">:</span> <span class="n">Add</span><span class="p">:</span> <span class="n">points</span> <span class="ow">not</span> <span class="n">aligned</span> 
        <span class="n">fixbv</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">)</span> <span class="ow">and</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">0.00</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span> <span class="p">)</span>
-<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
+</pre></div>
 
-<span class="n">It</span> <span class="ow">is</span> <span class="n">assumed</span> <span class="n">the</span> <span class="o">*</span><span class="n">fixbv</span><span class="o">*</span> <span class="n">operations</span> <span class="n">will</span> <span class="k">return</span> <span class="n">an</span>
-<span class="o">*</span><span class="n">fixbv</span><span class="o">*.</span>
 
-<span class="sb">``</span><span class="err">`</span><span class="n">python</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
+<p>It is assumed the <em>fixbv</em> operations will return an
+<em>fixbv</em>.</p>
+<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">fixbv</span><span class="p">(</span><span class="mf">1.25</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">16.</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">x2</span>
 <span class="n">fixbv</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
