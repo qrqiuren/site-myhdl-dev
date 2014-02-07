@@ -4,7 +4,7 @@
 
 <div class="col-md-5" role="main">
 
-{% for kind, msg in (('Completed', 'Completed tasks'), 
+{% for kind, msg in ( ('Open', 'Open tasks'),
                     ) %}
 <h4>{{msg}}</h4>
 <table class="table table-condensed">
@@ -22,7 +22,7 @@
 
 <div class="col-md-5" role="main">
 
-{% for kind, msg in ( ('Open', 'Open tasks'),
+{% for kind, msg in (('Completed', 'Completed tasks'), 
                     ) %}
 <h4>{{msg}}</h4>
 <table class="table table-condensed">
