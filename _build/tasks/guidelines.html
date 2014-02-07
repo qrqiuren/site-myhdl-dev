@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Current</title>
+    <title>Task Guidelines</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -35,13 +35,13 @@
           <ul class="nav navbar-nav navbar-left">
  
             <li><a href="/guide.html">Guide</a></li>
-            <li class="active" class="dropdown">
+            <li class="dropdown">
               <a href="/current/" class="dropdown-toggle" data-toggle="dropdown">Current <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
               </ul>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
+            <li class="active"><a href="/tasks/">Tasks</a></li>
             <li><a href="/ideas/">Ideas</a></li>
             <li><a href="/archive/">Archive</a></li>
           </ul>
@@ -55,30 +55,47 @@
     </div>
 
 
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h1>Current</h1>
-                <p></p>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/tasks/">Tasks</a></li>
+       <li class="active">Task Guidelines</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>Task Guidelines
+</h1>
+    </div>
 
     <div class="row">
 
-        <div class="col-md-6" role="main">
-                <h4><a href="/current/myhdl-0.9.html">MyHDL 0.9</a>&nbsp;&nbsp;
-                    <small></small></h4>
-                <p></p>
-        </div>
 
+        <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+             
+
+            <p>We are looking for help that permits to accomplish much more in less time.
+Please choose a task in accordance with your skills. Easier tasks are no less
+valuable than harder ones.</p>
+<p>Tasks contain unresolved issues, some of which will require hard thinking and
+hard work. Use the mailing list or newsgroup to communicate about your
+difficulties and ideas to get feedback and help from the community.</p>
+<p>When developing code, make sure you understand the development policy described
+in the Developer's <a href="/guide.html" title="Guide">Guide</a>.  Take into account that the most difficult part of
+a task may be writing the unit test, not necessarily the feature
+implementation.  It is unlikely that changesets without unit tests will be
+accepted.</p>
+        </div>
     </div>
-</div>
+
+    <div class="footer">
+        <p class="text-center"> Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>.
+        </p> 
+    </div>
+</div> 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

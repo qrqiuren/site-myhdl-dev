@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Current</title>
+    <title>Tasks</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -35,13 +35,13 @@
           <ul class="nav navbar-nav navbar-left">
  
             <li><a href="/guide.html">Guide</a></li>
-            <li class="active" class="dropdown">
+            <li class="dropdown">
               <a href="/current/" class="dropdown-toggle" data-toggle="dropdown">Current <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
               </ul>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
+            <li class="active"><a href="/tasks/">Tasks</a></li>
             <li><a href="/ideas/">Ideas</a></li>
             <li><a href="/archive/">Archive</a></li>
           </ul>
@@ -59,9 +59,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                <h1>Current</h1>
+                <h1>Tasks</h1>
                 <p></p>
-                
+                <p>Task descriptions to consider if you would like to help with development.  Be
+sure to read the <a href="/tasks/guidelines.html" title="Task Guidelines">Task Guidelines</a>.</p>
             </div>
         </div>
     </div>
@@ -71,11 +72,33 @@
 
     <div class="row">
 
-        <div class="col-md-6" role="main">
-                <h4><a href="/current/myhdl-0.9.html">MyHDL 0.9</a>&nbsp;&nbsp;
-                    <small></small></h4>
-                <p></p>
-        </div>
+
+<div class="col-md-5" role="main">
+
+<h4>Completed tasks</h4>
+<table class="table table-condensed">
+<tbody>
+    <tr><td><a href="/tasks/task-1.html">Easier way to use intbv or Signal as an array index</a></td></tr>
+    <tr><td><a href="/tasks/task-3.html">Support for tristates</a></td></tr>
+    <tr><td><a href="/tasks/task-5.html">Support for conditional expressions</a></td></tr>
+    <tr><td><a href="/tasks/task-6.html">RPM package for Fedora</a></td></tr>
+</tbody>
+</table>
+
+</div>
+
+<div class="col-md-5" role="main">
+
+<h4>Open tasks</h4>
+<table class="table table-condensed">
+<tbody>
+    <tr><td><a href="/tasks/task-2.html">Initial values support</a></td></tr>
+    <tr><td><a href="/tasks/task-4.html">More general support of indexed constants</a></td></tr>
+</tbody>
+</table>
+
+</div>
+
 
     </div>
 </div>

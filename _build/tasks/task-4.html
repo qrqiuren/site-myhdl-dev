@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MyHDL 0.8</title>
+    <title>More general support of indexed constants</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -41,9 +41,9 @@
                 <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
               </ul>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
+            <li class="active"><a href="/tasks/">Tasks</a></li>
             <li><a href="/ideas/">Ideas</a></li>
-            <li class="active"><a href="/archive/">Archive</a></li>
+            <li><a href="/archive/">Archive</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -59,37 +59,18 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/archive/">Archive</a></li>
-       <li class="active">MyHDL 0.8</li>
+       <li><a href="/tasks/">Tasks</a></li>
+       <li class="active">More general support of indexed constants</li>
     </ol>
 
     <div class="page-header">
  
-<h1>MyHDL 0.8
-    &nbsp;&nbsp;<small class="nobr">04-Jul-2012</small>
+<h1>More general support of indexed constants
 </h1>
     </div>
 
     <div class="row">
 
-        <div class="col-md-3" role="navigation"> 
- 
-            <div class="sidebar" data-spy="affix" 
-                 data-offset-top="80" 
-                 data-offset-bottom="60">
-                <div class="well">
-                    <a href="#"><em>MyHDL 0.8</em></a>
-                    <div class="toc">
-<ul>
-<li><a href="#status">Status</a></li>
-<li><a href="#major-new-features">Major new features</a></li>
-<li><a href="#minor-new-features">Minor new features</a></li>
-</ul>
-</div>
-
-                </div>
-            </div>
-        </div>
 
         <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
              
@@ -111,20 +92,29 @@ window.__gcfg = {
   })();
 </script>
 
-<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>            <p><em>Last edit on 03-Feb-2014 by Jan Decaluwe</em></p>
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script><table class="table table-condensed preamble">
+<tbody>
+    <tr><td><strong>Status</strong></td><td>Open</td></tr>
+    <tr><td><strong>Tags</strong></td><td>conversion</td></tr>
+</tbody>
+</table>
 
-            <h2 id="status">Status</h2>
-<p>MyHDL 0.8 has been released.</p>
-<h2 id="major-new-features">Major new features</h2>
-<ul>
-<li>modular bit vector types</li>
-<li><code>always_seq</code> decorator that infers the reset functionality automatically</li>
-</ul>
-<h2 id="minor-new-features">Minor new features</h2>
-<ul>
-<li><code>timescale</code> directive for <code>traceSignals</code>, to set timescale in VCD file</li>
-<li><code>toVHDL.library</code> setting</li>
-</ul>
+
+            <p>Currently, indexing into a tuple of constants is supported by conversion in a
+limited way. The code has to written so that the indexing operations can be
+expanded in-place into a case statement. This is mapped to ROMs by some
+synthesis tools, such as Xilinx synthesis.</p>
+<p>It would be nicer to be able to use indexing into a tuple of constants in a
+general way. This could be done by mapping the tuple access to a function in
+Verilog and VHDL, with the index as the parameter. The function call could then
+be used and converted without restrictions. </p>
+<p>The question is what synthesis tools do with this. For example, suppose you
+call the function multiple times with different indices in the same expression.
+Some restrictions would be acceptable, as long as the basic ROM mapping feature
+still works.</p>
+<p>It may be best to include tuples of constants in the hierarchical extraction
+process to give them an unique name, like is done for signals and lists of
+signals.</p>
         </div>
     </div>
 

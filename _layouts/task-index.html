@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block index_list %}
+
+<div class="col-md-5" role="main">
+
+{% for kind, msg in (('Completed', 'Completed tasks'), 
+                    ) %}
+<h4>{{msg}}</h4>
+<table class="table table-condensed">
+<tbody>
+{% for item in this.content %}
+    {% if item|taskkind == kind %}
+    <tr><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+{% endfor %}
+
+</div>
+
+<div class="col-md-5" role="main">
+
+{% for kind, msg in ( ('Open', 'Open tasks'),
+                    ) %}
+<h4>{{msg}}</h4>
+<table class="table table-condensed">
+<tbody>
+{% for item in this.content %}
+    {% if item|taskkind == kind %}
+    <tr><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+{% endfor %}
+
+</div>
+
+{% endblock %} 

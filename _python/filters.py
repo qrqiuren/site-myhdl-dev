@@ -13,7 +13,16 @@ def mepkind(item):
     else: 
         return 'Open' 
 
+def taskkind(item):
+    if item['task'] == 0:
+        return 'Info'
+    elif 'status' in item and item['status'][:9] == 'Completed': 
+        return 'Completed' 
+    else: 
+        return 'Open' 
+
 filters = {}
 filters['dateformat'] = dateformat
 filters['mepkind'] = mepkind
+filters['taskkind'] = taskkind
 
