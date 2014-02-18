@@ -39,24 +39,15 @@
 
         <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
              
-            {% block sharing %}
-            {% endblock %}
-            {% if this.lastedit|d %}
-            <p><em>{{this.lastedit}}</em></p>
-            {% endif %}
             {% block preamble %}
             {% endblock %}
 
             {{this.body}}
+
         </div>
     </div>
 
-    <div class="footer">
-        <p class="text-center"> Content licensed under the
-           <a href="{{site.reflinks.license.url}}">{{site.reflinks.license.title}}</a> license.
-           See <a href="{{site.reflinks['/terms-of-use'].url}}">Terms of Use</a>.
-        </p> 
-    </div>
+    {% include 'footer.html' %}
 </div> 
 
 {% endblock %}
