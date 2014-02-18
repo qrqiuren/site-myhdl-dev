@@ -5751,6 +5751,20 @@ table .info a,
 .table .info a {
   color: #fff;
 }
+table > thead > tr > th,
+.table > thead > tr > th,
+table > tbody > tr > th,
+.table > tbody > tr > th,
+table > tfoot > tr > th,
+.table > tfoot > tr > th,
+table > thead > tr > td,
+.table > thead > tr > td,
+table > tbody > tr > td,
+.table > tbody > tr > td,
+table > tfoot > tr > td,
+.table > tfoot > tr > td {
+  border: none;
+}
 table-bordered > thead > tr > th,
 .table-bordered > thead > tr > th,
 table-bordered > tbody > tr > th,
