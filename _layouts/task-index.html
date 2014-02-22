@@ -7,11 +7,9 @@
 {% for kind, msg in ( ('Open', 'Open tasks'),
                     ) %}
 <h4>{{msg}}</h4>
-<table class="table table-condensed">
-<tbody>
 {% for item in this.content %}
     {% if item|taskkind == kind %}
-    <tr><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
+    <p><a href="{{item.url}}">{{item.title}}</a></p>
     {% endif %}
 {% endfor %}
 </tbody>
@@ -29,7 +27,7 @@
 <tbody>
 {% for item in this.content %}
     {% if item|taskkind == kind %}
-    <tr><td><a href="{{item.url}}">{{item.title}}</a></td></tr>
+    <p><a href="{{item.url}}">{{item.title}}</a></p>
     {% endif %}
 {% endfor %}
 </tbody>
