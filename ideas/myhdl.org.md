@@ -128,16 +128,16 @@ but it wouldn't make a lot of sense to use it for new projects. Also,
 subversion is definely not the most interesting or innovative solution. It just
 happens to have the right mix of features to get the momentum behind it.
 
-> I'd like to qualify the above paragraph. It has become clear that there are
-> really 2 types of revision control tools: centralized versus distributed. I
-> maintain that subversion is a winning solution among the centralized systems.
-> However, I have now become convinced that the distributed type is the wave of
-> the future. This is mainly because of a very positive experience with the
-> real-time usage of git. For MyHDL, I am in the process of converting to
-> mercurial, because it's a Python-based system and some very large projects
-> have converted to it. Also, it's the only other system tolerated by git's
-> creator (Linus) :-)  --- *[Jan Decaluwe](jan@jandecaluwe.com) 2008/05/29
-> 18:54*
+I'd like to qualify the above paragraph. It has become clear that there are
+really 2 types of revision control tools: centralized versus distributed. I
+maintain that subversion is a winning solution among the centralized systems.
+However, I have now become convinced that the distributed type is the wave of
+the future. This is mainly because of a very positive experience with the
+real-time usage of git. For MyHDL, I am in the process of converting to
+mercurial, because it's a Python-based system and some very large projects have
+converted to it. Also, it's the only other system tolerated by git's creator
+(Linus) :-)  -- *[Jan Decaluwe][jandecaluwe-mail] 2008/05/29*
+{: .comment}
 
 It's a question of risk management. Of course we want to contribute to
 open-source solutions, but our main focus to work and innovate on is MyHDL.

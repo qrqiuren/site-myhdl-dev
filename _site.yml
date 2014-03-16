@@ -1,13 +1,13 @@
 brand: MyHDL / dev
 
 reflinks:
-    MyHDL: 
+    myhdl: 
         url: http://www.myhdl.org 
         title: MyHDL site
-    Google: 
+    google: 
         url: http://www.google.com
         title: Google
-    jandecaluwe:
+    jandecaluwe-mail:
         url: mailto:jan@jandecaluwe.com
         title: Jan Decaluwe
     bitbucket:
@@ -37,6 +37,9 @@ reflinks:
     dev.myhdl.org:
         url: http://dev.myhdl.org 
         title: dev.myhdl.org 
+    old.myhdl.org:
+        url: http://old.myhdl.org 
+        title: old.myhdl.org 
     content_license:
         url: http://creativecommons.org/licenses/by-sa/3.0/
         title: CC-BY-SA License

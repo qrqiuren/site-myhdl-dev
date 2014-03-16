@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Task Guidelines</title>
+    <title>Site development guide</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -51,7 +51,7 @@
                 <li><a href="/current/myhdl-0.9.html">MyHDL 0.9</a></li>    
               </ul>
             <li><a href="/meps/">MEPs</a></li>
-            <li class="active"><a href="/tasks/">Tasks</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
             <li><a href="/ideas/">Ideas</a></li>
             <li><a href="/archive/">Archive</a></li>
           </ul>
@@ -69,13 +69,12 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/tasks/">Tasks</a></li>
-       <li class="active">Task Guidelines</li>
+       <li class="active">Site development guide</li>
     </ol>
 
     <div class="page-header">
  
-<h1>Task Guidelines
+<h1>Site development guide
 </h1>
     </div>
 
@@ -84,17 +83,24 @@
 
         <div class="content">
             <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>We are looking for help that permits to accomplish much more in less time.
-Please choose a task in accordance with your skills. Easier tasks are no less
-valuable than harder ones.</p>
-<p>Tasks contain unresolved issues, some of which will require hard thinking and
-hard work. Use the mailing list or newsgroup to communicate about your
-difficulties and ideas to get feedback and help from the community.</p>
-<p>When developing code, make sure you understand the development policy described
-in the Developer's <a href="/guide.html" title="Guide">Guide</a>.  Take into account that the most difficult part of
-a task may be writing the unit test, not necessarily the feature
-implementation.  It is unlikely that changesets without unit tests will be
-accepted.</p>
+                <p>This guide is intended for all those who want to help with the development of
+this site.</p>
+<p>The site is developed using <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a>. Please consult the <a href="http://urubu.jandecaluwe.com" title="Urubu">Urubu</a> website to
+install the software and get an overview of how it works. As a content
+contributor, you don't need all the details about templating and so on: the
+main task will be editing content in Markdown format.</p>
+<p>The site is being developed on BitBucket in the <a href="https://bitbucket.org/jandecaluwe/site-myhdl-dev" title="MyHDL development website repository">MyHDL development website repository</a>.  You can
+contribute through pull requests, or I will consider to give you direct access
+to the repository.</p>
+<p>Publishing the content is automatic after a push, but it may take up to ten
+minutes before the edits are online. The website content is pulled from the
+repo, so make sure to commit the built website also.</p>
+<p>This site has been migrated from on old site. Not all content has been
+migrated, but that can still be done if desired.</p>
+<p>You can visit the old version of the site under <a href="http://old.myhdl.org" title="old.myhdl.org">old.myhdl.org</a>.    The orginal
+content has been checked in under <code>_ori</code>. There is a <code>convert.py</code> script that
+can help to convert the original dokuwiki format to Markdown. It is far from
+comprehensive, but should provide a good starting point.</p>
             </div>
         </div>
     </div>
@@ -120,7 +126,6 @@ window.__gcfg = {
 </script>
 
 <script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
-        <p>Last edit on 07-Feb-2014 by Jan Decaluwe</p>
         <p>Content licensed under the
            <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
            See <a href="/terms-of-use.html">Terms of Use</a>.

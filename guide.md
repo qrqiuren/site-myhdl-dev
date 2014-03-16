@@ -13,9 +13,9 @@ Python as a HDL. The main projects website is [here][myhdl].
 
 *[HDL]: Hardware Description Language 
 
-MyHDL's original developer, [jandecaluwe], is MyHDL's BDFL. He has the final
-say about its design and development decisions.  The development workflow takes
-that into account.
+MyHDL's original developer, [jandecaluwe-mail], is MyHDL's BDFL. He has the
+final say about its design and development decisions.  The development workflow
+takes that into account.
 
 *[BDFL]: Benevolent Dictator For Life
 

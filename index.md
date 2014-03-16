@@ -8,5 +8,5 @@ content:
     - tasks
     - ideas
     - archive
-    - site-info 
+    - info 
 ---

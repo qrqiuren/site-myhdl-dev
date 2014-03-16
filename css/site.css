@@ -43,6 +43,11 @@ table a,
   list-style: none;
 }
 
+.comment {
+  padding-left: 2.5em;
+  font-style: italic;
+}
+
 /* footer */
 
 .footer {
