@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Initial values support</title>
+    <title>Modifications to GHDL VPI Examples</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -70,124 +70,52 @@
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
        <li><a href="/ideas/">Ideas</a></li>
-       <li class="active">Initial values support</li>
+       <li><a href="/ideas/vhdl-cosim/">VHDL Cosimulation with GHDL</a></li>
+       <li class="active">Modifications to GHDL VPI Examples</li>
     </ol>
 
     <div class="page-header">
  
-<h1>Initial values support
+<h1>Modifications to GHDL VPI Examples
 </h1>
     </div>
 
     <div class="row">
 
-        <div class="col-md-3" role="navigation"> 
- 
-            <div class="sidebar" data-spy="affix" 
-                 data-offset-top="80" 
-                 data-offset-bottom="60">
-                <div class="well">
-                    <a href="#"><em>Initial values support</em></a>
-                    <div class="toc">
-<ul>
-<li><a href="#enabling-initial-value-support">Enabling Initial Value Support</a></li>
-<li><a href="#function-attributes-to-disable-initial-values">Function Attributes to Disable Initial Values</a></li>
-<li><a href="#toverilog-initial-values">toVerilog Initial Values</a></li>
-<li><a href="#initial-values-for-memories">Initial Values for Memories</a></li>
-<li><a href="#some-results">Some Results</a><ul>
-<li><a href="#altera-quartus-111sp2-verilog">Altera Quartus (11.1sp2) Verilog</a></li>
-<li><a href="#altera-quartus-111sp2-vhdl">Altera Quartus (11.1sp2) VHDL</a></li>
-<li><a href="#xilinx-ise-134-verilog">Xilinx ISE (13.4) Verilog</a></li>
-<li><a href="#xilinx-ise-134-vhdl">Xilinx ISE (13.4) VHDL</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-                </div>
-            </div>
-        </div>
 
         <div class="content">
           <div class="col-md-9" data-spy="scroll" data-target="#sidenav" role="main">
-                <p>This page was created to keep track of the status of the initial value support.<br />
-The original open task description is available <a href="/tasks/initial-values-support.html" title="Initial values support">here</a>.</p>
-<p>Below is a summary from the mailing-list.</p>
-<h3 id="enabling-initial-value-support">Enabling Initial Value Support</h3>
-<p>Initial value support can be re-enabled.  The Verilog
-upport of initial values was verified with the latest
-version of Quartus.</p>
-<p>Need to test with (list syn and sim tools)?</p>
-<ul class="checklist">
-<li><input type="checkbox" disabled checked> Quartus latest</li>
-<li><input type="checkbox" disabled> ISE (xst) latest</li>
-<li><input type="checkbox" disabled> cver</li>
-<li><input type="checkbox" disabled> icarus</li>
-</ul>
-<p>See below for some preliminary results.</p>
-<h3 id="function-attributes-to-disable-initial-values">Function Attributes to Disable Initial Values</h3>
-<p>None will <em>not</em> be added to intbv.  An argument will
-be added to the toVerilog and toVHDL to disable
-"plain" Signal init and "memory" (array) init.
-Something like the following.</p>
-<div class="codehilite"><pre>toVerilog(... disable_init=False, disable_mem_init=False)
-toVHDL( &quot;&quot; &quot;&quot; )
+                <p>This was a quick experiment to take the cver VPI implementation, compile it
+and load it in GHDL.  The experiment was successful but was a very limited experiment.
+Although the VPI was loaded successfully nothing from the VPI interface was accessed.<br />
+Need to do some more experiments to test feasibility of the VPI interface.</p>
+<p>All source available <a href="/ideas/vhdl-cosim/vpi-ex.tar.gz">here</a>.</p>
+<div class="codehilite"><pre>CC=gcc
+CFLAGS=-Wall -g -I.
+
+all: run-vpi
+
+myhdl_vpi.o: myhdl_vpi.c
+    $(CC) -c -fPIC $(CFLAGS) myhdl_vpi.c
+
+myhdl.vpi: myhdl_vpi.o
+    $(CC) --shared -o myhdl.vpi myhdl_vpi.o
+
+disptree: 
+    ghdl -a disptree.vhdl
+    ghdl -e -Wl,-Wl,-E disptree
+
+run-vpi: myhdl.vpi disptree
+    ./disptree --vpi=./myhdl.vpi
+
+
+clean:
+    rm -f myhdl_vpi.vpi
+    rm -f *.o
+
+tar:
+    tar cvf vpi-ex-ghdl.tar myhdl_vpi.c Makefile vpi_user.h
 </pre></div>
-
-
-<p>Arguments can always be used as ports, so configuration
-should go elsewhere. Currently function attributes are for
-such purposes:</p>
-<div class="codehilite"><pre>toVerilog.disable_init = False
-</pre></div>
-
-
-<h3 id="toverilog-initial-values">toVerilog Initial Values</h3>
-<p>toVerilog will only create initial values for Signals converted to register
-types.</p>
-<h3 id="initial-values-for-memories">Initial Values for Memories</h3>
-<p>Initial values for memories (list of signals) will be
-generated.  If feasible the synthesizable versions 
-of the memory init values will be generated <a href="http://www.altera.com/literature/hb/qts/qts_qii51007.pdf">1</a>.</p>
-<h3 id="some-results">Some Results</h3>
-<h4 id="altera-quartus-111sp2-verilog">Altera Quartus (11.1sp2) Verilog</h4>
-<ol>
-<li>
-<p>Initial values.  The reg initial values don't
-     error during synthesis (added these manually).</p>
-</li>
-<li>
-<p>The initial block for RAM init values didn't
-     error during synthesis and generated initial
-     values for the RAM (generated a .mif file with
-     the correct init values).</p>
-</li>
-<li>
-<p>ROM <em>no</em> BRAM used for ROM tested at size
-     8x2048?</p>
-</li>
-</ol>
-<h4 id="altera-quartus-111sp2-vhdl">Altera Quartus (11.1sp2) VHDL</h4>
-<p>TBC</p>
-<h4 id="xilinx-ise-134-verilog">Xilinx ISE (13.4) Verilog</h4>
-<ol>
-<li>
-<p>Initial values.  The reg initial values don't
-     error during synthesis (added these manually).</p>
-</li>
-<li>
-<p>The initial block for RAM init values didn't
-     error during synthesis.  Not clear if the 
-     initial values would be loaded (file generated)</p>
-</li>
-<li>
-<p>TBD</p>
-</li>
-</ol>
-<h4 id="xilinx-ise-134-vhdl">Xilinx ISE (13.4) VHDL</h4>
-<p>TBC </p>
-<p>@todo : create a table for the above information.</p>
-<p>Some test code here: <a href="https://bitbucket.org/cfelton/examples/src/tip/ramrom">https://bitbucket.org/cfelton/examples/src/tip/ramrom</a></p>
             </div>
         </div>
     </div>
