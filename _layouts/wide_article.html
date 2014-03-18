@@ -1,0 +1,10 @@
+{% extends "article.html" %}
+
+        <div class="content">
+          <div class="col-md-9" data-spy="scroll" data-target="#sidenav" role="main">
+            {% block preamble %}
+            {% endblock %}
+            {{this.body}}
+          </div>
+        </div>
+

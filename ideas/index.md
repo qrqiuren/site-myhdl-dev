@@ -2,9 +2,9 @@
 title: Ideas 
 layout: index
 content:
+    - initial-values
     - myhdl.org 
 abstract:
-    The place to develop new 
-    ideas and proposals, and to
-    keep them alive.
+    The place to develop and
+    maintain new ideas and proposals. 
 ---
