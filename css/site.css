@@ -89,13 +89,16 @@ blockquote p {
 
 /* toc */
 
+.sidebar {
+  font-size: 90%;
+}
+
 .toc {
-    line-height: normal;
+  line-height: normal;
 }
 
 .toc ul  {
   padding-left: 0;
-  font-size: 90%;
   list-style: none;
 }
 
