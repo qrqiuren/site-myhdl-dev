@@ -91,6 +91,7 @@ blockquote p {
 
 .sidebar {
   font-size: 90%;
+  line-height: normal;
 }
 
 .toc {
