@@ -23,7 +23,7 @@ reflinks:
         url: https://bitbucket.org/jandecaluwe/site-myhdl-dev 
         title: MyHDL development website repository 
     mailing-list:
-        url: http://www.myhdl.org/doku.php/mailing_list
+        url: http://www.myhdl.org/support/community.html
         title: Mailing List  
     license:
         url: http://creativecommons.org/licenses/by-sa/3.0/
@@ -58,3 +58,6 @@ reflinks:
     bootswatch:
         url: http://bootswatch.com
         title: Bootswatch
+    bug-tracker:
+        url: https://bitbucket.org/jandecaluwe/myhdl/issues?status=new&status=open
+        title: Bug Tracker

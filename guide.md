@@ -130,8 +130,7 @@ Don't send patches out of the blue.
 
 Your first step is to communicate about the problem or feature with the MyHDL
 community.  Start a discussion in the [mailing-list] or (if you are certain)
-add an entry in the
-[Bug Tracker](http://sourceforge.net/tracker/?group_id=91207&atid=596332).
+add an entry in the [bug-tracker].
 
 The result will be a fruitful discussion that hopefully results in a decision
 about what should be done. The byproduct will be a specification for the work.
