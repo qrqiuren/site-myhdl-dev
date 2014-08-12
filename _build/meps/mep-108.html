@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Conversion of Top-Level Class Methods</title>
+    <title>Conversion of Top-Level Methods</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -76,7 +76,7 @@
 
     <div class="page-header">
  
-<h1>MEP 108: Conversion of Top-Level Class Methods&nbsp;&nbsp;
+<h1>MEP 108: Conversion of Top-Level Methods&nbsp;&nbsp;
 </h1>
     </div>
 
@@ -88,7 +88,7 @@
                  data-offset-top="80" 
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><strong>Conversion of Top-Level Class Methods</strong></a>
+                    <a href="#"><strong>Conversion of Top-Level Methods</strong></a>
                     <div class="toc">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
@@ -112,20 +112,20 @@
 <tbody>
     <tr><td><strong>MEP</strong></td><td>108</td></tr>
     <tr><td><strong>Author</strong></td><td>Christopher Felton</td></tr>
-    <tr><td><strong>Status</strong></td><td>Draft</td></tr>
+    <tr><td><strong>Status</strong></td><td>Final</td></tr>
     <tr><td><strong>Created</strong></td><td>10-Feb-2012</td></tr>
     <tr><td><strong>MyHDL-version</strong></td><td>0.8</td></tr>
 </tbody>
 </table>
 
                 <h2 id="introduction">Introduction</h2>
-<p>This MEP is intended to add support for top-level class methods in conversion.<br />
+<p>This MEP is intended to add support for top-level methods in conversion.<br />
 Using classes/objects to organize digital hardware can be a natural
 and useful development approach for complex highly modular IP.  </p>
-<p>In the latest release version, 0.7, top-level class methods are not convertible
-by the existing conversion code because the object reference (self) is treated
+<p>In the latest release version, 0.7, top-level methods are not convertible
+by the existing conversion code because the object reference (<code>self</code>) is treated
 as a port.  Modifications to the conversion code need to be added
-to ignore the object reference argument in class methods.</p>
+to ignore the object reference argument in methods.</p>
 <h2 id="example-existing-function-conversion">Example (existing function conversion)</h2>
 <p>The "ports" are the signals that connect different <abbr title="Hardware Description Language">HDL</abbr> functions.
 The converter code identifies the arguments of Signal type to an 
@@ -146,12 +146,12 @@ parameters before or inter-mixed with the ports.</p>
 
 
 <h2 id="proposed-enhancement">Proposed Enhancement</h2>
-<p>As mentioned the enhancement proposed is to add a top-level class method 
-conversion support.  This means that a class 
+<p>As mentioned the enhancement proposed is to add a top-level method 
+conversion support.  This means that a 
 method has the same capabilities of a current function.  The 
-class method needs a set of defined ports, internal signals, 
+method needs a set of defined ports, internal signals, 
 and generators.</p>
-<p>Using the brief examples above a top-level convertible class method might 
+<p>Using the brief examples above a top-level convertible method might 
 look like the following.</p>
 <div class="codehilite"><pre><span class="k">class</span> <span class="nc">Adder</span><span class="p">():</span>
    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -166,7 +166,7 @@ look like the following.</p>
 
 <p>The above example isn't a good example why a class would be used
 to create, what is often consider a piece of IP.  But it is 
-sufficient as an example for class method conversion.</p>
+sufficient as an example for method conversion.</p>
 <p>For the above example this is how </p>
 <div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">MyAddr</span> <span class="o">=</span> <span class="n">Adder</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">MyAddr</span><span class="o">.</span><span class="n">hdl</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
@@ -175,24 +175,27 @@ sufficient as an example for class method conversion.</p>
 
 
 <p>In the above example with the existing (0.7) conversion code the
-<code>self</code> argument in the "hdl" class method will be converted to a 
+<code>self</code> argument in the "hdl" method will be converted to a 
 port in the lower-level Verilog/VHDL.</p>
 <h2 id="implementation-comments">Implementation Comments</h2>
 <p>This enhancement proposal is intended to modify the conversion code to support
-top-level class methods, so that the object reference (the first argument in a
-class method) is not used.  </p>
+top-level methods, so that the object reference (the first argument in a
+method) is not used.  </p>
 <h3 id="top-function-visitor">Top Function Visitor</h3>
-<p>The use of the <code>self</code> argument, is only an issue for the top-level class method
+<p>The use of the <code>self</code> argument, is only an issue for the top-level method
 parsing.  This is because the parser flattens the design.  A top-level function
-/ class method is passed to the converter code, in the function</p>
-<p>_AnalyzeTopFuncVisitor.visit_FunctionDev(...)</p>
+/ method is passed to the converter code, in the function</p>
+<div class="codehilite"><pre><span class="n">_AnalyzeTopFuncVisitor</span><span class="o">.</span><span class="n">visit_FunctionDev</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+
+
 <p>This is where the modifications are made.  The modifications only add arguments
-to the port list if the argument is of type SignalType.  This avoids the issue
+to the port list if the argument is of type <code>SignalType</code>.  This avoids the issue
 of the object reference being used as port.  The modifications also make it
 possible for parameters (non-<code>SignalType</code> arguments) and ports
 (<code>SignalType</code> arguments) to be inter-mixed.</p>
 <h3 id="extract-hierarchy">Extract Hierarchy</h3>
-<p>Also, the extract hierarchy needs to be modified to identify the class methods
+<p>Also, the extract hierarchy needs to be modified to identify the methods
 that describe hardware and determine if the Verilog or VHDL function/method
 attributes are present.  The current implementation checks for the an argument
 named <code>self</code>.  Although this is common practice, it is not enforced by the
