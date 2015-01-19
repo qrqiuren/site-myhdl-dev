@@ -129,7 +129,7 @@ version of Quartus.</p>
 <h3 id="function-attributes-to-disable-initial-values">Function Attributes to Disable Initial Values</h3>
 <p>None will <em>not</em> be added to intbv.  An argument will
 be added to the toVerilog and toVHDL to disable
-"plain" Signal init and "memory" (array) init.
+&ldquo;plain&rdquo; Signal init and &ldquo;memory&rdquo; (array) init.
 Something like the following.</p>
 <div class="codehilite"><pre>toVerilog(... disable_init=False, disable_mem_init=False)
 toVHDL( &quot;&quot; &quot;&quot; )
@@ -154,11 +154,11 @@ of the memory init values will be generated <a href="http://www.altera.com/liter
 <h4 id="altera-quartus-111sp2-verilog">Altera Quartus (11.1sp2) Verilog</h4>
 <ol>
 <li>
-<p>Initial values.  The reg initial values don't
+<p>Initial values.  The reg initial values don&rsquo;t
      error during synthesis (added these manually).</p>
 </li>
 <li>
-<p>The initial block for RAM init values didn't
+<p>The initial block for RAM init values didn&rsquo;t
      error during synthesis and generated initial
      values for the RAM (generated a .mif file with
      the correct init values).</p>
@@ -173,11 +173,11 @@ of the memory init values will be generated <a href="http://www.altera.com/liter
 <h4 id="xilinx-ise-134-verilog">Xilinx ISE (13.4) Verilog</h4>
 <ol>
 <li>
-<p>Initial values.  The reg initial values don't
+<p>Initial values.  The reg initial values don&rsquo;t
      error during synthesis (added these manually).</p>
 </li>
 <li>
-<p>The initial block for RAM init values didn't
+<p>The initial block for RAM init values didn&rsquo;t
      error during synthesis.  Not clear if the 
      initial values would be loaded (file generated)</p>
 </li>

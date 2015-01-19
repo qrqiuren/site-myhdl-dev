@@ -5,7 +5,7 @@ layout:       task
 status:       Completed, 0.7
 complexity:   Medium to hard
 requirements: Access to synthesis
-tags:         conversion
+type:         conversion
 ---
 
 The MEP about [/meps/mep-103] describes a proposal for doing tristates in

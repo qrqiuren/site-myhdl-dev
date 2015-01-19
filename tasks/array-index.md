@@ -4,7 +4,7 @@ task:       1
 layout:     task
 status:     Completed, 0.7
 complexity: Easy
-tags:       modeling
+type:       modeling
 ---
 
 Currently, you can't directly use a Signal or an intbv to index an array. Such
