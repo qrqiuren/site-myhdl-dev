@@ -130,9 +130,9 @@ typically associated with the following features:</p>
 language.</li>
 <li>the fact that anybody can edit content without restrictions.</li>
 </ul>
-<p>However, the first feature is not a distinguishing feature of wiki's. For
+<p>However, the first feature is not a distinguishing feature of wiki&rsquo;s. For
 example, blogs have it too. In fact, any modern content management system
-provides it. What's more important is the power of the markup language. A great
+provides it. What&rsquo;s more important is the power of the markup language. A great
 number of alternatives is available.</p>
 <p>For our purposes, the second feature is undesirable. Leaving the site open
 without restrictions on the internet would not provide any benefit, but would
@@ -140,7 +140,7 @@ require constant monitoring and clean-up to keep it free from spam. Currently,
 we require registration so that as minimum we know that only persons with a
 valid e-mail address can make contributions. In the future, it may be necessary
 to restrict this even further. In short, without a reasonable access control
-mechanism, our present solution would be inadequate and we wouldn't have used
+mechanism, our present solution would be inadequate and we wouldn&rsquo;t have used
 it.</p>
 <p>The conclusion is that we are not really using the current tool as a wiki, but
 as a (light-weight) content management system (CMS). For a future site, we are
@@ -148,7 +148,7 @@ looking for a more powerful CMS.</p>
 <h2 id="technical-requirements-for-the-website">Technical Requirements for the website</h2>
 <h3 id="a-cms">A CMS</h3>
 <p>So we are looking for a CMS. This is an important point to stress.</p>
-<p>What we mean by this is the following: we don't want to develop the basic
+<p>What we mean by this is the following: we don&rsquo;t want to develop the basic
 services we need (such as writing documentation) ourselves. We want them to be
 readily available, out of the box. Our main goal is to develop MyHDL, not CMS
 solutions.</p>
@@ -158,11 +158,11 @@ Those are tools that can be used to develop a CMS. CMS examples are Plone
 <h3 id="easily-extendable">Easily extendable</h3>
 <p>We are looking for an open solution.</p>
 <p>Our ideal CMS solution follows the Python model. On the one hand, it should
-consist of a small, powerful core with an extensive "standard library" that
+consist of a small, powerful core with an extensive &ldquo;standard library&rdquo; that
 deliver the basic services we need out of the box. On the other hand, it should
 be possible to easily add new services, third-party or self-developed, using
 the same mechanisms as for the standard library.</p>
-<p>The current solution, or other wiki-specific software, doesn't follow this
+<p>The current solution, or other wiki-specific software, doesn&rsquo;t follow this
 model.</p>
 <h3 id="python-based">Python-based</h3>
 <p>For obvious reasons, we are looking for a Python-based solution.</p>
@@ -171,7 +171,7 @@ model.</p>
 that a CMS could potentially provide. However, the most important service that
 we require from our CMS is the ability to create great on-line documentation
 quickly.</p>
-<p>In this it should be as good as our current solution. Let's describe a number
+<p>In this it should be as good as our current solution. Let&rsquo;s describe a number
 of important features in detail.</p>
 <ul>
 <li>
@@ -199,27 +199,27 @@ a page separately.</p>
 </ul>
 <h3 id="a-open-source-winning-solution">A open-source, winning solution</h3>
 <p>Clearly we are looking for an open-source solution.</p>
-<p>But in addition, we want to have a "winning" solution. To illustrate what this
+<p>But in addition, we want to have a &ldquo;winning&rdquo; solution. To illustrate what this
 means, consider revision control tools as an example. For a long time, cvs was
 the clear market leader among the open-source solutions. Then suddenly, as a
 result of some of its deficiencies coupled to changing usage requirements, a
 lot of new tools and innovative ideas emerged, such as bitkeeper, arch,
 subversion, git, darcs, mercurial, and several others.  At this point, I
 believe there is a concensus that for the type of projects like MyHDL,
-subversion is the "winning" solution. Perhaps cvs is still more widely used -
-but it wouldn't make a lot of sense to use it for new projects. Also,
+subversion is the &ldquo;winning&rdquo; solution. Perhaps cvs is still more widely used -
+but it wouldn&rsquo;t make a lot of sense to use it for new projects. Also,
 subversion is definely not the most interesting or innovative solution. It just
 happens to have the right mix of features to get the momentum behind it.</p>
-<p class="comment">I'd like to qualify the above paragraph. It has become clear that there are
+<p class="comment">I&rsquo;d like to qualify the above paragraph. It has become clear that there are
 really 2 types of revision control tools: centralized versus distributed. I
 maintain that subversion is a winning solution among the centralized systems.
 However, I have now become convinced that the distributed type is the wave of
 the future. This is mainly because of a very positive experience with the
 real-time usage of git. For MyHDL, I am in the process of converting to
-mercurial, because it's a Python-based system and some very large projects have
-converted to it. Also, it's the only other system tolerated by git's creator
-(Linus) :-)  -- <em><a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a> 2008/05/29</em></p>
-<p>It's a question of risk management. Of course we want to contribute to
+mercurial, because it&rsquo;s a Python-based system and some very large projects have
+converted to it. Also, it&rsquo;s the only other system tolerated by git&rsquo;s creator
+(Linus) :-)  &ndash; <em><a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a> 2008/05/29</em></p>
+<p>It&rsquo;s a question of risk management. Of course we want to contribute to
 open-source solutions, but our main focus to work and innovate on is MyHDL.
 When we choose a CMS we want to make sure that for the forseeable future
 innovation and problem fixing will continue (and will mainly be done by others
@@ -230,25 +230,25 @@ the website management. We have to define how to decide on issues like the
 following.</p>
 <ul>
 <li><strong>Users and access control</strong> Who is allowed access? What type of access?
-What's the procedure for registering new users and contributors?</li>
+What&rsquo;s the procedure for registering new users and contributors?</li>
 <li><strong>Content</strong> What type of content are we looking for? How do we resolve
 conflicts about content?</li>
 <li><strong>Licensing</strong> How is the site content licensed?</li>
 </ul>
-<p>The management of the current MyHDL website is simple: MyHDL's author and
+<p>The management of the current MyHDL website is simple: MyHDL&rsquo;s author and
 maintainer owns the site and has the power to decide on everything. As the new
-website should be "owned" by the "community", this would have to change. The
+website should be &ldquo;owned&rdquo; by the &ldquo;community&rdquo;, this would have to change. The
 question is how; this is completely open at this point.</p>
 <h2 id="solution-status">Solution status</h2>
 <p>We have not found an adequate solution yet; it may not yet exist.</p>
 <p>It seems that at this point, the main action and innovation in the Python world
 is in the development of new web development frameworks - the things that can
 be used to develop a CMS. For example, a lot of new template languages are
-being developed and proposed. A lot of people just don't seem to be happy with
+being developed and proposed. A lot of people just don&rsquo;t seem to be happy with
 the traditional Python solution (Zope).</p>
 <p>It seems only a matter of time before an open-source CMS solution will
-be developed on top of a "winning" web development framework, along
-the lines that we have descirbed. But that hasn't happened yet.</p>
+be developed on top of a &ldquo;winning&rdquo; web development framework, along
+the lines that we have descirbed. But that hasn&rsquo;t happened yet.</p>
             </div>
         </div>
     </div>

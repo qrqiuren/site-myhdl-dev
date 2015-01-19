@@ -5,7 +5,7 @@ status:       Open
 layout:       task
 complexity:   Medium to hard
 requirements: Access to a synthesis tool 
-tags:         conversion
+type:         conversion
 ---
 
 Currently, indexing into a tuple of constants is supported by conversion in a

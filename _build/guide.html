@@ -119,7 +119,7 @@
 <p>The <a href="http://dev.myhdl.org" title="dev.myhdl.org">dev.myhdl.org</a> website aims to document all aspects of the development
 process of the MyHDL project. MyHDL is a Python library to use
 Python as a <abbr title="Hardware Description Language">HDL</abbr>. The main projects website is <a href="http://www.myhdl.org" title="MyHDL site">here</a>. </p>
-<p>MyHDL's original developer, <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>, is MyHDL's <abbr title="Benevolent Dictator For Life">BDFL</abbr>. He has the
+<p>MyHDL&rsquo;s original developer, <a href="mailto:jan@jandecaluwe.com" title="Jan Decaluwe">Jan Decaluwe</a>, is MyHDL&rsquo;s <abbr title="Benevolent Dictator For Life">BDFL</abbr>. He has the
 final say about its design and development decisions.  The development workflow
 takes that into account.</p>
 <h2 id="the-repository">The repository</h2>
@@ -189,7 +189,7 @@ correct branch.</p>
 
 <h3 id="using-the-repository-code">Using the repository code</h3>
 <p>To use the repository code the simplest way is to adjust the <code>$PYTHONPATH</code> shell
-variable. Let's assume you have checked out the MyHDL code from the mercurial
+variable. Let&rsquo;s assume you have checked out the MyHDL code from the mercurial
 repository to <code>$HOME/dev/myhdl</code>. Insert that path as the first entry to the
 <code>$PYTHONPATH</code> variable. When doing the import, the <code>myhdl</code> package in the
 <code>$HOME/dev/myhdl</code> path will be found first, before any other MyHDL version that
@@ -216,7 +216,7 @@ is the following:</p>
 <ul>
 <li>an understanding why the change is needed, and why
   it will be useful to many people</li>
-<li>some confidence that it won't break current
+<li>some confidence that it won&rsquo;t break current
   and foreseeable features </li>
 <li>the changes have to be tested  </li>
 <li>you have to use <a href="http://www.selenic.com/mercurial">mercurial</a>
@@ -227,7 +227,7 @@ is the following:</p>
 <p>The implementation of these requirements is described in more detail in the
 following sections.</p>
 <h3 id="first-step-communicate">First step: communicate</h3>
-<p>Don't send patches out of the blue.</p>
+<p>Don&rsquo;t send patches out of the blue.</p>
 <p>Your first step is to communicate about the problem or feature with the MyHDL
 community.  Start a discussion in the <a href="http://www.myhdl.org/support/community.html" title="Mailing List">Mailing List</a> or (if you are certain)
 add an entry in the <a href="https://bitbucket.org/jandecaluwe/myhdl/issues?status=new&amp;status=open" title="Bug Tracker">Bug Tracker</a>.</p>
@@ -248,7 +248,7 @@ is easy. You make changes in your local repository clone, and use:</p>
 <p>to create a new changeset that contains your patches.</p>
 <h3 id="quality">Quality</h3>
 <p>At a certain point you will want to publish your changesets, so that everyone
-can benefit from them. However, don't publish your work until it is complete.
+can benefit from them. However, don&rsquo;t publish your work until it is complete.
 Make sure there are no loose ends that others will have to address after you.
 Most importantly, make sure your changes have been tested.</p>
 <p>Run the MyHDL regression tests to make sure nothing breaks.  As a minimum, the
@@ -257,7 +257,7 @@ to VHDL/Verilog, the test in the <code>test/conversion</code> directories should
 also.</p>
 <p>Presumably, you have some test for your changes in place. If at all possible,
 turn it into a test that can be added to the regression test suites.</p>
-<p>You may need a number of changesets to complete your work. That isn't a problem
+<p>You may need a number of changesets to complete your work. That isn&rsquo;t a problem
 at all, on the contrary. Finish the job before publishing.  Note that this
 development flow relies on the decoupling of the creation and the publication
 of changesets.  This is a distinguishing feature of distributed revision

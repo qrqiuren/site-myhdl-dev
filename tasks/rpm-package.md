@@ -4,7 +4,7 @@ task:         6
 layout:       task
 status:       Completed
 requirements: Linux, RPM skills
-tags:         installation
+type:         installation
 ---
 
 Fedora Electronic Lab suggests to create an RPM package for Fedora.  For more

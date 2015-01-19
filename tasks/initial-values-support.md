@@ -5,7 +5,7 @@ layout:       task
 status:       Open
 complexity:   Easy to medium
 requirements: Access to synthesis
-tags:         conversion
+type:         conversion
 ---
 
 Currently, there are often problems at the start of simulation with converted

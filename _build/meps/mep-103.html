@@ -129,7 +129,7 @@
 </table>
 
                 <h2 id="background">Background</h2>
-<p>In the author's opinion, there is almost never a good reason to
+<p>In the author&rsquo;s opinion, there is almost never a good reason to
 use on-chip tristates. Tristates often create problems related to reliability,
 power consumption and testability. Furthermore, a better implementation of
 the required functionality can usually be
@@ -150,16 +150,16 @@ were considered and rejected. The process
 is summarized below. This is useful to understand the issues and the
 proposed solution later.</p>
 <h3 id="representation-of-the-tristate-value">Representation of the tristate value</h3>
-<p>In a hardware implementation, a wire is said to be tristated when it is not driven. HDLs that want to support tristates need a way to model this situation. The common technique is to introduce a special value, traditionally called <code>Z</code>, to represent the "value" of a tristated wire.</p>
-<p>We have to decide how to do this in MyHDL. Note that the tristate value is actually intended to model the <em>absence</em> of a (driven) value. In plain Python, we have already have an object that models "no value": the <code>None</code> object. MyHDL follows a minimalistic approach: we reuse as much we can from plain Python. Therefore, the natural choice for the representation of a tristate value in MyHDL is the <code>None</code> object.</p>
+<p>In a hardware implementation, a wire is said to be tristated when it is not driven. HDLs that want to support tristates need a way to model this situation. The common technique is to introduce a special value, traditionally called <code>Z</code>, to represent the &ldquo;value&rdquo; of a tristated wire.</p>
+<p>We have to decide how to do this in MyHDL. Note that the tristate value is actually intended to model the <em>absence</em> of a (driven) value. In plain Python, we have already have an object that models &ldquo;no value&rdquo;: the <code>None</code> object. MyHDL follows a minimalistic approach: we reuse as much we can from plain Python. Therefore, the natural choice for the representation of a tristate value in MyHDL is the <code>None</code> object.</p>
 <h3 id="the-myhdl-signal">The MyHDL signal</h3>
 <p>The MyHDL documentation suggests that the MyHDL signal is modeled after the VHDL signal. However, this is not accurate: the MyHDL signal is
-a much simpler object. For example, it doesn't have support for resolution
+a much simpler object. For example, it doesn&rsquo;t have support for resolution
 functions, and therefore cannot be used as-is to model tristate signals.</p>
 <h3 id="enhancing-the-myhdl-signal">Enhancing the MyHDL signal</h3>
 <p>A first idea is to enhance the MyHDL signal with native tristate support.
 Similar to VHDL, each generator in which the signal is assigned
-would define a separate "driver", and the final value would
+would define a separate &ldquo;driver&rdquo;, and the final value would
 be found by resolving the values of all drivers.</p>
 <p>The problem is that we would have to make the distinction between signal
 assignments within a generator (corresponding to a single driver), and
@@ -181,7 +181,7 @@ be used to resolve tristate values or model bidirectionals. Instead,
 each driver is modeled using a <code>reg</code> that is then assigned to a
 <code>wire</code> (or <code>tri</code>). The <code>wire</code> resolves all its drivers to find its final 
 value.</p>
-<p>The remaining question is what the "resolving object" should be and how
+<p>The remaining question is what the &ldquo;resolving object&rdquo; should be and how
 to attach the drivers to it.</p>
 <h3 id="modeling-a-tristate-bus-as-a-module">Modeling a tristate bus as a module</h3>
 <p>One straightforward idea is to model a tristate bus as a special
@@ -196,7 +196,7 @@ interface. We would thus have
 a module which is a parameter of another module. This is not a
 problem for MyHDL, but it does raise some issues.</p>
 <p>First, there would have to be some way to attach driver inputs
-"dynamically" to tristate bus instances:</p>
+&ldquo;dynamically&rdquo; to tristate bus instances:</p>
 <div class="codehilite"><pre><span class="n">bus</span> <span class="o">=</span> <span class="n">TristateBusModule</span><span class="p">(</span><span class="n">out</span><span class="o">=...</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -205,9 +205,9 @@ problem for MyHDL, but it does raise some issues.</p>
 
 
 <p>More importantly, while the bus parameter in the interface would technically be
-a module instance, it would "look" like a signal. This might create confusion:
+a module instance, it would &ldquo;look&rdquo; like a signal. This might create confusion:
 for example, an instance has to be returned somewhere for the
-simulator to know about it, while signals are known "automatically"
+simulator to know about it, while signals are known &ldquo;automatically&rdquo;
 (because they register themselves upon creation).
 Also, some key MyHDL functions, such as <code>traceSignals</code> and the
 conversion functions <code>toVerilog</code> and <code>toVHDL</code>, inspect the design
@@ -235,13 +235,13 @@ keeping the idea to add explicit drivers:</p>
 
 <p>The tristate signal is not assigned directly. Instead, assignments occur to its drivers. The tristate signal resolves all driver values to determine its final value.</p>
 <p>This solution solves the issues of the previous alternative. As the tristate signal is technically implemented  as a true signal, all MyHDL services for signals remain available.</p>
-<p>However, there are still some issues. The most important issue is related to the initial value of the tristate signal. When a plain MyHDL signal is constructed, the constructor takes a value as its argument. This value specifies two things: the expected type of the signal value, and its initial value. For a tristate signal, the natural initial value is the tristate value <code>None</code>. However, we cannot construct it with value <code>None</code> because then we don't have the type information for the non-tristate value.</p>
+<p>However, there are still some issues. The most important issue is related to the initial value of the tristate signal. When a plain MyHDL signal is constructed, the constructor takes a value as its argument. This value specifies two things: the expected type of the signal value, and its initial value. For a tristate signal, the natural initial value is the tristate value <code>None</code>. However, we cannot construct it with value <code>None</code> because then we don&rsquo;t have the type information for the non-tristate value.</p>
 <p>For a <code>Tristate</code> object itself, there is not really a problem because it belongs to a different class (albeit a <code>Signal</code> subclass). We could still construct it with some value specifying the type, but define its initial value as being <code>None</code>. However, when the drivers are constructed with plain signals, they will all have the normal signal behavior. Unless special measures are taken, this will obviously result in immediate contention.</p>
 <p>Of course, there are ways to solve this problem. The initial value of a driver might be modified automatically when it is first added to its tristate signal. Or we may introduce further special signal-like objects with the required behavior for drivers. But again we must ask ourselves whether there is no simpler and more intuitive solution.</p>
 <p>A minor related overhead of this solution is that the value types of the drivers may be conflicting. So this would have to checked also.</p>
 <h2 id="proposed-solution">Proposed solution</h2>
 <h3 id="description">Description</h3>
-<p>The final insight to come to the proposed solution is the following. Even though we need separate drivers, we don't necessarily need to construct them explicitly as separate signals. We can also a construct a driver "on-demand" from its tristate object, as follows:</p>
+<p>The final insight to come to the proposed solution is the following. Even though we need separate drivers, we don&rsquo;t necessarily need to construct them explicitly as separate signals. We can also a construct a driver &ldquo;on-demand&rdquo; from its tristate object, as follows:</p>
 <div class="codehilite"><pre><span class="k">class</span> <span class="nc">TristateSignal</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="o">...</span>
 
@@ -256,7 +256,7 @@ keeping the idea to add explicit drivers:</p>
 <p><strong><code>class TristateSignal</code></strong><code>(val, [delay=0])</code></p>
 <ul>
 <li>This class is used to construct a new tristate signal. The underlying type is specified by the <code>val</code> parameter. Optionally, a delay can be specified.</li>
-<li>It is a subclass of <code>Signal</code> and has the same attributes, with one exception: it doesn't support the <code>next</code> attribute. Consequently, direct signal assignment to a tristate signal is not supported.</li>
+<li>It is a subclass of <code>Signal</code> and has the same attributes, with one exception: it doesn&rsquo;t support the <code>next</code> attribute. Consequently, direct signal assignment to a tristate signal is not supported.</li>
 <li>The initial value is the tristate value <code>None</code>.</li>
 <li>The current value of a tristate is determined by resolving the values from its drivers. When exactly one driver value is different from <code>None</code>, that is the resolved value; otherwise it is <code>None</code>. When more than one driver value is different from <code>None</code>, a contention warning is issued.</li>
 </ul>

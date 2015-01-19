@@ -152,7 +152,7 @@ numbers either in fixed-point or scientific notation
 <p>scientific notation (floating-point):</p>
 <p>1.12e9</p>
 <p>The binary version are similar, with binary fixed-point the 
-bits to the left of the "point" are the integer values, the 
+bits to the left of the &ldquo;point&rdquo; are the integer values, the 
 positive powers of two:</p>
 <p>$$ 
     \sum^{N-1}_{j=0}{c_j 2^j} 
@@ -162,7 +162,7 @@ the fraction:</p>
 <p>$$ 
     \sum^{N-1}_{j=0}{f_j 2^{-j}} 
 $$</p>
-<p>The "point" is a logical assignment, there is nothing that 
+<p>The &ldquo;point&rdquo; is a logical assignment, there is nothing that 
 locks the point to a position.  The point logically defines
 the number of integer bits and fractional bits and is required
 when interrupting the number and performing operations.</p>
@@ -174,7 +174,7 @@ fractional bits.  Example, if the number of integer bits
 is -4 there are no integer bits and the fractional 
 has four place holders. </p>
 <p>As mentioned, binary fixed-point representation is similar to 
-every day usages of real numbers, that is a "decimal point" is 
+every day usages of real numbers, that is a &ldquo;decimal point&rdquo; is 
 used to separate the integer portion of the real number from 
 the fractional portion, example:</p>
 <div class="codehilite"><pre>s : sign bit
@@ -228,10 +228,10 @@ better than the 0.1 but will have the downside that multiples of
 the requested resolution cannot be represented exactly.  </p>
 <p>If the goal is to encode 0.1, 0.2, 0.3, 0.4, etc., it cannot be 
 accomplished with a finite number of bits.  The basic idea: if
-one of the denominator's prime multiples (e.g. 2 and 5 for 
+one of the denominator&rsquo;s prime multiples (e.g. 2 and 5 for 
 10) is not a multiple of the base then the rational fraction 
 cannot be represented exactly.  Stated differently, each of 
-the denominator's prime factors needs to be a multiple of the
+the denominator&rsquo;s prime factors needs to be a multiple of the
 base to be represented exactly.</p>
 <p>If the initial value cannot be represented exactly or the initial 
 value defines a greater precision than the <em>fixbv</em> can encode
@@ -268,8 +268,8 @@ variables, <em>x</em> and <em>y</em>:</p>
 
 
 <p>Addition and subtraction require the operands to be aligned, 
-they don't necessarily need to be the same word-length (wl) but 
-the "point" needs to be aligned, using the above as operands:</p>
+they don&rsquo;t necessarily need to be the same word-length (wl) but 
+the &ldquo;point&rdquo; needs to be aligned, using the above as operands:</p>
 <div class="codehilite"><pre>  siii.ffff000
 + ssss.fffffff
 --------------
@@ -277,7 +277,7 @@ the "point" needs to be aligned, using the above as operands:</p>
 </pre></div>
 
 
-<p>once the operands are aligned normal 2's complement addition/
+<p>once the operands are aligned normal 2&rsquo;s complement addition/
 subtraction can be performed.  The maximum result would be 
 2*max(x.max,y.max) (or max(len(x),len(y))+1).  If addition or 
 subtraction is attempted and the values are not aligned an error
@@ -310,7 +310,7 @@ format of the accepting object.</p>
 
 
 <p>For multiplication the operands do not need to be aligned before
-the operation but the "point" bookkeeping needs to be accounted.</p>
+the operation but the &ldquo;point&rdquo; bookkeeping needs to be accounted.</p>
 <div class="codehilite"><pre>        siii.ffff
 *       s.fffffff
 -----------------
@@ -327,7 +327,7 @@ ssiii.fffffffffff  (total 16 bits)
 
 
 <p>The basic mathematical operations have been reviewed, we will 
-exclude division for now because we can achieve "division" 
+exclude division for now because we can achieve &ldquo;division&rdquo; 
 by multiplying by the fractional parts.</p>
 <p>The next topic: rounding and overflow handling.  During operations
 it is common not to maintain the maximum word-length through out a
@@ -356,7 +356,7 @@ a <em>resize</em> function.  A separate MEP will be created for the
 integer representation at the hardware.  Nothing is required
 for conversion, the fixed-point is simply a logical representation
 of a limited capacity (constrained) real number implemented with
-a standard 2's complement integer.</p>
+a standard 2&rsquo;s complement integer.</p>
 <p>A couple <em>fixbv</em> functions are proposed to support 
 convertible conversion to other type:</p>
 <ul>
@@ -395,7 +395,7 @@ There is a reasonable use extra</p>
 </li>
 <li>
 <p>no division (no surprise, same operation limitations as 
-     integer, divide by power of two's </p>
+     integer, divide by power of two&rsquo;s </p>
 </li>
 </ul>
 <h2 id="closing-remarks">Closing Remarks</h2>
