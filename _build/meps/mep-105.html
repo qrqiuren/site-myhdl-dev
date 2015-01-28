@@ -142,14 +142,14 @@ subclass, called the <em>shadow signal</em>.</p>
 </pre></div>
 
 
-<p>Under the hood, the slicing operation is delegated to the signal&rsquo;s current
+<p>Under the hood, the slicing operation is delegated to the signal's current
 value, just like for any other operator. Within behavioral code - the code you
 write within a generator - this works just like expected. However, it is clear
 that such a slice is useless when writing structural code. Structure requires
 signals as composing elements, not plain values.</p>
 <p>This behavior is restrictive and confusing because in HDLs such as Verilog and
 VHDL, signal slices can indeed be used as signals. To understand this better,
-let&rsquo;s define two forms of slicing:</p>
+let's define two forms of slicing:</p>
 <dl>
 <dt>Behavioral slicing</dt>
 <dd>Slicing is delegated to the current signal value. 
@@ -169,12 +169,12 @@ VHDL, this is possible because they are compiled languages. From the context,
 the compiler can find out whether behavioral or structural slicing should be
 used. Obviously, it will avoid the complexities of structural slicing within
 code that merely needs a slice of the current signal value.</p>
-<p>In MyHDL, we don&rsquo;t have this luxury as there is no compiler. Slicing therefore
+<p>In MyHDL, we don't have this luxury as there is no compiler. Slicing therefore
 behaves the same in all contexts. As the primary focus of MyHDL is behavioral
 descriptions, signal slicing is implemented in the easy way, as behavioral
 slicing. To support structural slicing, we will need new concepts and new
 syntax.</p>
-<p>To find a solution for structural slicing, let&rsquo;s consider the current
+<p>To find a solution for structural slicing, let's consider the current
 workaround. If you want to use a signal slice as a signal elsewhere, you can
 define a new signal and a generator as follows:</p>
 <div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">:</span><span class="mi">0</span><span class="p">])</span>
@@ -188,17 +188,17 @@ define a new signal and a generator as follows:</p>
 <p>While this may feel redundant and inconvenient, it works just fine
 functionally. It is also conceptually simple. However, note that this
 workaround is not fully general. It works perfectly for reading signal slices
-elsewhere in the code. However, it doesn&rsquo;t work for <em>driving</em> signal slices.
+elsewhere in the code. However, it doesn't work for <em>driving</em> signal slices.
 Nor is there an obvious similar solution for that functionality. In short, we
-have a good and simple workaround for reading but not for driving. Let&rsquo;s
+have a good and simple workaround for reading but not for driving. Let's
 reflect on this to see whether it is a problem or not.</p>
 <p>Reading and driving a signal are not symmetrical. Reading may occur on any
 place in the design without any problem. However, for the most common case of
 unresolved signals, driving should normally happen from a single generator
 only. In Verilog and VHDL, it is possible to write to exclusive parts of such a
-signal from different processes or always blocks. But even then, I wouldn&rsquo;t
-call that good practice. I don&rsquo;t think many users would miss that functionality
-if it were not available. My conclusion is that it is not a problem if we don&rsquo;t
+signal from different processes or always blocks. But even then, I wouldn't
+call that good practice. I don't think many users would miss that functionality
+if it were not available. My conclusion is that it is not a problem if we don't
 have a solution to drive signal slices structurally. Reading signal slices
 should cover most, if not all, of the practical use cases.</p>
 <p>To summarize, my conclusion for structural slicing is as follows:</p>
@@ -228,7 +228,7 @@ and the corresponding change in the shadow signal. Finally, to
 be useful, the shadow signal performs some kind of transformation
 of the values of its parent signal or signals.</p>
 <p>A shadow signal is convenient because it is directly constructed
-from its parent signals. The constructor infers everything that&rsquo;s needed:
+from its parent signals. The constructor infers everything that's needed:
 the type info, the initial value, and the transformation of the
 parent signal values. For simulation, the transformation is defined by
 a generator which is automatically created and added to the list of
@@ -287,7 +287,7 @@ see <a href="/meps/mep-103.html" title="Tristate and bidirectional signals">Tris
 <h2 id="methodology-notes">Methodology notes</h2>
 <p>Shadow signals are intended to be constructed at elaboration time, that is,
 before the simulation or conversion starts.  If required, it may be possible to
-lift this restriction for modeling (not for conversion), but I don&rsquo;t think this
+lift this restriction for modeling (not for conversion), but I don't think this
 will be necessary.</p>
 <p>The implication is that shadow signals should be constructed outside generator
 code (like other signals normally.) A happy side effect is that you can use any
@@ -368,8 +368,8 @@ The input spec <code>i_spec</code> is a mapping of strings to bit indices.  For 
 </pre></div>
 
 
-<p>Strings &lsquo;other&rsquo; and &lsquo;nomatch&rsquo; are special. &lsquo;nomatch&rsquo; specifies that the output
-error bit on that position should be assigned to zero. &lsquo;other&rsquo; specifies a bit
+<p>Strings 'other' and 'nomatch' are special. 'nomatch' specifies that the output
+error bit on that position should be assigned to zero. 'other' specifies a bit
 that is the or-ing of all input error bits whose string key is not present in
 the output spec.  For other output spec strings, the corresponding input bit
 index is looked up in the input spec.</p>

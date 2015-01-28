@@ -93,11 +93,11 @@
 </table>
 
                 <p>Currently, there are often problems at the start of simulation with converted
-code. For many data types, Verilog and VHDL start at <code>X</code>, but MyHDL doesn&rsquo;t
+code. For many data types, Verilog and VHDL start at <code>X</code>, but MyHDL doesn't
 have that concept.</p>
 <p>To have a better match, it would be preferable to use initial value syntax in
 Verilog and VHDL based on the initial value of the Signal or intbv in MyHDL.
-The only reason why this is not yet done is that some synthesis tools didn&rsquo;t
+The only reason why this is not yet done is that some synthesis tools didn't
 support this syntax some years ago, in particular Altera synthesis. It should
 be checked whether this is still the case.</p>
 <p>Note that the requirement is <em>not</em> that synthesis tools do something meaningful
@@ -105,7 +105,7 @@ with the initial value. Proper reset at the gate level should be done with an
 explicit reset. The only goal is to have a better match at the RTL level.</p>
 <p>An option could be to make this functionality programmable, using
 an attribute of <code>toVerilog()</code> and <code>toVHDL()</code>.</p>
-<p>Lists of signals and intbv&rsquo;s require special attention.</p>
+<p>Lists of signals and intbv's require special attention.</p>
             </div>
         </div>
     </div>

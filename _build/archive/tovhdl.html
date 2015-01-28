@@ -120,7 +120,7 @@ the FPGA world. Several people have offered help in the development of a
 <p>This page is used to define, specify and steer the development of <code>toVHDL</code>. </p>
 <p>At this point, there are still many open issues. This page will document them,
 feed the discussion and be kept up-to-date with the status.</p>
-<p>&mdash; <em><a href="jan@jandecaluwe.com">Jan Decaluwe</a> 2005/11/14 15:53</em></p>
+<p>--- <em><a href="jan@jandecaluwe.com">Jan Decaluwe</a> 2005/11/14 15:53</em></p>
 <h2 id="why-is-it-not-there-yet">Why is it not there yet?</h2>
 <p>To start, it may be enlightening to explain why <code>toVHDL</code> is not there yet. I
 will list the reasons, in order of increasing significance, as well as their
@@ -139,9 +139,9 @@ not clear that there would be a significant need for it. It seemed more
 appropriate to address other MyHDL issues. In practice however, the question
 for VHDL support keeps popping up. At the time I also thought that perhaps
 someone would jump in and implement <code>toVHDL</code>. There have indeed been
-indications of such projects. But it&rsquo;s not a minor undertaking. Moreover, some
+indications of such projects. But it's not a minor undertaking. Moreover, some
 important issues (see further) need to be solved, regardless of who does the
-work. In any case: it&rsquo;s not there at this point.</p>
+work. In any case: it's not there at this point.</p>
 <p>Finally, the most important issue is yet to be solved: the verification
 strategy. This will be discussed in the next section. The overall status is
 that if we can solve that issue, we are ready to move ahead.</p>
@@ -158,12 +158,12 @@ open-source Verilog simulator. A MyHDL model that uses a specific feature is
 converted to Verilog. Co-simulation using the same MyHDL test bench is used to
 verify that the Verilog model has the same behavior as the MyHDL model.</p>
 <p>An obvious strategy would be to use co-simulation with VHDL in the same way.
-But it&rsquo;s not that simple. What is needed is a VHDL simulator with a powerful C
+But it's not that simple. What is needed is a VHDL simulator with a powerful C
 API interface, because co-simulation requires a relatively sophisticated C
-interface. At this point, I don&rsquo;t know of an open-source VHDL simulator that
+interface. At this point, I don't know of an open-source VHDL simulator that
 has the required support. GHDL has a C API, but according to reports its
 capabilities are limited. On the other hand, using commercial VHDL simulators
-doesn&rsquo;t seem possible either. At this point, the MyHDL project cannot afford a
+doesn't seem possible either. At this point, the MyHDL project cannot afford a
 commercial license. The alternative of accessing commercial licenses from other
 users may have legal problems. Finally, using evaluation licences is not an
 option either: one should be able to verify at at any time when changes are
@@ -175,14 +175,14 @@ Perhaps there is.</p>
 <p>So, to make progress, we should investigate whether we can do verification
 without co-simulation.</p>
 <p><em>From this point on all issues are open. I will describe my current thinking
-but I won&rsquo;t actively work on the project until 0.5 is released. So if anyone
-wants to jump in, I think here&rsquo;s a good starting point to make progress.</em></p>
-<p><em>Please don&rsquo;t use this wiki page for discussions. Use the mailing
+but I won't actively work on the project until 0.5 is released. So if anyone
+wants to jump in, I think here's a good starting point to make progress.</em></p>
+<p><em>Please don't use this wiki page for discussions. Use the mailing
 list/newsgroup for that purpose. This page will be kept up to date with the
 status.</em></p>
 <p>A first thing to note is that, as experience with <code>toVerilog</code> shows, we can
 convert much more than just a synthesizable subset. It should be possible to
-convert test benches of some complexity. For that reason, we don&rsquo;t necessarily
+convert test benches of some complexity. For that reason, we don't necessarily
 need co-simulation to provide stimulus and check results. We can just convert
 more code, including the test bench.</p>
 <p>Of course, we still have to verify that the 2 testbenches do the same thing. At
@@ -192,8 +192,9 @@ some point I thought that perhaps the <code>py.test</code> project could help. B
 classes: any kind of python code with <code>assert</code> statements can be a unit test.
 By converting such a piece of MyHDL code to VHDL, we would have an equivalent
 VHDL test bench.</p>
-<p>However, while <code>py.test</code> is clearly a useful project, it doesn&rsquo;t solve our
-problem. We don&rsquo;t have to check that the MyHDL or VHDL test bench is<strong>correct</strong>, but rather that they do the <strong>same</strong> thing. Functional correctness
+<p>However, while <code>py.test</code> is clearly a useful project, it doesn't solve our
+problem. We don't have to check that the MyHDL or VHDL test bench is
+<strong>correct</strong>, but rather that they do the <strong>same</strong> thing. Functional correctness
 can be verified using <code>assert</code> statements, but conversion correctness can not.
 For example, suppose that for some reasons no Python <code>assert</code> statements would
 be converted into VHDL. The VHDL test bench would not report errors, but of
@@ -218,7 +219,7 @@ in a superclass. If the tests fails, a detailed trace is printed.</p>
 </li>
 </ul>
 <p>If we get it to work, the method actually has an advantage over co-simulation.
-We don&rsquo;t compare port values, but detailed logs of the internal workings of the
+We don't compare port values, but detailed logs of the internal workings of the
 simulations. This is a more direct method that may make debugging easier.</p>
 <p>The verification method can and should be developed before the implementation
 of <code>toVHDL</code> itself. Even better, it seems possible to develop the whole test

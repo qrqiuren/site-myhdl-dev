@@ -167,7 +167,7 @@ in synthesizable MyHDL.</p>
 code.</p>
 <p>The reset behavior is described using a the top-level <code>if-else</code> structure with
 a number of assignments under the <code>if</code>. A significant piece of code at a
-prominent location is therefore dedicated to &ldquo;non-functional&rdquo; behavior.</p>
+prominent location is therefore dedicated to "non-functional" behavior.</p>
 <p>Reset behavior coding is error-prone. For a proper gate-level implementation,
 most if not all registers should typically be reset. However, it is easy to
 forget some reset assignments. Such bugs are not necessarily easily detected
@@ -195,7 +195,7 @@ would be different.</p>
 
 
 <p>Note again that the initial value of <code>tx_bit</code> is the same as its reset value,
-<code>'1</code>&rsquo;, as required by typical uart systems.</p>
+<code>'1</code>', as required by typical uart systems.</p>
 <p>In summary: the code to describe the reset behavior is significant and
 error-prone, and the separate specification of initial values and reset values
 seems redundant.</p>
@@ -254,7 +254,7 @@ specifies whether the reset style is asynchronous or synchronous.</p>
 <h2 id="solution-discussion">Solution discussion</h2>
 <p>The proposed solution has some very desirable features.</p>
 <p>Explicit reset behavior coding is no longer necessary. Code reviewers are thus
-no longer distracted by &ldquo;non-functional&rdquo; code. It is sufficient to check the
+no longer distracted by "non-functional" code. It is sufficient to check the
 initial values to verify whether the reset value is correctly specified.
 Moreover, one indentation level is saved for functional coding.</p>
 <p>Even more importantly, the reset structure is correct by construction. All registers are automatically included in the reset behavior, and the sensitivity list is automatically correct according to the reset style.</p>
@@ -308,12 +308,12 @@ variables in the enclosing scope. It should be possible to adapt the
 <p>Those who like the proposed solution will probably come up with the following
 question: why is something like this is not available in Verilog and VHDL?</p>
 <p>The reason is the concept behind initial values. In Verilog, all signals in
-synthesizable code are initialized to an &ldquo;unknown&rdquo; value <code>'X</code>&lsquo; by default. VHDL
-has a mixed approach. For lower level types, the initial value is the &ldquo;unknown&rdquo;
-value <code>'U</code>&rsquo;. For higher level types, such as integers and enums, it is the
-&ldquo;leftmost&rdquo; value in the type specification. In this case, it is typically the
+synthesizable code are initialized to an "unknown" value <code>'X</code>' by default. VHDL
+has a mixed approach. For lower level types, the initial value is the "unknown"
+value <code>'U</code>'. For higher level types, such as integers and enums, it is the
+"leftmost" value in the type specification. In this case, it is typically the
 same as the reset value.</p>
-<p>MyHDL takes the radical approach to avoid &ldquo;unkown&rdquo; values altogether. All
+<p>MyHDL takes the radical approach to avoid "unkown" values altogether. All
 variables and signals are constructed using a defined initial value.  The
 rationale behind this design decision is beyond the scope of this document.
 However, regardless of its merit, it can be used to our advantage in this case

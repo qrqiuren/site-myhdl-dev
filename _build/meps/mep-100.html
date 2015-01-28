@@ -175,7 +175,7 @@ make this possible. The equivalent decorator usage is as follows:</p>
 
 <p>What do we gain with this? First, the <code>always_comb</code> decorator is explicitly
 attached to the corresponding function. This makes it immediately clear what
-the purpose of the function is. Also, we don&rsquo;t need the original function name,
+the purpose of the function is. Also, we don't need the original function name,
 and a decorator automatically reuses it as the name for the transfored result,
 which is a generator in this case.</p>
 <h3 id="a-generic-decorator-for-local-generator-functions">A generic decorator for local generator functions</h3>
@@ -193,7 +193,7 @@ question is: why stop there? Consider the general case of a local generator:</p>
 
 
 <p>This has similar issues as the original <code>always_comb</code> usage. The only purpose
-of the local generator function is to be called exactly once. Also, we don&rsquo;t
+of the local generator function is to be called exactly once. Also, we don't
 need the function name. All this is not directly clear from the function
 declaration.</p>
 <p>Therefore, it seems appropriate to design a general decorator for local
@@ -202,7 +202,7 @@ function and return it, but in addition to that the decorator syntax makes the
 purpose explicit.</p>
 <p>How should such a general decorator be called? Several possibilities were
 considered. <code>process</code> or <code>always</code> as in Verilog/VHDL is incorrect, as a
-generator doesn&rsquo;t loop forever on itself. <code>initial</code> sounds awkward. On the
+generator doesn't loop forever on itself. <code>initial</code> sounds awkward. On the
 other hand, the generic name <code>generator</code> seems not specific enough for MyHDL
 purposes.</p>
 <p>Eventually, I believe <code>instance</code> is the best choice. The meaning is: create a

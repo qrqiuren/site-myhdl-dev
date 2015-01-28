@@ -148,7 +148,7 @@ simulation and conversion.</p>
 <p>Attribute <code>maxdepth</code>: controls the maximum depth which the converter is recursively called.</p>
 <ul>
 <li>
-<p><code>0</code>: Don&rsquo;t do recursive calling. This is equivalent to default conversion (hierarchy flattening).</p>
+<p><code>0</code>: Don't do recursive calling. This is equivalent to default conversion (hierarchy flattening).</p>
 </li>
 <li>
 <p><code>1</code>: Make only one recursive call. That means keep hierarchy only from top module. Components are converted as default hierarchy flattening conversion </p>
@@ -173,12 +173,12 @@ attribute is proposed:</p>
 <h2 id="limitations">Limitations</h2>
 <h3 id="component-conversion">Component conversion</h3>
 <p>All instantiated components must be top-module convertible. That means its
-ports should be well-defined (for instance, don&rsquo;t read output only ports),
+ports should be well-defined (for instance, don't read output only ports),
 otherwise component declaration could use incorrect or unexpected attributes
 (port direction, bit widths, etc.)</p>
 <h3 id="component-parameters">Component parameters</h3>
-<p>Since converter doesn&rsquo;t support parameters in output code at top-module level,
-conversion has to &ldquo;hard-code&rdquo; them into several component declarations.  Each
+<p>Since converter doesn't support parameters in output code at top-module level,
+conversion has to "hard-code" them into several component declarations.  Each
 time converter detect different parameters (and also different bit widths in
 signals), it generates a numbered component declaration for each different
 parameter value.</p>

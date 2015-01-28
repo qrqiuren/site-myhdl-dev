@@ -128,7 +128,7 @@ attributes.</p>
 for attributes that are a Signal type.  In this
 MEP a collection of attributes that are a type Signal 
 will be referred to as an interface.  Attributes are 
-anything to the right of the &ldquo;dot&rdquo; in an expression.</p>
+anything to the right of the "dot" in an expression.</p>
 <p>This proposal is to add unique name creation for attributes
 in the converted code (when the attribute is a convertible
 type).  It is important to state that using attributes is 
@@ -140,7 +140,7 @@ the following <a href="http://docs.python.org/tutorial/classes.html">1</a></p>
 <p>The rest of this enhancement proposal will outline the 
 addition of attributes to the MyHDL convertible subset 
 of the Python programming language.  Through the rest 
-of this document the term &ldquo;interface(s)&rdquo; will be used to
+of this document the term "interface(s)" will be used to
 refer to attributes of a convertible type.</p>
 <h2 id="name-expansion">Name Expansion</h2>
 <p>The desired approach is to generate a unique name for a
@@ -153,7 +153,7 @@ referenced is a Signal and then create a unique name
 for the Signal.  The following is an example of the 
 name expansion:</p>
 <p>myobj_x = yourobj_y + silly_samsobj_z</p>
-<p>The converter will simply use the interface&rsquo;s reference 
+<p>The converter will simply use the interface's reference 
 name as part of the net name.  The same rules that apply
 to the hierarchy naming will be included.  The above might
 be convert to something like the following to avoid name
@@ -172,8 +172,8 @@ dig down to find the constant and use the constant value.</p>
 <p>In general, interfaces can be used, as long as the final 
 referenced object is a convertible type (Signal, int, 
 long, bool, intbv).  All of the above is supported for 
-MyHDL modeling in MyHDL 0.7, except for the &ldquo;interfaces
-as sensitivity lists&rdquo; as discussed on the mailing-list.</p>
+MyHDL modeling in MyHDL 0.7, except for the "interfaces
+as sensitivity lists" as discussed on the mailing-list.</p>
 <p>This feature is similar to the VHDL record and SystemVerilog
 interfaces.  The idea is that signals can be logically 
 grouped.  Logically grouping signals is extremely useful 
@@ -199,7 +199,7 @@ in large complex designs.</p>
 </li>
 <li>
 <p>Class path name extension, the name will simply replace
-      the &ldquo;.&rdquo; in the Python source with an &ldquo;_&rdquo; in the target
+      the "." in the Python source with an "_" in the target
       conversion <abbr title="Hardware Description Language">HDL</abbr></p>
 </li>
 <li>
@@ -328,14 +328,14 @@ code with the name extension.</p>
     <span class="k">else</span> <span class="k">begin</span>
         <span class="k">if</span> <span class="p">((</span><span class="n">gl_bb_rd</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)))</span> <span class="k">begin</span>
             <span class="n">gl_bb_rdat</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
-            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1&#39;b1</span><span class="p">;</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
         <span class="k">end</span>
         <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">gl_bb_wr</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)))</span> <span class="k">begin</span>
             <span class="n">gl_lled</span> <span class="o">&lt;=</span> <span class="n">gl_bb_wdat</span><span class="p">;</span>
-            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1&#39;b1</span><span class="p">;</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
         <span class="k">end</span>
         <span class="k">else</span> <span class="k">begin</span>
-            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1&#39;b0</span><span class="p">;</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
         <span class="k">end</span>
         <span class="n">leds</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
     <span class="k">end</span>

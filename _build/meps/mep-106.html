@@ -118,11 +118,11 @@
 </table>
 
                 <h2 id="rationale">Rationale</h2>
-<p>Recently, there has been a lot of activity regarding &ldquo;wrap-around&rdquo; types. I
+<p>Recently, there has been a lot of activity regarding "wrap-around" types. I
 have looked at the proposals. My own thoughts on the matter have evolved also.
 Here is my analysis and proposal.</p>
 <p>First some background.  One of my main critiques on the mainstream use of
-Verilog/VHDL is the focus on &ldquo;representational&rdquo; types for integer arithmetic.
+Verilog/VHDL is the focus on "representational" types for integer arithmetic.
 In other words, the starting point is a bit vector representation to which an
 integer interpretation is added later. The hidden assumption is that this is
 necessary for implementation efficiency.</p>
@@ -130,7 +130,7 @@ necessary for implementation efficiency.</p>
 by taking a top-down perspective. In MyHDL, integer arithmetic simply works as
 expected. The convertor takes care of representational details as required by
 the Verilog/VHDL target.</p>
-<p>This is not just a semantic discussion. In MyHDL, you don&rsquo;t need castings,
+<p>This is not just a semantic discussion. In MyHDL, you don't need castings,
 manual sign extensions or resizings to get integer arithmetic to work. In
 Verilog/VHDL, that is the name of the game. Best of all, there is no
 implementation efficiency price to pay.</p>
@@ -164,11 +164,11 @@ incrementer description separate from the decoding:</p>
 
 <p>I have also argued that the modulo operator offers an explicit and elegant
 high-level solution to describe wrap-around behavior in a one-liner. However,
-it has been pointed out that this doesn&rsquo;t work for the case of a &ldquo;signed&rdquo;
+it has been pointed out that this doesn't work for the case of a "signed"
 integer.  A <code>wrap()</code> method was proposed as a solution.</p>
 <p>Both the modulo operator and a <code>wrap()</code> method have some disadvantages. Though
 they are explicit in good Python style, there is a conflict with another good
-principle: DRY (Don&rsquo;t Repeat Yourself). If wrap-around is the desired behavior,
+principle: DRY (Don't Repeat Yourself). If wrap-around is the desired behavior,
 it is probably a property of an object and its type, not of a particular
 assignment.</p>
 <p>The two techniques have another problem that I have successfully managed to
@@ -185,7 +185,7 @@ False. When True, it would modify the assignment behavior as desired.</p>
 <p>This technique addresses the issues mentioned above, but has some problems
 itself.  An additional parameter makes object construction heavier. Also, the
 use of a default value suggests that one type of behavior is the rule, and the
-other the exception.  I don&rsquo;t like the idea of modifying the fundamental
+other the exception.  I don't like the idea of modifying the fundamental
 behavior of a type in such a way.  If wrap-around behavior is considered
 important enough to warrant direct language support, it should be as easy to
 use as other behaviors.</p>
@@ -195,12 +195,12 @@ trick:</p>
 </pre></div>
 
 
-<p>to construct an &ldquo;N bits wide&rdquo; positive intbv, even though such &ldquo;closer to
-hardware&rdquo; objects are probably popular candidates for wrap-around behavior.</p>
+<p>to construct an "N bits wide" positive intbv, even though such "closer to
+hardware" objects are probably popular candidates for wrap-around behavior.</p>
 <p>The most important problem that I have with the discussed proposals is still
 elsewhere: they go against the MyHDL-specific philosophy that I described
 earlier.  The starting point of the proposals is that wrap-around behavior will
-only supported on &ldquo;full range&rdquo; bit-vectors. This is likely influenced by
+only supported on "full range" bit-vectors. This is likely influenced by
 implicit assumptions of efficient hardware implementation.</p>
 <p>In my modeling work, I use wrap-around counters all the time. However, more
 often than not, their bounds are not powers of 2. I suspect this is the same
@@ -217,22 +217,24 @@ concept of
 modulus is not limited to powers of 2.</p>
 <p>The rationale behind modular types is interesting. For
 example:</p>
-<p>&ldquo;The modulus of a modular type need not be a power of two although it often
+<p>"The modulus of a modular type need not be a power of two although it often
 will be. It might, however, be convenient to use some obscure prime number as
-the modulus perhaps in the implementation of hash tables.&rdquo;<a href="http://www.adaic.org/resources/add_content/standards/95rat/rat95html/rat95-p2-3.html">[Ref]</a></p>
+the modulus perhaps in the implementation of hash tables."
+<a href="http://www.adaic.org/resources/add_content/standards/95rat/rat95html/rat95-p2-3.html">[Ref]</a></p>
 <p>Another reference says:</p>
-<p>&ldquo;Modular types don&rsquo;t need to be powers of two, but if they are the Ada
-compiler will select especially efficient  operations to implement them.&rdquo;<a href="http://www.dwheeler.com/lovelace/s17sf.htm">[Ref]</a></p>
-<p>This is exactly the kind of reasoning I&rsquo;m looking for. Ada considers module
+<p>"Modular types don't need to be powers of two, but if they are the Ada
+compiler will select especially efficient  operations to implement them."
+<a href="http://www.dwheeler.com/lovelace/s17sf.htm">[Ref]</a></p>
+<p>This is exactly the kind of reasoning I'm looking for. Ada considers module
 arithmetic important enough to warrant direct language support, but in the
 general, mathematically sound sense. On the other hand, it recognizes that
 powers of 2 bounds are very important. There is actually a predefined package
-with power of 2 based subtypes. Moreover, the compiler can select &ldquo;especially
-efficient operations&rdquo; to implement them.</p>
+with power of 2 based subtypes. Moreover, the compiler can select "especially
+efficient operations" to implement them.</p>
 <p>Interestingly, Ada even defines and/or/xor bit operations on modular types,
 unlike other integer types. Apparently it chooses modular types for this
-purpose because their &ldquo;unsigned&rdquo; interpretation poses less problems than bit
-operations on &ldquo;signed&rdquo; representations. In any case, the dual nature of the
+purpose because their "unsigned" interpretation poses less problems than bit
+operations on "signed" representations. In any case, the dual nature of the
 type - both high-level and representation-friendly - is similar to what MyHDL
 does with the <code>intbv</code>. When reading all this, I can only conclude that VHDL
 lost a big opportunity by forgetting about its origins.</p>
@@ -246,7 +248,7 @@ to let them work with other integer-like types.
 (Disclaimer: I am not sure that this statement is true.)</li>
 </ul>
 <h2 id="a-proposal-for-myhdl-the-modbv-type">A proposal for MyHDL: the modbv type</h2>
-<p>Ada&rsquo;s modular type is called <code>mod</code>. By analogy, I am proposing a <code>modbv</code> type
+<p>Ada's modular type is called <code>mod</code>. By analogy, I am proposing a <code>modbv</code> type
 in MyHDL. Behaviorally, the only difference with <code>intbv</code> would be how bounds
 are handled: out-of-bound values result in an error with <code>intbv</code>, and in
 wrap-around with <code>modbv</code>. In particular, <code>modbv</code> would have exactly the same
@@ -283,7 +285,8 @@ done in a separate method called <code>intbv._checkBounds()</code>. This method 
 probably be renamed to <code>intbv._handleBounds()</code>, and then overwritten with the
 proper behavior in the subclass.</p>
 <h2 id="conversion-notes">Conversion notes</h2>
-<p>It is expected that conversion would work directly for the case of &ldquo;full range&rdquo;<code>modbv</code> objects. (Note that it is not sufficient that both bounds are powers of
+<p>It is expected that conversion would work directly for the case of "full range"
+<code>modbv</code> objects. (Note that it is not sufficient that both bounds are powers of
 2.) In a first phase, the convertor could impose that restriction.</p>
 <p>To demonstrate the advantage of the chosen approach, we could attempt to lift
 some restrictions for interesting use cases. For example, a common use case for
