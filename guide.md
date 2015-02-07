@@ -25,7 +25,7 @@ The repository
 MyHDL code development is managed on [bitbucket] using
 [mercurial](http://www.selenic.com/mercurial).
 
-The public repository resides [here][myhdl-repo].  Bitbucket offers an
+The public repository resides [here][myhdl_repo].  Bitbucket offers an
 excellent interface to the repository and its history. 
 
 The repository can be used for several purposes, such as browsing through the
