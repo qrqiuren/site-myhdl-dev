@@ -8,117 +8,100 @@ Background info
 ===============
 
 The [dev.myhdl.org] website aims to document all aspects of the development
-process of the MyHDL project. MyHDL is a Python library to use
-Python as a HDL. The main projects website is [here][myhdl]. 
-
-*[HDL]: Hardware Description Language 
+process of the MyHDL project. 
 
 MyHDL's original developer, [jandecaluwe-mail], is MyHDL's BDFL. He has the
 final say about its design and development decisions.  The development workflow
 takes that into account.
 
+*[HDL]: Hardware Description Language 
 *[BDFL]: Benevolent Dictator For Life
 
 The repository
 ==============
 
-MyHDL code development is managed on [bitbucket] using
-[mercurial](http://www.selenic.com/mercurial).
+MyHDL code development is managed on [github] using [git].
 
-The public repository resides [here][myhdl_repo].  Bitbucket offers an
-excellent interface to the repository and its history. 
+The public repository resides [here][myhdl_repo].  GitHub offers an excellent
+interface to the repository and its history. 
 
 The repository can be used for several purposes, such as browsing through the
 development history, and tracking development. In addition, you can use it to
-contribute your own changesets.  
+contribute your own changes.  
+
+The git version control system
+==============================
+
+This guide assumes that you have basic working knowledge of git.
+To get started with git, I recommend to read the initial
+chapters of the [git-book].
 
 Tracking development
 ====================
 
-Basic usage
------------
+If you have git installed, you can use the repository to track development.
+The first step is to clone the repository according to the GitHub instructions:
 
-If you have mercurial installed, you can use the repository to track
-development.  First, use the instructions on Bitbucket to clone the repository
-to a local repository on your machine.
+```
+$ git clone https://github.com/jandecaluwe/myhdl.gito
+Cloning into 'myhdl'...
+```
 
-In that directory you can check for new changesets at any time:
+The repository contains multiple branches. You can see them as follows:
 
-    $ hg in
+```
+$ cd myhdl
+$ git branch -a
+* master
+  remotes/origin/0.8-maintenance
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+```   
 
-To get new changesets:
+You can see that there is a `master` branch that is checked out by
+default, and a `0.8-maintenance` branch. The meaning of the
+branches is as follows: 
 
-    $ hg pull
+Branch name       |  Purpose          | Policy                                                       
+------------------|-------------------|---------------------------
+ master           |  Development      | New features 
+ 0.8-maintenance  |  Official release | 0.8.* release maintenance 
 
-To update the workspace with the new changesets: 
+By default, you are on the `master` branch. To switch to the maintenance
+branch, for example for a bug fix in the offical release, use:
 
-    $ hg update
+```
+$ git checkout 0.8-maintenance
+```
 
-Development branches
---------------------
+On any given branch, you can stay current with upstream changes
+by pulling:
 
-The repository contains multiple branches. Each branch corresponds to a
-development line with a specific purpose. Before using the repository to
-install MyHDL or to develop your own changesets, make sure you are on the
-correct branch.
+```
+$ git pull 
+```
 
-To find out what branches are available, use:
+To use the local repository code the simplest way is to adjust the
+`$PYTHONPATH` environment variable. Make sure that the path to your local
+repository is the first entry in the `PYTHONPATH` variable. In this way, that
+version of the `myhdl` package will be found first.
 
-    $ hg branches
-
-Currently, the following branches are active:
-
-Branch name   |  Purpose    | Policy                                                       
---------------|-------------|------------------------
- default      | Stable      | 0.8 release + bug fixes 
- 0.9-dev      | Development | 0.9 new features 
-
-To switch to a particular branch, use:
- 
-    $ hg update
-
-Using the repository code
--------------------------
-
-To use the repository code the simplest way is to adjust the `$PYTHONPATH` shell
-variable. Let's assume you have checked out the MyHDL code from the mercurial
-repository to `$HOME/dev/myhdl`. Insert that path as the first entry to the
-`$PYTHONPATH` variable. When doing the import, the `myhdl` package in the
-`$HOME/dev/myhdl` path will be found first, before any other MyHDL version that
-may be installed.
-
-For convenience you can put the change of the `$PYTHONPATH` variable in a script
-and source it when needed. The bash shell script would look like this:
-
-    PYTHONPATH="$HOME/dev/myhdl:${PYTHONPATH}"
-    export PYTHONPATH
-
-If you save this in `myhdl.sh`, you can use it as follows: 
-
-    source myhdl.sh
-
-Creating your own changesets 
-============================
+Contributing changes 
+====================
 
 Introduction
 ------------
 
-You can also make your own changesets and contribute them to the development. 
+You can also contribute your own changes. 
 
-The workflow is such that every contributed change is reviewed by other
-developers and applied or rejected by the BDFL. Therefore, your goal as a
-contributor should be to minimize the work of other developers. What is needed
-is the following:
+The workflow is such changes are reviewed by other developers and applied or
+rejected by the BDFL. Therefore, your goal as a contributor should be to
+minimize the work of other developers. What is needed is the following:
 
-* an understanding why the change is needed, and why
-  it will be useful to many people
-* some confidence that it won't break current
-  and foreseeable features 
-* the changes have to be tested  
-* you have to use [mercurial](http://www.selenic.com/mercurial)
-  to manage the changesets
-* you have to use [Bitbucket](http://www.bitbucket.org)
-  to fork the main repo and create Pull Requests.
+* an understanding why the changes are needed and useful
+* a test that verifies the changes
+* using [git] to manage changes
+* using [github] to fork the main repo and create *pull requests*.
 
 The implementation of these requirements is described in more detail in the
 following sections.
@@ -126,38 +109,38 @@ following sections.
 First step: communicate 
 -----------------------
 
-Don't send patches out of the blue.
+Except for obvious bug fixes, the first step is to communicate about the
+problem or feature with the MyHDL community.  Start a discussion in the
+[mailing-list] or add an entry in the [bug-tracker].
 
-Your first step is to communicate about the problem or feature with the MyHDL
-community.  Start a discussion in the [mailing-list] or (if you are certain)
-add an entry in the [bug-tracker].
+Depending on the interest, the result will be a fruitful discussion that may
+result in a specification for the work to be done.
 
-The result will be a fruitful discussion that hopefully results in a decision
-about what should be done. The byproduct will be a specification for the work.
+Creating changes
+----------------
 
-Creating changesets
--------------------
+To manage your changes, use git. By doing so, the other developers can simply
+use their normal development workflow to incorporate your work.  Moreover, your
+name will be preserved as the author, so you get the credit you deserve.
 
-To manage your patches, use mercurial. By doing so, the other developers can
-simply use their normal development workflow to incorporate your work.
-Moreover, your name will be preserved as the author, so you get the credit you
-deserve.
+In git terminology, a set of changes that belong together is called a *commit*.
+To create a commit with all the changes, use: 
 
-In mercurial terminology, a set of patches that belong together is called
-a *changeset*. Assuming you know how to work with mercurial, creating changesets
-is easy. You make changes in your local repository clone, and use:
+```
+git commit -a
+```
 
-    hg commit
-
-to create a new changeset that contains your patches.
+Without the `-a` option, only selected changes would go into the commit.
+Such sophistication is typical of git and often useful. Consult the
+[documentation][git-book] for more info.
 
 Quality
 -------
 
-At a certain point you will want to publish your changesets, so that everyone
-can benefit from them. However, don't publish your work until it is complete.
-Make sure there are no loose ends that others will have to address after you.
-Most importantly, make sure your changes have been tested.
+At a certain point you will want to publish your changes, so that everyone can
+benefit from them. However, don't publish your work until it is complete.  Make
+sure there are no loose ends that others will have to address after you.  Most
+importantly, make sure your changes have been tested.
 
 Run the MyHDL regression tests to make sure nothing breaks.  As a minimum, the
 tests in `test/core` should be run. If your changes are related to conversion
@@ -165,26 +148,17 @@ to VHDL/Verilog, the test in the `test/conversion` directories should be run
 also.
 
 Presumably, you have some test for your changes in place. If at all possible,
-turn it into a test that can be added to the regression test suites.
+turn it into a test that can be added to the regression test suite.
 
-You may need a number of changesets to complete your work. That isn't a problem
-at all, on the contrary. Finish the job before publishing.  Note that this
-development flow relies on the decoupling of the creation and the publication
-of changesets.  This is a distinguishing feature of distributed revision
-control systems versus centralized ones.
+You may need a number of commits to complete your work. That isn't a problem at
+all, on the contrary. Finish the job before publishing. 
 
-Contributing changesets
------------------------
+Publishing changes
+-------------------
 
-When you are ready with your changes, use mercurial and [Bitbucket] to publish
-them. The advantage of using mercurial instead of traditional patch files is
-that it minimizes the overhead to review and apply, and, more importantly, it
-keeps the authoring information intact. Bitbucket has a great web interface to
-review and merge the changesets.
-
-Contributing changesets is done by creating *pull requests*. This
-process is documented
-[here](https://confluence.atlassian.com/display/BITBUCKET/Fork+a+Repo%2C+Compare+Code%2C+and+Create+a+Pull+Request).
+When you are ready with your changes, use  [github] to publish them.
+Publishing changes is done by creating *pull requests*. The process is
+documented [here](https://help.github.com/articles/using-pull-requests/).
 
 Other developers will review the pull request, and the BDFL will decide to
 merge it in or not.

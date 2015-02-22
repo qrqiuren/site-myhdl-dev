@@ -16,8 +16,17 @@ reflinks:
     mercurial:
         url: http://www.selenic.com/mercurial
         title: mercurial
-    myhdl_repo:
+    git:
+        url: http://git-scm.com
+        title: git
+    git-book:
+        url: http://git-scm.com/book/en/v2
+        title: Pro Git book
+    myhdl_repo_hg:
         url: https://bitbucket.org/jandecaluwe/myhdl 
+        title: MyHDL repository
+    myhdl_repo:
+        url: https://github.org/jandecaluwe/myhdl 
         title: MyHDL repository
     site_myhdl_dev_repo:
         url: https://bitbucket.org/jandecaluwe/site-myhdl-dev 
@@ -61,6 +70,10 @@ reflinks:
     bootswatch:
         url: http://bootswatch.com
         title: Bootswatch
-    bug-tracker:
+    bug-tracker-bitbucket:
         url: https://bitbucket.org/jandecaluwe/myhdl/issues?status=new&status=open
         title: Bug Tracker
+    bug-tracker:
+        url: https:://github.com/jandecaluwe/myhdl/issues 
+        title: Bug Tracker
+
