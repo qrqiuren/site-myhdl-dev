@@ -1,3 +1,8 @@
+---
+title:  Google Summer of Code Mentors Page
+layout: page
+date: 2015-02-22
+---
 
 
 The following is a brief description what is expected from 
