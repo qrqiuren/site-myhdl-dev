@@ -26,7 +26,7 @@ reflinks:
         url: https://bitbucket.org/jandecaluwe/myhdl 
         title: MyHDL repository
     myhdl_repo:
-        url: https://github.org/jandecaluwe/myhdl 
+        url: https://github.com/jandecaluwe/myhdl 
         title: MyHDL repository
     site_myhdl_dev_repo:
         url: https://bitbucket.org/jandecaluwe/site-myhdl-dev 
@@ -74,6 +74,6 @@ reflinks:
         url: https://bitbucket.org/jandecaluwe/myhdl/issues?status=new&status=open
         title: Bug Tracker
     bug-tracker:
-        url: https:://github.com/jandecaluwe/myhdl/issues 
+        url: https://github.com/jandecaluwe/myhdl/issues 
         title: Bug Tracker
 
