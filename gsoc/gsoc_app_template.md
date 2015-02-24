@@ -55,6 +55,10 @@ Answer the following questions in your proposal:
   preliminary, we will use it to help monitor your progress throughout 
   the program. Also understand that during the project you will issue 
   weekly progress reports against that plan on your blog.
+* We also strongly encourage participants to generate a presentation
+  and present on there project at a conference.  Regional Python 
+  conferences are great as well as the Embedded Systems Conference
+  (ESC) or various IEEE gatherings.
 
 In planning your project, indicate where you expect certain tests
 to pass and when documentaiton will be completed.  Also indicate
