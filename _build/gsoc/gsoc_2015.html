@@ -102,6 +102,9 @@
 <li><a href="#myhdl-package-project-ideas">MyHDL Package Project Ideas</a><ul>
 <li><a href="#refactor-conversion-code">Refactor Conversion Code</a></li>
 <li><a href="#general-hierarchy-analyzer">General Hierarchy Analyzer</a></li>
+<li><a href="#cosimulation-signal-extraction">Cosimulation Signal Extraction</a></li>
+<li><a href="#2d-list-of-signal-conversion">2D List-of-Signal Conversion</a></li>
+<li><a href="#initial-value-support">Initial Value Support</a></li>
 <li><a href="#developer-documentation">Developer Documentation</a></li>
 </ul>
 </li>
@@ -251,6 +254,40 @@ that will support the overall MyHDL conversion code structure,
 reusability, and comprehension.</p>
 <p>Potential mentor(s):</p>
 <p><em>.  <a href="">Oscar Diaz</a>, </em>tbd* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
+<h4 id="cosimulation-signal-extraction">Cosimulation Signal Extraction</h4>
+<p>It is possible through the foriegn language interfaces (VPI/DPI) to
+extract all the signals in from the <a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimuation</a> simulator 
+and
+build a <code>dict</code> or <code>object</code> on the Python side.  Performing this 
+action will simplify and automate connecting a Python/MyHDL 
+verification environment to a Verilog/VHDL simulation.</p>
+<p>This project will require a student to investigate the MyHDL 
+<a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimulation</a> and 
+research the simulator 
+foriegn-language-interfaces, in particular VPI and/or DPI 
+for Verilog Cosimulations and VHPI for VHDL simulations
+(note Cosimulation with VHDL is not currently possible due
+to the lack of open-source simulators with a complete VHPI
+or other FLI).  This task requires moderate skill level, 
+general simulator knolwedge and will require Python and
+C coding.  This work will mainly be completed with the 
+<a href="http://iverilog.icarus.com/">Icarus Verilog</a> or 
+<a href="http://www.tachyon-da.com/">CVC</a> simulators.</p>
+<h4 id="2d-list-of-signal-conversion">2D List-of-Signal Conversion</h4>
+<p>The MyHDL conversion currently handles 
+<a href="http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-lists-of-signals">converting a list-of-signals</a>.
+But it is ofthen desired to use multi-dimension (list of lists) to 
+structure data and/or signals.  This project will involve exploring
+the list-of-signal conversion, proposing an architecture for 
+multi-dimension conversion, a complete set of tests, and an 
+implementation for the conversion.</p>
+<h4 id="initial-value-support">Initial Value Support</h4>
+<p>Most synthesis tools (e.g FPGA Quartus, xst, Vivado) support 
+<a href="http://dev.myhdl.org/ideas/initial-values.html">initial condition mechanisms</a>.
+This project would involve complete investigation which synthesis
+tools support intial conditions (variable, Signal, and RAM).  Once
+the supported methods are determined a proposal and implemenation 
+for initial conditions will be developed.</p>
 <h4 id="developer-documentation">Developer Documentation</h4>
 <p>This project involves documenting the MyHDL compiler (conversion
 code).  The conversion code uses the Python compiler packages.

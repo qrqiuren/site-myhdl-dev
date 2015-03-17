@@ -1,20 +1,25 @@
 ---
 title:  GSoC 2015 Application Template
 layout: page
-date: 2015-02-23
+date: 2015-03-15
 ---
 
 ## Writing your proposal
 
-You should include the following information in your proposal.
+MyHDL participates as a Python sub-org.  Please first review the 
+[PSF applicagtion template](https://wiki.python.org/moin/SummerOfCode/ApplicationTemplate2015).  
+You should include the following information in your proposal.  When
+submitting make sure the sub-org (MyHDL) is in the title.
 
 
 ### You the person
 
 Please put this information at the top of your proposal.
 
-Name
-* University / current enrollment
+* Name
+* Email, Telephone, and Timezone
+* Blog, blogging project progress is required by GSoC.
+* University, current enrollment, expected graduation, and degree.
 * Short bio / overview of your background
 * How can we contact you (email, IRC handle, GitHub username, etc.)?
 
@@ -39,6 +44,14 @@ students start fresh.
 
 ### You and your project
 
+Your proposal should contain:
+
+* Proposal title, inlcude "MyHDL" in the title.
+* Proposal abstract.  
+* Proposal detailed description and timeline.
+  The [GSoC student guide](http://en.flossmanuals.net/GSoCStudentGuide/ch008_writing-a-proposal/) 
+  contains useful information on proposal writing.
+
 Answer the following questions in your proposal:
 
 * What do you want to achieve?
@@ -57,8 +70,8 @@ Answer the following questions in your proposal:
   weekly progress reports against that plan on your blog.
 * We also strongly encourage participants to generate a presentation
   and present on there project at a conference.  Regional Python 
-  conferences are great as well as the Embedded Systems Conference
-  (ESC) or various IEEE gatherings.
+  conferences are great, exampe [PyOhio]().  Other conferences: 
+  The Embedded Systems Conference (ESC) or various IEEE gatherings.
 
 In planning your project, indicate where you expect certain tests
 to pass and when documentaiton will be completed.  Also indicate
@@ -78,7 +91,8 @@ above questions answered in your application somewhere.
 
 A google document is a good place to write a proposal.  All 
 potential mentors should be copied (shared) to the document
-so they can comment and edit.
+so they can comment and edit.  The proposals all need to be
+sumbitted through the [Google melange system](https://www.google-melange.com/gsoc/homepage/google/gsoc2015)
 
 
 ## References
