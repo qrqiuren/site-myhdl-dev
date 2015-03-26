@@ -112,6 +112,7 @@
 <li><a href="#hdmi-source-sink">HDMI Source / Sink</a></li>
 <li><a href="#sdram-controller">SDRAM Controller</a></li>
 <li><a href="#jpeg-encoder">JPEG Encoder</a></li>
+<li><a href="#leros-tiny-processor">Leros tiny processor</a></li>
 <li><a href="#other-cores">Other Cores</a></li>
 </ul>
 </li>
@@ -408,6 +409,29 @@ is a suggested order of implementation:</p>
 
 <p>This project requires digital circuit familiarity, ability 
 to read and understand Verilog, and Python.  </p>
+<h4 id="leros-tiny-processor">Leros tiny processor</h4>
+<p>Leros is a tiny soft-core processor optimized for low-cost FPGAs , 
+written in technology-agnostic VHDL. The architecture is a 
+pipelined 16-bit accumulator, designed with a balance of
+logic resources and on-chip memory.</p>
+<p>Tiny processors applications include:</p>
+<ul>
+<li>Implement complex states machines with a tiny 
+  processor and a tiny assembler program.</li>
+<li>Implement intelligent peripheral device for auxiliary functions.</li>
+<li>Many-core applications and massive parallel algorithms.</li>
+</ul>
+<p>This project has the architecture documentation and a reference 
+VHDL design to port. The project will include not only the port 
+but also the test framework and testbenches in MyHDL to use test 
+driven design features. A user guide for the processor core is also 
+planned in the project.</p>
+<p>Test on real hardware is desirable, in order to compare logic 
+resources usage and real performance of both MyHDL and VHDL 
+implementations.</p>
+<p>This project requires digital circuit familiarity and experience 
+with VHDL. A background on computer architecture and 
+microcontrollers is desired but not required.</p>
 <h4 id="other-cores">Other Cores</h4>
 <p>There are an unlimited number of cores that can be implemented
 with MyHDL.  Any core can be proposed but will not have the 
