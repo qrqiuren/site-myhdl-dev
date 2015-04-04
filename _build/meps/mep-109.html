@@ -82,35 +82,8 @@
 
     <div class="row">
 
-        <div class="col-md-3" role="navigation"> 
- 
-            <div class="sidebar" data-spy="affix" 
-                 data-offset-top="80" 
-                 data-offset-bottom="60">
-                <div class="well">
-                    <a href="#"><strong>Automatic inference of the reset behavior</strong></a>
-                    <div class="toc">
-<ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#example-of-the-issues">Example of the issues</a></li>
-<li><a href="#proposed-solution">Proposed solution</a></li>
-<li><a href="#solution-discussion">Solution discussion</a></li>
-<li><a href="#conversion-to-verilog-and-vhdl">Conversion to Verilog and VHDL</a></li>
-<li><a href="#limitations">Limitations</a><ul>
-<li><a href="#all-registers-in-a-process-are-reset">All registers in a process are reset</a></li>
-<li><a href="#register-inferencing-from-variables-is-not-supported">Register inferencing from variables is not supported</a></li>
-</ul>
-</li>
-<li><a href="#design-remarks">Design remarks</a></li>
-</ul>
-</div>
-
-                </div>
-            </div>
-        </div>
-
         <div class="content">
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
+            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
 <table class="table table-striped table-condensed preamble">
 <tbody>
     <tr><td><strong>MEP</strong></td><td>109</td></tr>
@@ -328,6 +301,34 @@ initial values as reset values and avoiding such registers in the first place.</
 automatically for sequential logic, avoiding error-prone explicit coding.</p>
             </div>
         </div>
+
+        <div class="col-md-3" role="navigation"> 
+ 
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Automatic inference of the reset behavior</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#example-of-the-issues">Example of the issues</a></li>
+<li><a href="#proposed-solution">Proposed solution</a></li>
+<li><a href="#solution-discussion">Solution discussion</a></li>
+<li><a href="#conversion-to-verilog-and-vhdl">Conversion to Verilog and VHDL</a></li>
+<li><a href="#limitations">Limitations</a><ul>
+<li><a href="#all-registers-in-a-process-are-reset">All registers in a process are reset</a></li>
+<li><a href="#register-inferencing-from-variables-is-not-supported">Register inferencing from variables is not supported</a></li>
+</ul>
+</li>
+<li><a href="#design-remarks">Design remarks</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="footer">

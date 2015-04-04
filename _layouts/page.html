@@ -22,6 +22,19 @@
 
     <div class="row">
 
+        <div class="content">
+            {% block content_div %}
+            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+            {% endblock %}
+                {% block preamble %}
+                {% endblock %}
+                {% if this.description|d %}
+                <p class="lead">{{this.description}}</p>
+                {% endif %}
+                {{this.body}}
+            </div>
+        </div>
+
         {% block sidebar %}
         <div class="col-md-3" role="navigation"> 
             {% if this.toc %} 
@@ -29,7 +42,7 @@
                  data-offset-top="80" 
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><strong>{{this.title}}</strong></a>
+                    <a href="#"><strong style="font-size:90%">{{this.title}}</strong></a>
                     {{this.toc}}
                 </div>
             </div>
@@ -37,15 +50,6 @@
         </div>
         {% endblock %}
 
-        <div class="content">
-            {% block content_div %}
-            <div class="col-md-6" data-spy="scroll" data-target="#sidenav" role="main">
-            {% endblock %}
-                {% block preamble %}
-                {% endblock %}
-                {{this.body}}
-            </div>
-        </div>
     </div>
 
     {% include 'footer.html' %}
