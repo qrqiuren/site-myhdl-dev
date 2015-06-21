@@ -6,7 +6,7 @@ layout: page
 Purpose
 =======
 
-The [dev.myhdl.org] website aims to document all aspects of the development
+The [dev.myhdl.org] website documents all aspects of the development
 process of the MyHDL project. MyHDL is a Python library to use
 Python as a HDL. The main project website is [here][myhdl]. 
 
