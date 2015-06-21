@@ -18,7 +18,7 @@ Website development
 This website is developed collaboratively by the MyHDL development
 community. 
 
-It is developed with the [urubu] software.
+It is developed using the [urubu] software.
 [Read more &raquo;][site-development] 
 
 Theme
