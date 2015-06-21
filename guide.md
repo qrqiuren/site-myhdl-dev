@@ -7,7 +7,7 @@ author: Jan Decaluwe
 Background info
 ===============
 
-The [dev.myhdl.org] website aims to document all aspects of the development
+The [dev.myhdl.org] website documents all aspects of the development
 process of the MyHDL project. 
 
 MyHDL's original developer, [jandecaluwe-mail], is MyHDL's BDFL. He has the
