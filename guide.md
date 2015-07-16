@@ -53,7 +53,7 @@ The repository contains multiple branches. You can see them as follows:
 $ cd myhdl
 $ git branch -a
 * master
-  remotes/origin/0.8-maintenance
+  remotes/origin/0.9-maintenance
   remotes/origin/HEAD -> origin/master
   remotes/origin/master
 ```   
@@ -65,13 +65,13 @@ branches is as follows:
 Branch name       |  Purpose          | Policy                                                       
 ------------------|-------------------|---------------------------
  master           |  Development      | New features 
- 0.8-maintenance  |  Official release | 0.8.* release maintenance 
+ 0.9-maintenance  |  Official release | 0.9.* release maintenance 
 
 By default, you are on the `master` branch. To switch to the maintenance
 branch, for example for a bug fix in the offical release, use:
 
 ```
-$ git checkout 0.8-maintenance
+$ git checkout 0.9-maintenance
 ```
 
 On any given branch, you can stay current with upstream changes
