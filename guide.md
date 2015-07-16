@@ -59,7 +59,7 @@ $ git branch -a
 ```   
 
 You can see that there is a `master` branch that is checked out by
-default, and a `0.8-maintenance` branch. The meaning of the
+default, and a `0.9-maintenance` branch. The meaning of the
 branches is as follows: 
 
 Branch name       |  Purpose          | Policy                                                       
