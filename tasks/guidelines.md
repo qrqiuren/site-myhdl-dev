@@ -15,7 +15,6 @@ difficulties and ideas to get feedback and help from the community.
 When developing code, make sure you understand the development policy described
 in the Developer's [/guide].  Take into account that the most difficult part of
 a task may be writing the unit test, not necessarily the feature
-implementation.  It is unlikely that changesets without unit tests will be
-accepted.
+implementation.  Changesets without unit tests will be accepted.
 
 

@@ -200,10 +200,20 @@ importantly, make sure your changes have been tested.</p>
 tests in <code>test/core</code> should be run. If your changes are related to conversion
 to VHDL/Verilog, the test in the <code>test/conversion</code> directories should be run
 also.</p>
-<p>Presumably, you have some test for your changes in place. If at all possible,
-turn it into a test that can be added to the regression test suite.</p>
+<p>Presumably, you have some test for your changes in place.  You should turn it
+into a test that can be added to the regression test suite.</p>
 <p>You may need a number of commits to complete your work. That isn't a problem at
 all, on the contrary. Finish the job before publishing. </p>
+<h3 id="writing-tests">Writing tests</h3>
+<p>For anything but trivial fixes, unit test are mandatory.</p>
+<p>A test for a fix or feature should fail before the fix or implementation, and
+pass after it. Therefore, test-driven development, where the test is written
+first, is the recommended development strategy.</p>
+<p>The first reason for a test is obviously to verify the fix or implementation
+itself. However, the most important reason is to make the code base robust
+against future modifications. Consequently, changesets without good tests will
+not be accepted.</p>
+<p>For MyHDL development, the test should be written in <a href="http://pytest.org">pytest</a> style.</p>
 <h3 id="publishing-changes">Publishing changes</h3>
 <p>When you are ready with your changes, use  <a href="http://www.github.com" title="GitHub">GitHub</a> to publish them.
 Publishing changes is done by creating <em>pull requests</em>. The process is
@@ -232,6 +242,7 @@ merge it in or not.</p>
 <li><a href="#first-step-communicate">First step: communicate</a></li>
 <li><a href="#creating-changes">Creating changes</a></li>
 <li><a href="#quality">Quality</a></li>
+<li><a href="#writing-tests">Writing tests</a></li>
 <li><a href="#publishing-changes">Publishing changes</a></li>
 </ul>
 </li>

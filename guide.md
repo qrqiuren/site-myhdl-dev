@@ -147,11 +147,29 @@ tests in `test/core` should be run. If your changes are related to conversion
 to VHDL/Verilog, the test in the `test/conversion` directories should be run
 also.
 
-Presumably, you have some test for your changes in place. If at all possible,
-turn it into a test that can be added to the regression test suite.
+Presumably, you have some test for your changes in place.  You should turn it
+into a test that can be added to the regression test suite.
 
 You may need a number of commits to complete your work. That isn't a problem at
 all, on the contrary. Finish the job before publishing. 
+
+Writing tests
+-------------
+
+For anything but trivial fixes, unit test are mandatory.
+
+A test for a fix or feature should fail before the fix or implementation, and
+pass after it. Therefore, test-driven development, where the test is written
+first, is the recommended development strategy.
+
+The first reason for a test is obviously to verify the fix or implementation
+itself. However, the most important reason is to make the code base robust
+against future modifications. Consequently, changesets without good tests will
+not be accepted.
+
+For MyHDL development, the test should be written in [pytest][1] style.
+
+[1]: http://pytest.org
 
 Publishing changes
 -------------------
