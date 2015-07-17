@@ -17,6 +17,32 @@ takes that into account.
 *[HDL]: Hardware Description Language 
 *[BDFL]: Benevolent Dictator For Life
 
+How to help with the MyHDL project
+==================================
+
+Before considering to contribute to development, note that there are other ways
+to help.
+
+In particular, the best way to help is to use MyHDL in design projects *and let
+people now about it*. If you want, you can use the `users` section on the
+[myhdl-site].
+
+Another great help is to report issues in the [issue-tracker].  Add a small
+test that fails and that you think should work.  That is a great starting point
+of issue fixers.
+
+If you like to contribute to development, please consider not to start with
+your own pet feature. The following contributions get priority, in this order:
+
+* code changes that increase robustness, clarity and maintainability 
+* issue fixes 
+*features labeled `help wanted` in the [issue-tracker]   
+
+If you would like to work on a new feature, do things in the right order.
+Start with communication and specification work. Do not start by publishing
+code. MyHDL development is conservative when it comes to new features,
+so you are likely to be disappointed.
+
 The repository
 ==============
 
@@ -111,7 +137,7 @@ First step: communicate
 
 Except for obvious bug fixes, the first step is to communicate about the
 problem or feature with the MyHDL community.  Start a discussion in the
-[mailing-list] or add an entry in the [bug-tracker].
+[mailing-list] or add an entry in the [issue-tracker].
 
 Depending on the interest, the result will be a fruitful discussion that may
 result in a specification for the work to be done.

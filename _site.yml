@@ -1,7 +1,7 @@
 brand: MyHDL / dev
 
 reflinks:
-    myhdl: 
+    myhdl-site: 
         url: http://www.myhdl.org 
         title: MyHDL site
     google: 
@@ -73,7 +73,7 @@ reflinks:
     bug-tracker-bitbucket:
         url: https://bitbucket.org/jandecaluwe/myhdl/issues?status=new&status=open
         title: Bug Tracker
-    bug-tracker:
+    issue-tracker:
         url: https://github.com/jandecaluwe/myhdl/issues 
-        title: Bug Tracker
+        title: Issue Tracker
 
