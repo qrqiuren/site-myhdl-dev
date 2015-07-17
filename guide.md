@@ -36,7 +36,7 @@ your own pet feature. The following contributions get priority, in this order:
 
 * code changes that increase robustness, clarity and maintainability 
 * issue fixes 
-*features labeled `help wanted` in the [issue-tracker]   
+* features labeled `help wanted` in the [issue-tracker]   
 
 If you would like to work on a new feature, do things in the right order.
 Start with communication and specification work. Do not start by publishing
