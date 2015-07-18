@@ -24,8 +24,8 @@ Before considering to contribute to development, note that there are other ways
 to help.
 
 In particular, the best way to help is to use MyHDL in design projects *and let
-people now about it*. If you want, you can use the `users` section on the
-[myhdl-site].
+people now about it*. If you want, you can use 
+[the users section on the MyHDL site][myhdl-users].
 
 Another great help is to report issues in the [issue-tracker].  Add a small
 test that fails and that you think should work.  That is a great starting point
@@ -39,9 +39,9 @@ your own pet feature. The following contributions get priority, in this order:
 * features labeled `help wanted` in the [issue-tracker]   
 
 If you would like to work on a new feature, do things in the right order.
-Start with communication and specification work. Do not start by publishing
-code. MyHDL development is conservative when it comes to new features,
-so you are likely to be disappointed.
+Start with communication and specification work, not by raising pull requests
+against the main repository. MyHDL development is conservative when it comes to
+new features, so you are likely to be disappointed otherwise.
 
 The repository
 ==============

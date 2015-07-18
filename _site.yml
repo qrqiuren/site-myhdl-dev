@@ -4,6 +4,9 @@ reflinks:
     myhdl-site: 
         url: http://www.myhdl.org 
         title: MyHDL site
+    myhdl-users: 
+        url: http://www.myhdl.org/users 
+        title: MyHDL users 
     google: 
         url: http://www.google.com
         title: Google
