@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Writing Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="active" class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/guide/">Guide</a></li>
+       <li class="active">Writing Tests</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>Writing Tests
+</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="content">
+            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+                <h2 id="introduction">Introduction</h2>
+<p>Test cases are useful in verifying the features and functionalities 
+of MyHDL. They also serve the purpose of guiding users on how to use 
+different features of MyHDL.
+Mainly there are two types of test cases in MyHDL.</p>
+<ul>
+<li>
+<p>Core Tests</p>
+<ul>
+<li>These tests are written to verify core functionalities of MyHDL. 
+  In the repository core tests can be found under :
+<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core">REPO/myhdl/test/core</a> and 
+<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core2">REPO/myhdl/test/core2</a></li>
+</ul>
+</li>
+<li>
+<p>Conversion Tests</p>
+<ul>
+<li>Thess tests are written to verify if the conversion from MyHDL 
+  to Verilog or MyHDL to VHDL has happened properly. 
+  In the repository conversion tests can be found under: 
+<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion">REPO/myhdl/test/conversion</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="run-built-in-tests">Run built-in tests</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<p>The MyHDL tests use py.test as the test runner.  The conversion
+tests require a Verilog and VHDL simulator.  The following lists
+the simulators currently supported.</p>
+<ul>
+<li>py.test<ul>
+<li>pytest is a mature full-featured Python testing tool. MyHDL uses 
+  py.test in MyHDL/test/core2/ and MyHDL/test/convertion/</li>
+<li>Intallation guid for pytest can be found 
+  <a href="http://pytest.org/latest/getting-started.html">here</a></li>
+</ul>
+</li>
+<li>icarus Verilog<ul>
+<li>Icarus Verilog is a Verilog simulation and synthesis tool. MyHDL 
+  to Verilog conversions can be verified using this.</li>
+<li>It is an open-source project. Source can be found 
+  <a href="https://github.com/steveicarus/iverilog">here</a></li>
+</ul>
+</li>
+<li>GHDL<ul>
+<li>GHDL is a popular open source VHDL simulator. MyHDL to VHDL 
+  conversions can be verified using this.</li>
+<li>Installation guide for ghdl-updates from source can be found 
+  <a href="http://design4hardware.blogspot.com/2015/04/install-ghdl.html">here</a></li>
+</ul>
+</li>
+<li>vcom / vlog<ul>
+<li>vcom and vlog are VHDL and Verilog compilers in respective order. 
+  They ships with ModelSim by MentorGraphics.</li>
+<li>Details about Modelsim can be found <a href="http://www.mentor.com/products/fv/modelsim/">here</a></li>
+<li>Linux version of Modelsim is mainly targeting RedHat. Therefore 
+  incompatible with the freetype library in Ubuntu 14.04. A guide 
+  to resolve this issue can be found
+  <a href="http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html">here</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="run-core-tests">Run Core tests</h3>
+<div class="codehilite"><pre>    $ export PYTHONPATH=&lt;Path_To_Repo&gt;
+    $ cd &lt;Path_To_Repo&gt;/myhdl/test/core
+    $ make
+</pre></div>
+
+
+<p>Above command will run all the tests present in core folder. If you only want to run a specific test you can do the following.</p>
+<div class="codehilite"><pre>    $ py.test &lt;Name_Of_Test&gt;
+</pre></div>
+
+
+<h3 id="run-conversion-tests">Run Conversion tests</h3>
+<div class="codehilite"><pre>    $ export PYTHONPATH=&lt;Path_To_Repo&gt;
+    $ cd &lt;Path_to_Repo&gt;/myhdl/test/conversion/general
+    $ make
+</pre></div>
+
+
+<p>Default simulator for conversion tests is vlog and vcom. But you can 
+select the one you prefer as follows</p>
+<div class="codehilite"><pre>    $ make icarus OR $ make GHDL
+</pre></div>
+
+
+<h2 id="write-your-own-test">Write your own test</h2>
+<h3 id="methodology">Methodology</h3>
+<ol>
+<li>Decide on the feature or function that is going to be tested. (File 
+   name of the test case should contain this information)</li>
+<li>Study the events/scenarios where the particular feature is used. 
+   Pick a simple and common way of using it.</li>
+<li>Write a simple design which uses the particular feature.</li>
+<li>Generate a test vector of reasonable size.</li>
+<li>Validate the output of the unit under test against the expected output.</li>
+</ol>
+<p><em>Sometimes the test will be written to missuse a feature and then will 
+be tested for raising the correct exception.</em></p>
+<h3 id="general-guidelines">General Guidelines</h3>
+<ul>
+<li>Keep it Simple<ul>
+<li>Tests does not have to be complex hardware designs. They should 
+  be simple enough to understand quickly.</li>
+</ul>
+</li>
+<li>Focused on a specific functionality<ul>
+<li>A single test should only test for a destinguishable specific 
+  functionality.</li>
+</ul>
+</li>
+<li>Cover all/most possible encounters<ul>
+<li>The test should verify the functionality is valid for every/most 
+  possible scenarios. For instance if 8 bit input is used, 
+  try to test the functionality for 256 possible numbers.</li>
+</ul>
+</li>
+<li>Debug friendly<ul>
+<li>It would be helpfull if the test prints informative messages. 
+  For instance messages can be added to assertions so that if the 
+  assertion failed it would print possible causes for the failure.</li>
+</ul>
+</li>
+</ul>
+<h2 id="validating-output">Validating output</h2>
+<h3 id="using-unittest">Using unittest</h3>
+<p><em>unittest is maintenance for legacy tests and MyHDL recommends using 
+py.test for all new tests</em></p>
+<ul>
+<li>unittest is the buil-in unit testing framework in python. 
+  myhdl/core/ tests is using unittest to perform tests.</li>
+<li>Following snippet is an example of using unittest to verify that 
+  myhdl.enum need to be unique literals.</li>
+<li>Have a look at the full test suit : 
+  <a href="https://github.com/jandecaluwe/myhdl/blob/master/myhdl/test/core/test_enum.py">test_enum.py</a></li>
+</ul>
+<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="n">enum</span>
+
+<span class="k">class</span> <span class="nc">TestEnum</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">testUniqueLiterals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">t_State</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&quot;SEARCH&quot;</span><span class="p">,</span><span class="s">&quot;CONFIRM&quot;</span><span class="p">,</span><span class="s">&quot;SEARCH&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+
+<h3 id="using-pytest">Using py.test</h3>
+<ul>
+<li>MyHDL prefer using py.test over unittest because it reduces the 
+  number of lines and hence more readable.</li>
+<li>Python's assert method can be used for validating output. A sample 
+  code snippet on how to use assert is shown below.</li>
+<li>Adding an error message to assert statement would make it more 
+  debug friendly.</li>
+</ul>
+<p><em>py.test uses some naming conventions to discover test cases. Your 
+file should contain the test_ prefix (Ex: test_issue9.py) and the test 
+method should also have the test_ prefix (Ex: def test_UniqueLiterals() )</em></p>
+<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">issue_9</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="s">&#39;bar&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">Signal</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">foo</span><span class="p">)</span><span class="o">==</span><span class="n">Signal</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">bar</span><span class="p">))</span> <span class="o">==</span> <span class="bp">False</span> <span class="p">,</span> <span class="s">&quot;ERROR_MESSAGE&quot;</span>
+
+<span class="k">def</span> <span class="nf">test_issue_9</span><span class="p">():</span>
+    <span class="n">issue_9</span><span class="p">()</span>
+</pre></div>
+
+
+<h3 id="using-conversionverify">Using conversion.verify</h3>
+<ul>
+<li>MyHDL introduces conversion.verify to verify the conversions from MyHDL</li>
+<li>More information will be added soon</li>
+</ul>
+            </div>
+        </div>
+
+ 
+        <div class="col-md-3" role="navigation"> 
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Writing Tests</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#run-built-in-tests">Run built-in tests</a><ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#run-core-tests">Run Core tests</a></li>
+<li><a href="#run-conversion-tests">Run Conversion tests</a></li>
+</ul>
+</li>
+<li><a href="#write-your-own-test">Write your own test</a><ul>
+<li><a href="#methodology">Methodology</a></li>
+<li><a href="#general-guidelines">General Guidelines</a></li>
+</ul>
+</li>
+<li><a href="#validating-output">Validating output</a><ul>
+<li><a href="#using-unittest">Using unittest</a></li>
+<li><a href="#using-pytest">Using py.test</a></li>
+<li><a href="#using-conversionverify">Using conversion.verify</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://bitbucket.org/jandecaluwe/site-myhdl-dev/src">Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
