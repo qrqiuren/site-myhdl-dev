@@ -44,7 +44,13 @@
 
           <ul class="nav navbar-nav navbar-left">
  
-            <li><a href="/guide.html">Guide</a></li>
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
             <li><a href="/meps/">MEPs</a></li>
             <li class="active"><a href="/tasks/">Tasks</a></li>
             <li><a href="/ideas/">Ideas</a></li>
@@ -85,9 +91,9 @@ valuable than harder ones.</p>
 hard work. Use the mailing list or newsgroup to communicate about your
 difficulties and ideas to get feedback and help from the community.</p>
 <p>When developing code, make sure you understand the development policy described
-in the Developer's <a href="/guide.html" title="Guide">Guide</a>.  Take into account that the most difficult part of
+in the Developer's <a href="/guide/" title="Guide">Guide</a>.  Take into account that the most difficult part of
 a task may be writing the unit test, not necessarily the feature
-implementation.  Changesets without unit tests will be accepted.</p>
+implementation.  Changesets without unit tests will be not accepted.</p>
             </div>
         </div>
 
