@@ -69,7 +69,7 @@ If you have git installed, you can use the repository to track development.
 The first step is to clone the repository according to the GitHub instructions:
 
 ```
-$ git clone https://github.com/jandecaluwe/myhdl.gito
+$ git clone https://github.com/jandecaluwe/myhdl.git
 Cloning into 'myhdl'...
 ```
 
@@ -94,7 +94,7 @@ Branch name       |  Purpose          | Policy
  0.9-maintenance  |  Official release | 0.9.* release maintenance 
 
 By default, you are on the `master` branch. To switch to the maintenance
-branch, for example for a bug fix in the offical release, use:
+branch, for example for a bug fix in the official release, use:
 
 ```
 $ git checkout 0.9-maintenance

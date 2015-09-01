@@ -1,87 +1,113 @@
 ---
 title: Writing Tests
 layout: article
-author: Udara Piumal
+author: Udara Piumal, Christopher Felton
 ---
 
 Introduction
 ============
-Test cases are useful in verifying the features and functionalities 
-of MyHDL. They also serve the purpose of guiding users on how to use 
-different features of MyHDL.
-Mainly there are two types of test cases in MyHDL.
+The MyHDL project contains an extensive test suite.  The tests 
+are critical to the quality and expansion of the project.  As 
+a developer (new or not) one of the first things you will do 
+is write a test.  This document is an introduction to the MyHDL
+test suite.
 
-* Core Tests
-    - These tests are written to verify core functionalities of MyHDL. 
-      In the repository core tests can be found under :
-    [REPO/myhdl/test/core](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core) and 
-    [REPO/myhdl/test/core2](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core2)
 
-* Conversion Tests
-    - Thess tests are written to verify if the conversion from MyHDL 
-      to Verilog or MyHDL to VHDL has happened properly. 
-      In the repository conversion tests can be found under: 
-    [REPO/myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
+MyHDL Test Suite
+================
+The test suite contains two main sets of tests:
 
-Run built-in tests
-==================
+* Core Tests: these test all the hardware description types and
+  extensions in the package.  In the repository core tests can be 
+  found under: [myhdl/test/core](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core)
 
-Prerequisites
--------------
-The MyHDL tests use py.test as the test runner.  The conversion
-tests require a Verilog and VHDL simulator.  The following lists
-the simulators currently supported.
+* Conversion Tests: these tests verify conversion 
+  from MyHDL to Verilog and VHDL.  In the repository conversion tests 
+  can be found under: [myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
 
-* py.test
-    - pytest is a mature full-featured Python testing tool. MyHDL uses 
-      py.test in MyHDL/test/core2/ and MyHDL/test/convertion/
-    - Intallation guid for pytest can be found 
-      [here](http://pytest.org/latest/getting-started.html)
-* icarus Verilog
-    - Icarus Verilog is a Verilog simulation and synthesis tool. MyHDL 
-      to Verilog conversions can be verified using this.
-    - It is an open-source project. Source can be found 
-      [here](https://github.com/steveicarus/iverilog)
-* GHDL
-    - GHDL is a popular open source VHDL simulator. MyHDL to VHDL 
-      conversions can be verified using this.
-    - Installation guide for ghdl-updates from source can be found 
-      [here](http://design4hardware.blogspot.com/2015/04/install-ghdl.html)
-* vcom / vlog
-    - vcom and vlog are VHDL and Verilog compilers in respective order. 
-      They ships with ModelSim by MentorGraphics.
-    - Details about Modelsim can be found [here](http://www.mentor.com/products/fv/modelsim/)
-    - Linux version of Modelsim is mainly targeting RedHat. Therefore 
-      incompatible with the freetype library in Ubuntu 14.04. A guide 
-      to resolve this issue can be found
-      [here](http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html)
+The conversion tests most often created are under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
+and make use of [convertible testbenches](http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches)
+There are addition conversion tests that use cosimulation but these
+tests are not covered in this document.
 
-Run Core tests
+The test suite uses [pytest](http://pytest.org) as a
+test framework and test runner.  The MyHDL development follows a 
+test-driven-design (TDD) methodology, in most cases this involves
+having a test generated before a feature is added or a bug is 
+fixed.
+
+The [pytest](http://pytest.org) package will need to be installed 
+to run the tests.
+
+As bugs or issues are discovered tests are created to reproduce
+the issue.  As issue description is first entered into the [issue-tracker].
+Then a test can be crated in [myhdl/test/bugs/](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).
+The test name should contain the github issue number:
+
+    test_issue_<github issue #>.py
+    
+The tests in the [bugs] directory 
+
+HDL Simulators
 --------------
-```
-    $ export PYTHONPATH=<Path_To_Repo>
-    $ cd <Path_To_Repo>/myhdl/test/core
-    $ make
-```
-Above command will run all the tests present in core folder. If you only want to run a specific test you can do the following.
-```
-    $ py.test <Name_Of_Test>
-```
-Run Conversion tests
---------------------
-```
-    $ export PYTHONPATH=<Path_To_Repo>
-    $ cd <Path_to_Repo>/myhdl/test/conversion/general
-    $ make
-```
-Default simulator for conversion tests is vlog and vcom. But you can 
-select the one you prefer as follows
-```
-    $ make icarus OR $ make GHDL
-```
-Write your own test
-===================
+In addition to [pytest](http://pytest.org) an HDL simulator will be 
+required to run the conversion tests.  The following is a list of 
+simulators commonly used with the conversion tests.
 
+* Icarus Verilog [iverilog]: Icarus Verilog is a Verilog simulation 
+  and synthesis tool.  Icarus is an [open-source project](https://github.com/steveicarus/iverilog)
+
+* GHDL [ghdl]: GHDL is an open source VHDL simulator. An [installation 
+  guide](http://design4hardware.blogspot.com/2015/04/install-ghdl.html) is available. 
+
+* Modelsim [vcom, vlog]: vcom and vlog are VHDL and Verilog compilers, 
+  respectively.  They ship with [ModelSim by MentorGraphics](http://www.mentor.com/products/fv/modelsim/).
+  For installation tips [this guide](http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html) 
+  is useful.
+      
+Other simulators are supported as well and it is not too difficult
+to add a new simulator or analyzer.
+
+
+Running Core Tests
+------------------
+
+```
+    >> python setup.py develop
+    >> cd myhdl/test/core
+    >> py.test   # or make
+```
+
+The above command will run all the tests present in core folder. 
+If you only want to run a specific test you can do the following.
+
+```
+    >> py.test <Name_Of_Test>
+```
+
+Running Conversion Tests
+------------------------
+```
+    >> cd myhdl/test/conversion/general
+    >> py.test --sim=('iverilog', 'ghdl', 'vlog', 'vcom') 
+```
+
+The `--sim` command line argument is used to select the simulator 
+used in the tests.
+
+
+Writing Tests
+=============
+
+<!-- 
+ @todo: this should be simplified, this document should contain
+        the how's:
+          - to add a test add it here
+          - to run a test run it like
+          - gotcha's and other things
+-->
+
+<!-- REMOVE METHODOLOGY 
 Methodology
 -----------
 1. Decide on the feature or function that is going to be tested. (File 
@@ -92,60 +118,42 @@ Methodology
 4. Generate a test vector of reasonable size.
 5. Validate the output of the unit under test against the expected output.
 
-*Sometimes the test will be written to missuse a feature and then will 
+*Sometimes the test will be written to misuse a feature and then will 
 be tested for raising the correct exception.*
+-->
 
 General Guidelines
 ------------------
-* Keep it Simple
-    - Tests does not have to be complex hardware designs. They should 
-      be simple enough to understand quickly.
-* Focused on a specific functionality
-    - A single test should only test for a destinguishable specific 
-      functionality.
-* Cover all/most possible encounters
-    - The test should verify the functionality is valid for every/most 
-      possible scenarios. For instance if 8 bit input is used, 
-      try to test the functionality for 256 possible numbers.
-* Debug friendly
-    - It would be helpfull if the test prints informative messages. 
-      For instance messages can be added to assertions so that if the 
-      assertion failed it would print possible causes for the failure.
+* Keep it Simple: tests do not have to be complex hardware designs. 
+  They should be simple enough to quickly understand.
+  
+* Focused on a specific feature/function: a test should target a 
+  specific feature or issue.  This reduces complicated tests that 
+  can be difficult to understand and maintain.
+  
+<!-- @todo: this needs rewording and not really true -->
+* Cover all/most possible encounters: the test should verify the 
+  functionality is valid for every/most possible scenarios. For 
+  instance if 8 bit input is used, try to test the functionality 
+  for 256 possible numbers.
+  
+* Debug friendly:  It would be helpful if the test prints informative 
+  messages.  For instance messages can be added to assertions so that 
+  if the assertion failed it would print possible causes for the failure.
 
+<!-- REMOVE Valid... heading
 Validating output
 =================
+--> 
 
-Using unittest
---------------
-*unittest is maintenance for legacy tests and MyHDL recommends using 
-py.test for all new tests*
+<!-- 
+  @todo: the unittest stuff should be removed because it is 
+         deprecated
+-->
+         
 
-* unittest is the buil-in unit testing framework in python. 
-  myhdl/core/ tests is using unittest to perform tests.
-* Following snippet is an example of using unittest to verify that 
-  myhdl.enum need to be unique literals.
-* Have a look at the full test suit : 
-  [test_enum.py](https://github.com/jandecaluwe/myhdl/blob/master/myhdl/test/core/test_enum.py)
-
-```python
-import unittest
-from myhdl import enum
-
-class TestEnum(unittest.TestCase):
-    def testUniqueLiterals(self):
-        try:
-            t_State = enum("SEARCH","CONFIRM","SEARCH")
-        except ValueError:
-            pass
-        else
-            self.fail()
-            
-if __name__ == "__main__":
-    unittest.main()
-```
-
-Using py.test
--------------
+Using `py.test`
+---------------
 * MyHDL prefer using py.test over unittest because it reduces the 
   number of lines and hence more readable.
 * Python's assert method can be used for validating output. A sample 
