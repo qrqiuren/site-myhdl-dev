@@ -13,7 +13,7 @@ is write a test.  This document is an introduction to the MyHDL
 test suite.
 
 
-MyHDL Test Suite
+MyHDL test suite
 ================
 The test suite contains two main sets of tests:
 
@@ -22,10 +22,10 @@ The test suite contains two main sets of tests:
   found under: [myhdl/test/core](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core)
 
 * Conversion Tests: these tests verify conversion 
-  from MyHDL to Verilog and VHDL.  In the repository conversion tests 
-  can be found under: [myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
+  from MyHDL to Verilog and VHDL.  In the repository conversion 
+  tests can be found under: [myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
 
-The conversion tests most often created are under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
+The conversion tests are most often created under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
 and make use of [convertible testbenches](http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches)
 There are addition conversion tests that use cosimulation but these
 tests are not covered in this document.
@@ -46,9 +46,11 @@ The test name should contain the github issue number:
 
     test_issue_<github issue #>.py
     
-The tests in the [bugs] directory 
+The tests in the [bugs] directory are a mix of core and conversion
+tests depending on the issue.  The tests in this directory need to
+be invoked similar to the tests in the conversion/general (see below).
 
-HDL Simulators
+HDL simulators
 --------------
 In addition to [pytest](http://pytest.org) an HDL simulator will be 
 required to run the conversion tests.  The following is a list of 
@@ -65,11 +67,11 @@ simulators commonly used with the conversion tests.
   For installation tips [this guide](http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html) 
   is useful.
       
-Other simulators are supported as well and it is not too difficult
+Other simulators are supported and it is not difficult
 to add a new simulator or analyzer.
 
 
-Running Core Tests
+Running core tests
 ------------------
 
 ```
@@ -85,44 +87,25 @@ If you only want to run a specific test you can do the following.
     >> py.test <Name_Of_Test>
 ```
 
-Running Conversion Tests
+Running conversion tests
 ------------------------
+
 ```
     >> cd myhdl/test/conversion/general
     >> py.test --sim=('iverilog', 'ghdl', 'vlog', 'vcom') 
 ```
 
 The `--sim` command line argument is used to select the simulator 
-used in the tests.
+used in the tests.  Many of the tests in the [test/bugs] also 
+verify converted results.  The bug/issue tests will need the 
+`--sim` argument.
 
 
-Writing Tests
+Writing tests
 =============
+<!-- @todo: some intro here -->
 
-<!-- 
- @todo: this should be simplified, this document should contain
-        the how's:
-          - to add a test add it here
-          - to run a test run it like
-          - gotcha's and other things
--->
-
-<!-- REMOVE METHODOLOGY 
-Methodology
------------
-1. Decide on the feature or function that is going to be tested. (File 
-   name of the test case should contain this information)
-2. Study the events/scenarios where the particular feature is used. 
-   Pick a simple and common way of using it.
-3. Write a simple design which uses the particular feature.
-4. Generate a test vector of reasonable size.
-5. Validate the output of the unit under test against the expected output.
-
-*Sometimes the test will be written to misuse a feature and then will 
-be tested for raising the correct exception.*
--->
-
-General Guidelines
+General guidelines
 ------------------
 * Keep it Simple: tests do not have to be complex hardware designs. 
   They should be simple enough to quickly understand.
@@ -131,52 +114,42 @@ General Guidelines
   specific feature or issue.  This reduces complicated tests that 
   can be difficult to understand and maintain.
   
-<!-- @todo: this needs rewording and not really true -->
-* Cover all/most possible encounters: the test should verify the 
-  functionality is valid for every/most possible scenarios. For 
-  instance if 8 bit input is used, try to test the functionality 
-  for 256 possible numbers.
+* Fully tested: for the feature/issue being tested make sure all 
+  aspects are tested.  Test expected failures as well as expected 
+  success.
   
-* Debug friendly:  It would be helpful if the test prints informative 
-  messages.  For instance messages can be added to assertions so that 
-  if the assertion failed it would print possible causes for the failure.
-
-<!-- REMOVE Valid... heading
-Validating output
-=================
---> 
-
-<!-- 
-  @todo: the unittest stuff should be removed because it is 
-         deprecated
--->
+* Debug friendly:  Try and provide as much information as possible 
+  when a test detects an error.  This will assist in future debugging.
          
 
+<!-- @todo: new section name -->
 Using `py.test`
 ---------------
-* MyHDL prefer using py.test over unittest because it reduces the 
-  number of lines and hence more readable.
-* Python's assert method can be used for validating output. A sample 
-  code snippet on how to use assert is shown below.
-* Adding an error message to assert statement would make it more 
-  debug friendly.
+The following is a brief overview of the test structure using the 
+[pytest](pytest.org) style.  Refer to the [pytest site](pytest.org) 
+for more information on the pytest framework and test structure.
 
-*py.test uses some naming conventions to discover test cases. Your 
-file should contain the test_ prefix (Ex: test_issue9.py) and the test 
-method should also have the test_ prefix (Ex: def test_UniqueLiterals() )*
+<!-- @todo: brief summary of  pytest -->
+* Files with names `test_*.py` and functions with names `test_*` will
+  be executed by the `py.test` runner.
+* Use Python's `assert` statements in the functions to validate 
+  expected results and responses.
 
-```python
-from myhdl import *
 
-def issue_9():
-    t = enum('foo', 'bar')
-    assert (Signal(t.foo)==Signal(t.bar)) == False , "ERROR_MESSAGE"
-    
-def test_issue_9():
-    issue_9()
+### Example
+
+```
 ```
 
-Using conversion.verify
------------------------
-* MyHDL introduces conversion.verify to verify the conversions from MyHDL
-* More information will be added soon
+
+Writing conversion tests
+------------------------
+The MyHDL package has simulators that are registered in the code
+base.  As mentioned above a registered simulator is selected by
+using the `--sim=<sim>` agrument with `py.test`.  Two functions 
+can be used with the registered simulators to verify converted code.  
+The [analyze] and [verify] functions.
+
+The [analyze] function is used to verify the converted code passes
+the analysis stage (compilation).  The [analyze] function is invoked
+similar to the conversion functions and the [traceSignals].
