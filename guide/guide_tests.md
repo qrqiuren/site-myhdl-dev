@@ -17,15 +17,15 @@ MyHDL test suite
 ================
 The test suite contains two main sets of tests:
 
-* Core Tests: these test all the hardware description types and
+* Core: The core tests all the hardware description types and
   extensions in the package.  In the repository core tests can be 
   found under: [myhdl/test/core](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core)
 
-* Conversion Tests: these tests verify conversion 
+* Conversion: The conversion tests verify the conversion 
   from MyHDL to Verilog and VHDL.  In the repository conversion 
   tests can be found under: [myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
 
-The conversion tests are most often created under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
+The conversion tests are most often added under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
 and make use of [convertible testbenches](http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches)
 There are addition conversion tests that use cosimulation but these
 tests are not covered in this document.
@@ -54,7 +54,8 @@ HDL simulators
 --------------
 In addition to [pytest](http://pytest.org) an HDL simulator will be 
 required to run the conversion tests.  The following is a list of 
-simulators commonly used with the conversion tests.
+simulators commonly used with the conversion tests.  As simulator 
+or analyzer will need to be installed to run the conversion tests.
 
 * Icarus Verilog [iverilog]: Icarus Verilog is a Verilog simulation 
   and synthesis tool.  Icarus is an [open-source project](https://github.com/steveicarus/iverilog)
@@ -84,7 +85,7 @@ The above command will run all the tests present in core folder.
 If you only want to run a specific test you can do the following.
 
 ```
-    >> py.test <Name_Of_Test>
+    >> py.test <name_of_test>
 ```
 
 Running conversion tests
@@ -110,7 +111,7 @@ General guidelines
 * Keep it Simple: tests do not have to be complex hardware designs. 
   They should be simple enough to quickly understand.
   
-* Focused on a specific feature/function: a test should target a 
+* Focus on a specific feature/function: a test should target a 
   specific feature or issue.  This reduces complicated tests that 
   can be difficult to understand and maintain.
   
@@ -138,7 +139,7 @@ for more information on the pytest framework and test structure.
 
 ### Example
 
-```
+```python
 ```
 
 
@@ -146,10 +147,70 @@ Writing conversion tests
 ------------------------
 The MyHDL package has simulators that are registered in the code
 base.  As mentioned above a registered simulator is selected by
-using the `--sim=<sim>` agrument with `py.test`.  Two functions 
+using the `--sim=<sim>` argument with `py.test`.  Two functions 
 can be used with the registered simulators to verify converted code.  
 The [analyze] and [verify] functions.
 
 The [analyze] function is used to verify the converted code passes
 the analysis stage (compilation).  The [analyze] function is invoked
 similar to the conversion functions and the [traceSignals].
+
+
+### Example using `analyze`
+
+The following example has a valid module and we can check the 
+conversion using the `analyze` function.  As mentioned with will
+invoke the simulator’s analysis.
+
+```python
+def my_valid_module(a, b):
+    @always_comb
+    def digital_logic():
+        b.next = a
+    return rtl
+
+
+def test_valid_analyze():
+    a, b = [Signal(bool(0) for _ in range(2)]
+    assert analyze(my_module_exposes_issue, a, b) == 0
+```
+
+The above can be run with:
+
+```
+   >> py.test —sim=iverilog test_valid_module.py
+```
+
+
+### Example using `verify`
+
+The verify function will use a convertible test bench and run the
+converted code with the Verilog or VHDL simulator.  First a 
+convertible test bench is created.
+
+```python
+def tb_valid_module():
+    a, b = [Signal(bool(0) for _ in range(2)]
+    
+    @instance
+    def tbstim():
+        yield delay(2)
+        assert a == b == False
+        a.next = True
+	yield delay(2)
+	assert a == b == True
+
+
+def test_valid_verify():
+    assert verify(tb_valid_module) == 0
+```
+
+
+If the above is added to the same file, we can invoke py.test 
+test same as above and the second test will be run as well.
+
+```
+```
+
+
+
