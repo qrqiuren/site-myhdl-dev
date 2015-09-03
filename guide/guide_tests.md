@@ -30,6 +30,12 @@ and make use of [convertible testbenches](http://docs.myhdl.org/en/latest/whatsn
 There are addition conversion tests that use cosimulation but these
 tests are not covered in this document.
 
+<!-- link references used above -->
+[test_core]: https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core
+[test_conv]: https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion
+[test_conv_gen]: https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general
+[tbconv]: http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches
+
 The test suite uses [pytest](http://pytest.org) as a
 test framework and test runner.  The MyHDL development follows a 
 test-driven-design (TDD) methodology, in most cases this involves
@@ -156,6 +162,9 @@ the analysis stage (compilation).  The [analyze] function is invoked
 similar to the conversion functions and the [traceSignals].
 
 
+[convver]: http://docs.myhdl.org/en/stable/manual/reference.html?highlight=component#module-myhdl.conversion
+
+
 ### Example using `analyze`
 
 The following example has a valid module and we can check the 
@@ -190,7 +199,8 @@ convertible test bench is created.
 
 ```python
 def tb_valid_module():
-    a, b = [Signal(bool(0) for _ in range(2)]
+    a, b = [Signal(bool(0)) for _ in range(2)]    
+    tbdut = my_valid_module(a, b)
     
     @instance
     def tbstim():
@@ -199,6 +209,8 @@ def tb_valid_module():
         a.next = True
 	yield delay(2)
 	assert a == b == True
+	
+	return tbdut, tbstim
 
 
 def test_valid_verify():
@@ -211,6 +223,5 @@ test same as above and the second test will be run as well.
 
 ```
 ```
-
 
 
