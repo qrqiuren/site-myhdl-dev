@@ -64,13 +64,13 @@ required to run the conversion tests.  The following is a list of
 simulators commonly used with the conversion tests.  A simulator 
 or analyzer will need to be installed to run the conversion tests.
 
-* Icarus Verilog [iverilog]: Icarus Verilog is a Verilog simulation 
+* Icarus Verilog (iverilog): Icarus Verilog is a Verilog simulation 
   and synthesis tool.  Icarus is an [open-source project](https://github.com/steveicarus/iverilog)
 
-* GHDL [ghdl]: GHDL is an open source VHDL simulator. An [installation 
+* GHDL (ghdl): GHDL is an open source VHDL simulator. An [installation 
   guide](http://design4hardware.blogspot.com/2015/04/install-ghdl.html) is available. 
 
-* Modelsim [vcom, vlog]: vcom and vlog are VHDL and Verilog compilers, 
+* Modelsim (vcom, vlog): vcom and vlog are VHDL and Verilog compilers, 
   respectively.  They ship with [ModelSim by MentorGraphics](http://www.mentor.com/products/fv/modelsim/).
   For installation tips [this guide](http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html) 
   is useful.
@@ -182,10 +182,11 @@ The [analyze][analyze_func] and [verify][verify_func] functions.
 The [analyze][analyze_func] function is used to verify the converted 
 code passes the analysis stage (compilation).  The [analyze][analyze_func] 
 function is invoked similar to the conversion functions and the 
-[traceSignals].
+[traceSignals][trace].
 
 
 [convver]: http://docs.myhdl.org/en/stable/manual/reference.html?highlight=component#module-myhdl.conversion
+[trace]: http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.traceSignals
 
 
 ### Example using `analyze`
