@@ -19,14 +19,14 @@ The test suite contains two main sets of tests:
 
 * Core: The core tests all the hardware description types and
   extensions in the package.  In the repository core tests can be 
-  found under: [myhdl/test/core](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core)
+  found under: [myhdl/test/core][test_core]
 
 * Conversion: The conversion tests verify the conversion 
   from MyHDL to Verilog and VHDL.  In the repository conversion 
-  tests can be found under: [myhdl/test/conversion](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion)
+  tests can be found under: [myhdl/test/conversion][test_conv]
 
-The conversion tests are most often added under [myhdl/test/conversion/general](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general)
-and make use of [convertible testbenches](http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches)
+The conversion tests are most often added under [myhdl/test/conversion/general][test_conv_gen]
+and make use of [convertible testbenches][tbconv]
 There are addition conversion tests that use cosimulation but these
 tests are not covered in this document.
 
@@ -35,6 +35,7 @@ tests are not covered in this document.
 [test_conv]: https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion
 [test_conv_gen]: https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general
 [tbconv]: http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches
+[test_bugs]: (https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).
 
 The test suite uses [pytest](http://pytest.org) as a
 test framework and test runner.  The MyHDL development follows a 
@@ -46,21 +47,21 @@ The [pytest](http://pytest.org) package will need to be installed
 to run the tests.
 
 As bugs or issues are discovered tests are created to reproduce
-the issue.  As issue description is first entered into the [issue-tracker].
-Then a test can be crated in [myhdl/test/bugs/](https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).
+the issue.  An issue description is first entered into the [issue-tracker].
+Then a test can be created in [myhdl/test/bugs/][test_bugs]
 The test name should contain the github issue number:
 
     test_issue_<github issue #>.py
     
-The tests in the [bugs] directory are a mix of core and conversion
-tests depending on the issue.  The tests in this directory need to
+The tests in the [bugs][test_bugs] directory are a mix of core and 
+conversion tests depending on the issue.  The tests in this directory need to
 be invoked similar to the tests in the conversion/general (see below).
 
 HDL simulators
 --------------
 In addition to [pytest](http://pytest.org) an HDL simulator will be 
 required to run the conversion tests.  The following is a list of 
-simulators commonly used with the conversion tests.  As simulator 
+simulators commonly used with the conversion tests.  A simulator 
 or analyzer will need to be installed to run the conversion tests.
 
 * Icarus Verilog [iverilog]: Icarus Verilog is a Verilog simulation 
@@ -103,8 +104,8 @@ Running conversion tests
 ```
 
 The `--sim` command line argument is used to select the simulator 
-used in the tests.  Many of the tests in the [test/bugs] also 
-verify converted results.  The bug/issue tests will need the 
+used in the tests.  Many of the tests in the [test/bugs][test_bugs] 
+also verify converted results.  The bug/issue tests will need the 
 `--sim` argument.
 
 
@@ -139,13 +140,31 @@ for more information on the pytest framework and test structure.
 <!-- @todo: brief summary of  pytest -->
 * Files with names `test_*.py` and functions with names `test_*` will
   be executed by the `py.test` runner.
+  
+* Functions with names `test_*` will be executed as tests by the
+  test runner.
+  
 * Use Python's `assert` statements in the functions to validate 
   expected results and responses.
 
 
 ### Example
+The following is a toy example to test the `intbv` assignment 
+and bounds.
 
 ```python
+
+import pytest
+import myhdl
+from myhdl import intbv
+
+def test_intbv_assign():
+    x = intbv(0, min=-8, max=8)
+     x[:] = 4
+    assert x == 4
+    with pytest.raises(ValueError):
+        x[:] = -9
+    
 ```
 
 
@@ -155,11 +174,15 @@ The MyHDL package has simulators that are registered in the code
 base.  As mentioned above a registered simulator is selected by
 using the `--sim=<sim>` argument with `py.test`.  Two functions 
 can be used with the registered simulators to verify converted code.  
-The [analyze] and [verify] functions.
+The [analyze][analyze_func] and [verify][verify_func] functions.
 
-The [analyze] function is used to verify the converted code passes
-the analysis stage (compilation).  The [analyze] function is invoked
-similar to the conversion functions and the [traceSignals].
+[analyze_func]: http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze
+[verify_func]: http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.verify
+
+The [analyze][analyze_func] function is used to verify the converted 
+code passes the analysis stage (compilation).  The [analyze][analyze_func] 
+function is invoked similar to the conversion functions and the 
+[traceSignals].
 
 
 [convver]: http://docs.myhdl.org/en/stable/manual/reference.html?highlight=component#module-myhdl.conversion
@@ -221,7 +244,6 @@ def test_valid_verify():
 If the above is added to the same file, we can invoke py.test 
 test same as above and the second test will be run as well.
 
-```
-```
+
 
 
