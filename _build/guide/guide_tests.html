@@ -85,188 +85,215 @@
         <div class="content">
             <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
                 <h2 id="introduction">Introduction</h2>
-<p>Test cases are useful in verifying the features and functionalities 
-of MyHDL. They also serve the purpose of guiding users on how to use 
-different features of MyHDL.
-Mainly there are two types of test cases in MyHDL.</p>
+<p>The MyHDL project contains an extensive test suite.  The tests 
+are critical to the quality and expansion of the project.  As 
+a developer (new or not) one of the first things you will do 
+is write a test.  This document is an introduction to the MyHDL
+test suite.</p>
+<h2 id="myhdl-test-suite">MyHDL test suite</h2>
+<p>The test suite contains two main sets of tests:</p>
 <ul>
 <li>
-<p>Core Tests</p>
-<ul>
-<li>These tests are written to verify core functionalities of MyHDL. 
-  In the repository core tests can be found under :
-<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core">REPO/myhdl/test/core</a> and 
-<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core2">REPO/myhdl/test/core2</a></li>
-</ul>
+<p>Core: The core tests all the hardware description types and
+  extensions in the package.  In the repository core tests can be 
+  found under: <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core">myhdl/test/core</a></p>
 </li>
 <li>
-<p>Conversion Tests</p>
-<ul>
-<li>Thess tests are written to verify if the conversion from MyHDL 
-  to Verilog or MyHDL to VHDL has happened properly. 
-  In the repository conversion tests can be found under: 
-<a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion">REPO/myhdl/test/conversion</a></li>
-</ul>
+<p>Conversion: The conversion tests verify the conversion 
+  from MyHDL to Verilog and VHDL.  In the repository conversion 
+  tests can be found under: <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion">myhdl/test/conversion</a></p>
 </li>
 </ul>
-<h2 id="run-built-in-tests">Run built-in tests</h2>
-<h3 id="prerequisites">Prerequisites</h3>
-<p>The MyHDL tests use py.test as the test runner.  The conversion
-tests require a Verilog and VHDL simulator.  The following lists
-the simulators currently supported.</p>
-<ul>
-<li>py.test<ul>
-<li>pytest is a mature full-featured Python testing tool. MyHDL uses 
-  py.test in MyHDL/test/core2/ and MyHDL/test/convertion/</li>
-<li>Intallation guid for pytest can be found 
-  <a href="http://pytest.org/latest/getting-started.html">here</a></li>
-</ul>
-</li>
-<li>icarus Verilog<ul>
-<li>Icarus Verilog is a Verilog simulation and synthesis tool. MyHDL 
-  to Verilog conversions can be verified using this.</li>
-<li>It is an open-source project. Source can be found 
-  <a href="https://github.com/steveicarus/iverilog">here</a></li>
-</ul>
-</li>
-<li>GHDL<ul>
-<li>GHDL is a popular open source VHDL simulator. MyHDL to VHDL 
-  conversions can be verified using this.</li>
-<li>Installation guide for ghdl-updates from source can be found 
-  <a href="http://design4hardware.blogspot.com/2015/04/install-ghdl.html">here</a></li>
-</ul>
-</li>
-<li>vcom / vlog<ul>
-<li>vcom and vlog are VHDL and Verilog compilers in respective order. 
-  They ships with ModelSim by MentorGraphics.</li>
-<li>Details about Modelsim can be found <a href="http://www.mentor.com/products/fv/modelsim/">here</a></li>
-<li>Linux version of Modelsim is mainly targeting RedHat. Therefore 
-  incompatible with the freetype library in Ubuntu 14.04. A guide 
-  to resolve this issue can be found
-  <a href="http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html">here</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="run-core-tests">Run Core tests</h3>
-<div class="codehilite"><pre>    $ export PYTHONPATH=&lt;Path_To_Repo&gt;
-    $ cd &lt;Path_To_Repo&gt;/myhdl/test/core
-    $ make
+<p>The conversion tests are most often added under <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general">myhdl/test/conversion/general</a>
+and make use of <a href="http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches">convertible testbenches</a>
+There are addition conversion tests that use cosimulation but these
+tests are not covered in this document.</p>
+<!-- link references used above -->
+
+<p>The test suite uses <a href="http://pytest.org">pytest</a> as a
+test framework and test runner.  The MyHDL development follows a 
+test-driven-design (TDD) methodology, in most cases this involves
+having a test generated before a feature is added or a bug is 
+fixed.</p>
+<p>The <a href="http://pytest.org">pytest</a> package will need to be installed 
+to run the tests.</p>
+<p>As bugs or issues are discovered tests are created to reproduce
+the issue.  An issue description is first entered into the <a href="https://github.com/jandecaluwe/myhdl/issues" title="Issue Tracker">Issue Tracker</a>.
+Then a test can be created in <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">myhdl/test/bugs/</a>
+The test name should contain the github issue number:</p>
+<div class="codehilite"><pre>test_issue_&lt;github issue #&gt;.py
 </pre></div>
 
 
-<p>Above command will run all the tests present in core folder. If you only want to run a specific test you can do the following.</p>
-<div class="codehilite"><pre>    $ py.test &lt;Name_Of_Test&gt;
-</pre></div>
-
-
-<h3 id="run-conversion-tests">Run Conversion tests</h3>
-<div class="codehilite"><pre>    $ export PYTHONPATH=&lt;Path_To_Repo&gt;
-    $ cd &lt;Path_to_Repo&gt;/myhdl/test/conversion/general
-    $ make
-</pre></div>
-
-
-<p>Default simulator for conversion tests is vlog and vcom. But you can 
-select the one you prefer as follows</p>
-<div class="codehilite"><pre>    $ make icarus OR $ make GHDL
-</pre></div>
-
-
-<h2 id="write-your-own-test">Write your own test</h2>
-<h3 id="methodology">Methodology</h3>
-<ol>
-<li>Decide on the feature or function that is going to be tested. (File 
-   name of the test case should contain this information)</li>
-<li>Study the events/scenarios where the particular feature is used. 
-   Pick a simple and common way of using it.</li>
-<li>Write a simple design which uses the particular feature.</li>
-<li>Generate a test vector of reasonable size.</li>
-<li>Validate the output of the unit under test against the expected output.</li>
-</ol>
-<p><em>Sometimes the test will be written to missuse a feature and then will 
-be tested for raising the correct exception.</em></p>
-<h3 id="general-guidelines">General Guidelines</h3>
+<p>The tests in the <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">bugs</a> directory are a mix of core and 
+conversion tests depending on the issue.  The tests in this directory need to
+be invoked similar to the tests in the conversion/general (see below).</p>
+<h3 id="hdl-simulators"><abbr title="Hardware Description Language">HDL</abbr> simulators</h3>
+<p>In addition to <a href="http://pytest.org">pytest</a> an <abbr title="Hardware Description Language">HDL</abbr> simulator will be 
+required to run the conversion tests.  The following is a list of 
+simulators commonly used with the conversion tests.  A simulator 
+or analyzer will need to be installed to run the conversion tests.</p>
 <ul>
-<li>Keep it Simple<ul>
-<li>Tests does not have to be complex hardware designs. They should 
-  be simple enough to understand quickly.</li>
-</ul>
+<li>
+<p>Icarus Verilog [iverilog]: Icarus Verilog is a Verilog simulation 
+  and synthesis tool.  Icarus is an <a href="https://github.com/steveicarus/iverilog">open-source project</a></p>
 </li>
-<li>Focused on a specific functionality<ul>
-<li>A single test should only test for a destinguishable specific 
-  functionality.</li>
-</ul>
+<li>
+<p>GHDL [ghdl]: GHDL is an open source VHDL simulator. An <a href="http://design4hardware.blogspot.com/2015/04/install-ghdl.html">installation 
+  guide</a> is available. </p>
 </li>
-<li>Cover all/most possible encounters<ul>
-<li>The test should verify the functionality is valid for every/most 
-  possible scenarios. For instance if 8 bit input is used, 
-  try to test the functionality for 256 possible numbers.</li>
-</ul>
-</li>
-<li>Debug friendly<ul>
-<li>It would be helpfull if the test prints informative messages. 
-  For instance messages can be added to assertions so that if the 
-  assertion failed it would print possible causes for the failure.</li>
-</ul>
+<li>
+<p>Modelsim [vcom, vlog]: vcom and vlog are VHDL and Verilog compilers, 
+  respectively.  They ship with <a href="http://www.mentor.com/products/fv/modelsim/">ModelSim by MentorGraphics</a>.
+  For installation tips <a href="http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html">this guide</a> 
+  is useful.</p>
 </li>
 </ul>
-<h2 id="validating-output">Validating output</h2>
-<h3 id="using-unittest">Using unittest</h3>
-<p><em>unittest is maintenance for legacy tests and MyHDL recommends using 
-py.test for all new tests</em></p>
-<ul>
-<li>unittest is the buil-in unit testing framework in python. 
-  myhdl/core/ tests is using unittest to perform tests.</li>
-<li>Following snippet is an example of using unittest to verify that 
-  myhdl.enum need to be unique literals.</li>
-<li>Have a look at the full test suit : 
-  <a href="https://github.com/jandecaluwe/myhdl/blob/master/myhdl/test/core/test_enum.py">test_enum.py</a></li>
-</ul>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="n">enum</span>
-
-<span class="k">class</span> <span class="nc">TestEnum</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">testUniqueLiterals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">t_State</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&quot;SEARCH&quot;</span><span class="p">,</span><span class="s">&quot;CONFIRM&quot;</span><span class="p">,</span><span class="s">&quot;SEARCH&quot;</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">()</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+<p>Other simulators are supported and it is not difficult
+to add a new simulator or analyzer.</p>
+<h3 id="running-core-tests">Running core tests</h3>
+<div class="codehilite"><pre>    &gt;&gt; python setup.py develop
+    &gt;&gt; cd myhdl/test/core
+    &gt;&gt; py.test   # or make
 </pre></div>
 
 
-<h3 id="using-pytest">Using py.test</h3>
-<ul>
-<li>MyHDL prefer using py.test over unittest because it reduces the 
-  number of lines and hence more readable.</li>
-<li>Python's assert method can be used for validating output. A sample 
-  code snippet on how to use assert is shown below.</li>
-<li>Adding an error message to assert statement would make it more 
-  debug friendly.</li>
-</ul>
-<p><em>py.test uses some naming conventions to discover test cases. Your 
-file should contain the test_ prefix (Ex: test_issue9.py) and the test 
-method should also have the test_ prefix (Ex: def test_UniqueLiterals() )</em></p>
-<div class="codehilite"><pre><span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="k">def</span> <span class="nf">issue_9</span><span class="p">():</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&#39;foo&#39;</span><span class="p">,</span> <span class="s">&#39;bar&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="p">(</span><span class="n">Signal</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">foo</span><span class="p">)</span><span class="o">==</span><span class="n">Signal</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">bar</span><span class="p">))</span> <span class="o">==</span> <span class="bp">False</span> <span class="p">,</span> <span class="s">&quot;ERROR_MESSAGE&quot;</span>
-
-<span class="k">def</span> <span class="nf">test_issue_9</span><span class="p">():</span>
-    <span class="n">issue_9</span><span class="p">()</span>
+<p>The above command will run all the tests present in core folder. 
+If you only want to run a specific test you can do the following.</p>
+<div class="codehilite"><pre>    &gt;&gt; py.test &lt;name_of_test&gt;
 </pre></div>
 
 
-<h3 id="using-conversionverify">Using conversion.verify</h3>
+<h3 id="running-conversion-tests">Running conversion tests</h3>
+<div class="codehilite"><pre>    &gt;&gt; cd myhdl/test/conversion/general
+    &gt;&gt; py.test --sim=(&#39;iverilog&#39;, &#39;ghdl&#39;, &#39;vlog&#39;, &#39;vcom&#39;) 
+</pre></div>
+
+
+<p>The <code>--sim</code> command line argument is used to select the simulator 
+used in the tests.  Many of the tests in the <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">test/bugs</a> 
+also verify converted results.  The bug/issue tests will need the 
+<code>--sim</code> argument.</p>
+<h2 id="writing-tests">Writing tests</h2>
+<!-- @todo: some intro here -->
+
+<h3 id="general-guidelines">General guidelines</h3>
 <ul>
-<li>MyHDL introduces conversion.verify to verify the conversions from MyHDL</li>
-<li>More information will be added soon</li>
+<li>
+<p>Keep it Simple: tests do not have to be complex hardware designs. 
+  They should be simple enough to quickly understand.</p>
+</li>
+<li>
+<p>Focus on a specific feature/function: a test should target a 
+  specific feature or issue.  This reduces complicated tests that 
+  can be difficult to understand and maintain.</p>
+</li>
+<li>
+<p>Fully tested: for the feature/issue being tested make sure all 
+  aspects are tested.  Test expected failures as well as expected 
+  success.</p>
+</li>
+<li>
+<p>Debug friendly:  Try and provide as much information as possible 
+  when a test detects an error.  This will assist in future debugging.</p>
+</li>
 </ul>
+<!-- @todo: new section name -->
+
+<h3 id="using-pytest">Using <code>py.test</code></h3>
+<p>The following is a brief overview of the test structure using the 
+<a href="pytest.org">pytest</a> style.  Refer to the <a href="pytest.org">pytest site</a> 
+for more information on the pytest framework and test structure.</p>
+<!-- @todo: brief summary of  pytest -->
+
+<ul>
+<li>
+<p>Files with names <code>test_*.py</code> and functions with names <code>test_*</code> will
+  be executed by the <code>py.test</code> runner.</p>
+</li>
+<li>
+<p>Functions with names <code>test_*</code> will be executed as tests by the
+  test runner.</p>
+</li>
+<li>
+<p>Use Python's <code>assert</code> statements in the functions to validate 
+  expected results and responses.</p>
+</li>
+</ul>
+<h4 id="example">Example</h4>
+<p>The following is a toy example to test the <code>intbv</code> assignment 
+and bounds.</p>
+<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">myhdl</span>
+<span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="n">intbv</span>
+
+<span class="k">def</span> <span class="nf">test_intbv_assign</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+     <span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">assert</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">4</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9</span>
+</pre></div>
+
+
+<h3 id="writing-conversion-tests">Writing conversion tests</h3>
+<p>The MyHDL package has simulators that are registered in the code
+base.  As mentioned above a registered simulator is selected by
+using the <code>--sim=&lt;sim&gt;</code> argument with <code>py.test</code>.  Two functions 
+can be used with the registered simulators to verify converted code.<br />
+The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> and <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.verify">verify</a> functions.</p>
+<p>The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> function is used to verify the converted 
+code passes the analysis stage (compilation).  The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> 
+function is invoked similar to the conversion functions and the 
+[traceSignals].</p>
+<h4 id="example-using-analyze">Example using <code>analyze</code></h4>
+<p>The following example has a valid module and we can check the 
+conversion using the <code>analyze</code> function.  As mentioned with will
+invoke the simulator’s analysis.</p>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">digital_logic</span><span class="p">():</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="n">rtl</span>
+
+
+<span class="k">def</span> <span class="nf">test_valid_analyze</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+    <span class="k">assert</span> <span class="n">analyze</span><span class="p">(</span><span class="n">my_module_exposes_issue</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+
+
+<p>The above can be run with:</p>
+<div class="codehilite"><pre>   &gt;&gt; py.test —sim=iverilog test_valid_module.py
+</pre></div>
+
+
+<h4 id="example-using-verify">Example using <code>verify</code></h4>
+<p>The verify function will use a convertible test bench and run the
+converted code with the Verilog or VHDL simulator.  First a 
+convertible test bench is created.</p>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">tb_valid_module</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>    
+    <span class="n">tbdut</span> <span class="o">=</span> <span class="n">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="nd">@instance</span>
+    <span class="k">def</span> <span class="nf">tbstim</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="bp">False</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="n">tbdut</span><span class="p">,</span> <span class="n">tbstim</span>
+
+
+<span class="k">def</span> <span class="nf">test_valid_verify</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">verify</span><span class="p">(</span><span class="n">tb_valid_module</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+
+
+<p>If the above is added to the same file, we can invoke py.test 
+test same as above and the second test will be run as well.</p>
             </div>
         </div>
 
@@ -281,21 +308,23 @@ method should also have the test_ prefix (Ex: def test_UniqueLiterals() )</em></
                     <div class="toc">
 <ul>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#run-built-in-tests">Run built-in tests</a><ul>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#run-core-tests">Run Core tests</a></li>
-<li><a href="#run-conversion-tests">Run Conversion tests</a></li>
+<li><a href="#myhdl-test-suite">MyHDL test suite</a><ul>
+<li><a href="#hdl-simulators">HDL simulators</a></li>
+<li><a href="#running-core-tests">Running core tests</a></li>
+<li><a href="#running-conversion-tests">Running conversion tests</a></li>
 </ul>
 </li>
-<li><a href="#write-your-own-test">Write your own test</a><ul>
-<li><a href="#methodology">Methodology</a></li>
-<li><a href="#general-guidelines">General Guidelines</a></li>
+<li><a href="#writing-tests">Writing tests</a><ul>
+<li><a href="#general-guidelines">General guidelines</a></li>
+<li><a href="#using-pytest">Using py.test</a><ul>
+<li><a href="#example">Example</a></li>
 </ul>
 </li>
-<li><a href="#validating-output">Validating output</a><ul>
-<li><a href="#using-unittest">Using unittest</a></li>
-<li><a href="#using-pytest">Using py.test</a></li>
-<li><a href="#using-conversionverify">Using conversion.verify</a></li>
+<li><a href="#writing-conversion-tests">Writing conversion tests</a><ul>
+<li><a href="#example-using-analyze">Example using analyze</a></li>
+<li><a href="#example-using-verify">Example using verify</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
