@@ -27,7 +27,7 @@ The test suite contains two main sets of tests:
 
 The conversion tests are most often added under [myhdl/test/conversion/general][test_conv_gen]
 and make use of [convertible testbenches][tbconv]
-There are addition conversion tests that use cosimulation but these
+There are additional conversion tests that use cosimulation but these
 tests are not covered in this document.
 
 <!-- link references used above -->
@@ -244,6 +244,9 @@ def test_valid_verify():
 
 If the above is added to the same file, we can invoke py.test 
 test same as above and the second test will be run as well.
+
+A template that can be used with Eclipse and othe editors 
+can be found [here](https://gist.github.com/josyb/81a837f3ff3dd3eaae2a)
 
 
 
