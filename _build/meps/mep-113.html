@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signal Naming Delimiters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-113.html">MEP 113</a></li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>MEP 113: Signal Naming Delimiters&nbsp;&nbsp;
+</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="content">
+            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>113</td></tr>
+    <tr><td><strong>Author</strong></td><td>Neil Turley</td></tr>
+    <tr><td><strong>Status</strong></td><td>Draft</td></tr>
+    <tr><td><strong>Created</strong></td><td>10-Nov-2015</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.9</td></tr>
+</tbody>
+</table>
+
+                <h2 id="introduction-motivation">Introduction (Motivation)</h2>
+<p>The signal names that are used in the VHDL and Verilog are important in both FPGA synthesis as well as vcd waveforms. Unpredictable or confusing signal names make it difficult to write timing and location constaints. Signal names can be confusing through ambiguity or mutability. A name is ambiguous when it is difficult to predict what name the signal will be assigned in VHDL or Verilog or when it is difficult to understand what myHDL was used to generate a module of VHDL or Verilog. A name is mutable when the signal name that is assigned in VHDL or Verilog depends on unrelated information (like what other names were used in the module, or how the signal gets used in interior logic blocks). One of the causes of mutability is naming collisions. The tool resolves two signals with the same name by adding a suffix to one of them. Without knowing the names of every signal in the design it is impossible to guarantee that your signal name won't collide with a signal somewhere else in the design.</p>
+<p>To prevent excessive signal name collisions, delimiters are used to separate variables in different "namespaces". Currently underscores are used as a delimiter to denote a signal's location in the module hierarchy (functions that return generators) as well as it's membership in an interface (classes with members that are signals). Underscores are also quite common in properly styled python variables.</p>
+<p>The triple usage of underscores increases the likelihood of signal name collisions and makes the VHDL and Verilog more ambiguous. A signal with the name a_b in the VHDL or Verilog could mean that there was an interface named a whose member is b, or it could mean that there was a module named a with a local signal named c, or it could just be a signal in the top level whose name is a_c.</p>
+<p>One of the main reasons why we are using underscores in the first place is because there aren't really any other valid characters that you can use in identifiers in VHDL and Verilog unless you use escaped/extended identifiers. Escaped/extended identifiers are a standard way to use additional characters in signal names. Usually they are used by <abbr title="Hardware Description Language">HDL</abbr> tools to export netlists because the internal netlist structure supports different character sets than VHDL or Verilog.</p>
+<p>If we were to change the hierarchy and interface delimiter, we would reduce our signal name collisions, and increase the clarity of our VHDL and Verilog.</p>
+<h2 id="specification">Specification</h2>
+<p>All signals that are an interface or not in the top level function must have their names escaped. In Verilog that is accomplished by starting the name with a backslash '\' and terminated the name with whitespace. In VHDL this is accomplished by enclosing the name between backslashes '\'. Extended identifiers in VHDL are case sensitive.</p>
+<p>Whether top level, non-interface signals are also escaped is beyond the scope of this proposal, although doing so would provide greater consistency as well as resolve collisions with VHDL and Verilog keywords and VHDL case insensitivity.</p>
+<h3 id="instance-hierarchy">Instance Hierarchy</h3>
+<p>It is a common convention in tree based hierarchies like file systems to use a forward slash '/' or a backslash '\' as a separator. Backslashes are used in escaping identifiers so a forward slash is probably the better delimiter or the two.</p>
+<p>Verilog Example</p>
+<div class="codehilite"><pre><span class="kt">wire</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="n">signal</span> <span class="p">;</span>
+<span class="kt">wire</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom_signal</span> <span class="p">;</span>
+</pre></div>
+
+
+<p>VHDL example</p>
+<div class="codehilite"><pre><span class="k">signal</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="k">signal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
+<span class="k">signal</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom_signal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="interface-membership">Interface membership</h3>
+<p>In many programming languages, (including python), the "." operator is used to access attributes of an object. By using the "." in signal names, this would mirror the myHDL code that accessed the interface member to begin with.</p>
+<p>Verilog Example</p>
+<div class="codehilite"><pre><span class="k">assign</span> <span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span>  <span class="o">=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span> <span class="p">;</span>
+</pre></div>
+
+
+<p>VHDL Example</p>
+<div class="codehilite"><pre><span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span><span class="err">\</span> <span class="o">&lt;=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span><span class="err">\</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="closing-remarks">Closing Remarks</h2>
+<p>By implementing this proposal, timing and location constraints will be much easier to write and maintain, VCD waveforms will be easier to understand and debugging conversion code should be much easier. It is using a standard part of the HDLs and there are no known simulators or synthesis tools that wouldn't support it.</p>
+<p>I've already taken a first pass at implementing this feature and so far there hasn't been any major problems.</p>
+<h3 id="references">References</h3>
+<p>RFC about Escaped/Extended Identifiers for attribute references:
+https://github.com/jandecaluwe/myhdl/issues/61</p>
+<p>Experimental branch, trying to implement this proposal
+https://github.com/nturley/myhdl/commit/acac48e43535d618276f4720c075d12b3c705445</p>
+<p>The "suffixer" that resolves name collisions
+https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/_resolverefs.py#L27</p>
+<p>The interface membership underscore delimiter
+https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/_resolverefs.py#L63
+https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L1245</p>
+<p>the hierarchy underscore delimiter
+https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L60</p>
+<p>using escaped identifiers for '[' and ']' characters
+https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L64</p>
+            </div>
+        </div>
+
+ 
+        <div class="col-md-3" role="navigation"> 
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix" 
+                 data-offset-top="80" 
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Signal Naming Delimiters</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction-motivation">Introduction (Motivation)</a></li>
+<li><a href="#specification">Specification</a><ul>
+<li><a href="#instance-hierarchy">Instance Hierarchy</a></li>
+<li><a href="#interface-membership">Interface membership</a></li>
+</ul>
+</li>
+<li><a href="#closing-remarks">Closing Remarks</a><ul>
+<li><a href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://bitbucket.org/jandecaluwe/site-myhdl-dev/src">Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div> 
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
