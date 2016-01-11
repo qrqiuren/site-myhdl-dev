@@ -4,7 +4,7 @@ from .hooks import process_info
 from distutils.version import StrictVersion
 import urubu
 
-urubu_version_required = "1.0"
+urubu_version_required = "1.1"
 
 urubu_version_error = """\
 Urubu version should be >= {}

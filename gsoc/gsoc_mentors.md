@@ -11,7 +11,7 @@ the mentors for MyHDL Google summer of code (GSoC) 2015.
 The MyHDL projects are broken into two categories.  The 
 first are projects contributing to the MyHDL package.  
 The second are projects implementing 
-[cores]((http://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core) 
+[cores](http://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core) 
 with MyHDL.
 
 Python has many language features that make the language
