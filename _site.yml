@@ -32,11 +32,8 @@ reflinks:
         url: https://github.com/jandecaluwe/myhdl 
         title: MyHDL repository
     site_myhdl_dev_repo:
-        url: https://bitbucket.org/jandecaluwe/site-myhdl-dev 
+        url: https://github.com/myhdl/site-myhdl-dev 
         title: MyHDL development website repository 
-    site_myhdl_dev_src:
-        url: https://bitbucket.org/jandecaluwe/site-myhdl-dev/src 
-        title: MyHDL development website source 
     mailing-list:
         url: http://www.myhdl.org/support/community.html
         title: Mailing List  
