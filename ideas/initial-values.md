@@ -4,6 +4,8 @@ author: Christopher Felton
 layout: wide_article
 ---
 
+{% from 'util.html' import open, done %}
+
 This page was created to keep track of the status of the initial value support.  
 The original open task description is available [here][/tasks/initial-values-support].
 
@@ -18,10 +20,10 @@ version of Quartus.
 
 Need to test with (list syn and sim tools)?
 
-* [x] Quartus latest
-* [ ] ISE (xst) latest
-* [ ] cver
-* [ ] icarus
+* {{done}} Quartus latest
+* {{open}} ISE (xst) latest
+* {{open}} cver
+* {{open}} icarus
 
 See below for some preliminary results.
 
