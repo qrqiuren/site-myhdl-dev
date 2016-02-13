@@ -1,6 +1,6 @@
 {% extends "article.html" %}
 
-{% block title %} 
+{% block title %}
 <h1>MEP {{this.mep}}: {{this.title}}&nbsp;&nbsp;
 </h1>
 {% endblock %}
@@ -21,6 +21,8 @@
     {% endif %}
 </tbody>
 </table>
-
 {% endblock %}
 
+{% block disqus %}
+    {% include "disqus.html" %}
+{% endblock disqus %}

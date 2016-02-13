@@ -15,7 +15,7 @@
     </ol>
 
     <div class="page-header">
-        {% block title %} 
+        {% block title %}
         <h1>{{this.title}}</h1>
         {% endblock %}
     </div>
@@ -35,12 +35,12 @@
             </div>
         </div>
 
-        {% if this.toc %} 
+        {% if this.toc %}
         {% block sidebar %}
-        <div class="col-md-3" role="navigation"> 
+        <div class="col-md-3" role="navigation">
           <nav class="hidden-print hidden-xs hidden-sm">
-            <div class="sidebar" data-spy="affix" 
-                 data-offset-top="80" 
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
                  data-offset-bottom="60">
                 <div class="well">
                     <a href="#"><strong style="font-size:90%">{{this.title}}</strong></a>
@@ -52,10 +52,12 @@
         {% endblock %}
         {% endif %}
 
+        {% block disqus %}
+        {% endblock disqus %}
+
     </div>
 
     {% include 'footer.html' %}
-</div> 
+</div>
 
 {% endblock %}
-
