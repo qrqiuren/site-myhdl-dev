@@ -128,27 +128,29 @@ profiler tracks function calls, the match seemed obvious. However, the approach
 has several disadvantages:</p>
 <ul>
 <li>
-<p><strong>Non-intuitive API</strong> As the hardware data structure must be built under
-profiler control, the functions involved need the elements to build it
-instead of the data structure itself. For example, instead of:
-<code>toVerilog(top(*args, **kwargs))</code> you have to use <code>toVerilog(top, *args,
-**kwargs)</code>.</p>
+<p><strong>Non-intuitive API</strong>
+As the hardware data structure must be built under profiler control, the API
+functions involved need the elements to build it instead of the data structure
+itself. For example, instead of: <code>toVerilog(top(*args, **kwargs))</code> you have to
+use <code>toVerilog(top, *args, **kwargs)</code>.</p>
 </li>
 <li>
-<p><strong>Cumbersome error checking</strong> A meaningful hardware hierarchy implies certain
-restrictions on the data structure. However, when using the profiler, data
-structure building and extraction occur at the same time. In practice, this
-makes it hard to detect certain data structure issues, resulting in cumbersome errors.</p>
+<p><strong>Cumbersome error checking</strong>
+A meaningful hardware hierarchy implies certain restrictions on the data
+structure. However, when using the profiler, data structure building and
+extraction occur at the same time. In practice, this makes it hard to detect
+certain data structure issues, resulting in cumbersome errors.</p>
 </li>
 <li>
-<p><strong>Normal profiler tasks disabled</strong> As the profiler is reused for hierarchy
-extraction, it cannot be used for its normal purposes, such as debugging,
-during this process. Understandably, this is unexpected and surprising.</p>
+<p><strong>Normal profiler tasks disabled</strong>
+As the profiler is reused for hierarchy extraction, it cannot be used for its
+normal purposes, such as debugging, during this process. Understandably, this is
+unexpected and surprising.</p>
 </li>
 <li>
-<p><strong>Hard-to-maintain code</strong> Last but not least, the hierarchy extraction code
-has proven to be complex and hard to maintain. It is a part of MyHDL that
-hampers progress.</p>
+<p><strong>Hard-to-maintain code</strong>
+Last but not least, the hierarchy extraction code has proven to be complex and
+hard to maintain. It is a part of MyHDL that hampers progress.</p>
 </li>
 </ul>
 <p>In summary, there is room for a more explicit solution that overcomes these
@@ -195,10 +197,10 @@ required, more specifically for waveform tracing and conversion. It will be
 submodules too, or else an error will occur.</p>
 <p>Furthermore, there are API changes as follows:</p>
 <div class="codehilite"><pre>        old API                     -&gt;         new API
------------------------------------------------------------------------
-toVerilog(func, *args, **kwargs)    -&gt;  toVerilog(func(*args, **args))
-toVHDL(func, *args, **kwargs)       -&gt;  toVHDL(func(*args, **args))
-traceSignals(func, *args, **kwargs) -&gt; `toVerilog(func(*args, **args))
+----------------------------------------------------------------------------
+toVerilog(func, *args, **kwargs)    -&gt;  toVerilog(func(*args, **kwargs))
+toVHDL(func, *args, **kwargs)       -&gt;  toVHDL(func(*args, **kwargs))
+traceSignals(func, *args, **kwargs) -&gt; `traceSignals(func(*args, **kwargs))
 </pre></div>
 
 
