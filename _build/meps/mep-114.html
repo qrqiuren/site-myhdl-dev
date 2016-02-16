@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>The @module decorator</title>
+    <title>The <code>module</code> decorator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -80,7 +80,7 @@
     </ol>
 
     <div class="page-header">
-<h1>MEP 114: The @module decorator&nbsp;&nbsp;
+<h1>MEP 114: The <code>module</code> decorator&nbsp;&nbsp;
 </h1>
     </div>
 
@@ -112,7 +112,7 @@ features. For MyHDL, the most significant example is the introduction of
 decorators in Python 2.4, as a structured approach for metaprogramming. For
 example, it was immediately clear that the usage pattern of the <code>always_comb()</code>
 function matched the decorator pattern exactly. It was therefore a no-brainer to
-use <code>@always_comb</code> as a decorator instead. Subsequently, it made sense to
+use <code>always_comb</code> as a decorator instead. Subsequently, it made sense to
 introduce a number of  additional decorators.</p>
 <p>The feature of concern in this MEP is hierarchy extraction. Here, the historical
 design decision was to try to make it transparent to the user. In particular,
@@ -155,18 +155,18 @@ hard to maintain. It is a part of MyHDL that hampers progress.</p>
 </ul>
 <p>In summary, there is room for a more explicit solution that overcomes these
 issues.</p>
-<h2 id="the-module-decorator">The @module decorator</h2>
+<h2 id="the-module-decorator">The <code>module</code> decorator</h2>
 <p>Python decorators have proven their value as a solution for metaprogramming, in
 general and in MyHDL in particular. The proposal is therefore to introduce a new
 <code>@module</code> decorator, to decorate functions that describe hardware modules.</p>
 <p>Like before, a hardware description function should return instantiations of
-other hardware modules and/or local generators. However, the <code>@module</code> decorator
+other hardware modules and/or local generators. However, the <code>module</code> decorator
 can check the return values, and encapsulate them in a dedicated object.</p>
 <p>The advantages of this approach are as follows:</p>
 <ul>
 <li>
-<p>Issues will be flagged upfront, so that resulting hardware data structure will
-be well-formed.</p>
+<p>Issues will be flagged upfront, so that the resulting hardware data structure
+will be well-formed.</p>
 </li>
 <li>
 <p>Hardware extraction becomes a separate, subsequent task that is guaranteed to
@@ -183,24 +183,32 @@ structure to the functions involved.</p>
 in clearer code.</p>
 </li>
 </ul>
-<p><em>Add more details</em></p>
+<h2 id="implementation">Implementation</h2>
+<p>Under the hood, the functionality is implemented using two classes: <code>_Module</code>
+and <code>_ModuleInstance</code>. The <code>module</code> decorator creates a <code>_Module</code> object with
+the decorated function as its parameter. It has a call interface that creates
+<code>_ModuleInstance</code> objects.</p>
+<p>A <code>_ModuleInstance</code> object calls the original function with the actual
+parameters upon construction. That call returns the sub-instances of the object,
+which can then be verified. A <code>_ModuleInstance</code> object also maintains the
+namespaces for signals and lists of signals.</p>
 <h2 id="backwards-compatibility-issues">Backwards compatibility issues</h2>
 <p>The proposed solution has one important disadvantage: it introduces some
 backwards incompatible changes.</p>
 <p>Let us first make clear what does <em>not</em> change: <mark>For simulation, everything will
 continue to work as before.</mark> All the simulator needs is a structure of
 communicating generators, regardless of how it is built. Old code without the
-<code>@module</code> decorator will continue to simulate as before.</p>
-<p>The <code>@module</code> decorator will become mandatory when hardware extraction is
+<code>module</code> decorator will continue to simulate as before.</p>
+<p>The <code>module</code> decorator will become mandatory when hardware extraction is
 required, more specifically for waveform tracing and conversion. It will be
 "viral": when used on a function, it must be used on functions that describe
 submodules too, or else an error will occur.</p>
 <p>Furthermore, there are API changes as follows:</p>
 <div class="codehilite"><pre>        old API                     -&gt;         new API
-----------------------------------------------------------------------------
-toVerilog(func, *args, **kwargs)    -&gt;  toVerilog(func(*args, **kwargs))
-toVHDL(func, *args, **kwargs)       -&gt;  toVHDL(func(*args, **kwargs))
-traceSignals(func, *args, **kwargs) -&gt; `traceSignals(func(*args, **kwargs))
+--------------------------------------------------------------------------
+toVerilog(func, *args, **kwargs)    -&gt; toVerilog(func(*args, **kwargs))
+toVHDL(func, *args, **kwargs)       -&gt;  oVHDL(func(*args, **kwargs))
+traceSignals(func, *args, **kwargs) -&gt; traceSignals(func(*args, **kwargs))
 </pre></div>
 
 
@@ -225,12 +233,13 @@ warning will be issued to encourage users to switch to the new API.</p>
                  data-offset-top="80"
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><strong style="font-size:90%">The @module decorator</strong></a>
+                    <a href="#"><strong style="font-size:90%">The <code>module</code> decorator</strong></a>
                     <div class="toc">
 <ul>
 <li><a href="#background">Background</a></li>
 <li><a href="#the-problem-with-hierarchy-extraction">The problem with hierarchy extraction</a></li>
-<li><a href="#the-module-decorator">The @module decorator</a></li>
+<li><a href="#the-module-decorator">The module decorator</a></li>
+<li><a href="#implementation">Implementation</a></li>
 <li><a href="#backwards-compatibility-issues">Backwards compatibility issues</a></li>
 <li><a href="#introduction-path">Introduction path</a></li>
 <li><a href="#status">Status</a></li>
