@@ -86,8 +86,7 @@
 
     <div class="row">
 
-        <div class="content">
-            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="col-md-7 content" role="main">
 <table class="table table-striped table-condensed preamble">
 <tbody>
     <tr><td><strong>MEP</strong></td><td>113</td></tr>
@@ -97,7 +96,7 @@
     <tr><td><strong>MyHDL-version</strong></td><td>0.9</td></tr>
 </tbody>
 </table>
-                <h2 id="introduction-motivation">Introduction (Motivation)</h2>
+            <h2 id="introduction-motivation">Introduction (Motivation)</h2>
 <p>The signal names that are used in the VHDL and Verilog are important in both FPGA synthesis as well as vcd waveforms. Unpredictable or confusing signal names make it difficult to write timing and location constaints. Signal names can be confusing through ambiguity or mutability. A name is ambiguous when it is difficult to predict what name the signal will be assigned in VHDL or Verilog or when it is difficult to understand what myHDL was used to generate a module of VHDL or Verilog. A name is mutable when the signal name that is assigned in VHDL or Verilog depends on unrelated information (like what other names were used in the module, or how the signal gets used in interior logic blocks). One of the causes of mutability is naming collisions. The tool resolves two signals with the same name by adding a suffix to one of them. Without knowing the names of every signal in the design it is impossible to guarantee that your signal name won't collide with a signal somewhere else in the design.</p>
 <p>To prevent excessive signal name collisions, delimiters are used to separate variables in different "namespaces". Currently underscores are used as a delimiter to denote a signal's location in the module hierarchy (functions that return generators) as well as it's membership in an interface (classes with members that are signals). Underscores are also quite common in properly styled python variables.</p>
 <p>The triple usage of underscores increases the likelihood of signal name collisions and makes the VHDL and Verilog more ambiguous. A signal with the name a_b in the VHDL or Verilog could mean that there was an interface named a whose member is b, or it could mean that there was a module named a with a local signal named c, or it could just be a signal in the top level whose name is a_c.</p>
@@ -149,7 +148,6 @@
 <a href="https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L60">https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L60</a></p>
 <p>using escaped identifiers for <code>[</code> and <code>]</code> characters
 <a href="https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L64">https://github.com/jandecaluwe/myhdl/blob/9dffa041305d66ff3a85392ae29de11952b70d18/myhdl/conversion/_analyze.py#L64</a></p>
-            </div>
         </div>
 
         <div class="col-md-3" role="navigation">

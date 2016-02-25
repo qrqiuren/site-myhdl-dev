@@ -87,8 +87,7 @@
 
     <div class="row">
 
-        <div class="content">
-            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="col-md-7 content" role="main">
 <table class="table table-condensed preamble">
 <tbody>
     <tr><td><strong>Status</strong></td><td>Open</td></tr>
@@ -96,7 +95,7 @@
 </tbody>
 </table>
 
-                <p>Currently, there are often problems at the start of simulation with converted
+            <p>Currently, there are often problems at the start of simulation with converted
 code. For many data types, Verilog and VHDL start at <code>X</code>, but MyHDL doesn't
 have that concept.</p>
 <p>To have a better match, it would be preferable to use initial value syntax in
@@ -110,7 +109,6 @@ explicit reset. The only goal is to have a better match at the RTL level.</p>
 <p>An option could be to make this functionality programmable, using
 an attribute of <code>toVerilog()</code> and <code>toVHDL()</code>.</p>
 <p>Lists of signals and intbv's require special attention.</p>
-            </div>
         </div>
 
 

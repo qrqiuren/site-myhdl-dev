@@ -86,8 +86,7 @@
 
     <div class="row">
 
-        <div class="content">
-            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="col-md-7 content" role="main">
 <table class="table table-striped table-condensed preamble">
 <tbody>
     <tr><td><strong>MEP</strong></td><td>109</td></tr>
@@ -97,7 +96,7 @@
     <tr><td><strong>MyHDL-version</strong></td><td>0.8</td></tr>
 </tbody>
 </table>
-                <h2 id="introduction">Introduction</h2>
+            <h2 id="introduction">Introduction</h2>
 <p>In classical synthesizable RTL coding, the reset behavior is described
 explicitly. This has a number of significant disadvantages. This document
 contains a proposal to resolve those disadvantages by inferring the reset
@@ -302,7 +301,6 @@ initial values as reset values and avoiding such registers in the first place.</
 <p>The name <code>@always_seq</code> was chosen in analogy with <code>@always_comb</code>. Like
 <code>@always_comb</code> for combinatorial logic, it infers some relevant behavior
 automatically for sequential logic, avoiding error-prone explicit coding.</p>
-            </div>
         </div>
 
         <div class="col-md-3" role="navigation">

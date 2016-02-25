@@ -86,8 +86,7 @@
 
     <div class="row">
 
-        <div class="content">
-            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="col-md-7 content" role="main">
 <table class="table table-striped table-condensed preamble">
 <tbody>
     <tr><td><strong>MEP</strong></td><td>101</td></tr>
@@ -97,7 +96,7 @@
     <tr><td><strong>MyHDL-version</strong></td><td>0.5</td></tr>
 </tbody>
 </table>
-                <h2 id="background">Background</h2>
+            <h2 id="background">Background</h2>
 <p>In order to provide a path to implementation, MyHDL code can be converted to
 Verilog. However, in some cases the conversion may fail or the result may not
 be acceptable. For example:</p>
@@ -205,7 +204,6 @@ be declared in Verilog after the user-defined code is inserted.</p>
 <p>It is not possible to use the <code>__verilog__</code> hook in a generator - it should be
 in a function. This is because functions are completely run (elaborated) before
 the conversion starts, while generators are not.</p>
-            </div>
         </div>
 
         <div class="col-md-3" role="navigation">

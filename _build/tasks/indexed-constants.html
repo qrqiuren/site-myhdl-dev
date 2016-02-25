@@ -87,8 +87,7 @@
 
     <div class="row">
 
-        <div class="content">
-            <div class="col-md-7" data-spy="scroll" data-target="#sidenav" role="main">
+        <div class="col-md-7 content" role="main">
 <table class="table table-condensed preamble">
 <tbody>
     <tr><td><strong>Status</strong></td><td>Open</td></tr>
@@ -96,7 +95,7 @@
 </tbody>
 </table>
 
-                <p>Currently, indexing into a tuple of constants is supported by conversion in a
+            <p>Currently, indexing into a tuple of constants is supported by conversion in a
 limited way. The code has to written so that the indexing operations can be
 expanded in-place into a case statement. This is mapped to ROMs by some
 synthesis tools, such as Xilinx synthesis.</p>
@@ -111,7 +110,6 @@ still works.</p>
 <p>It may be best to include tuples of constants in the hierarchical extraction
 process to give them an unique name, like is done for signals and lists of
 signals.</p>
-            </div>
         </div>
 
 
