@@ -1,11 +1,26 @@
+from subprocess import check_output as co
+import datetime
+
 undefined_key = "'{}' not defined in '{}'"
 
 def process_info(info, site):
     if info['layout'] == 'mep':
         validate_mep(info)
+    # site developers should have git
+    an = co(["git", "log", "-1", "--format='%an'", info['fn']])
+    # decode to convert to unicode for both Python 2 and 2
+    an = an.decode('utf-8')
+    an = an.strip("'\n")
+    info['an'] = an
+    at = co(["git", "log", "-1", "--format='%at'", info['fn']])
+    # decode to convert to unicode for both Python 2 and 2
+    at = at.decode('utf-8')
+    at = at.strip("'\n")
+    at = datetime.date.fromtimestamp(int(at))
+    info['at'] = at
 
 def check_keys(item, keys):
-    for key in keys:    
+    for key in keys:
         if key not in item:
             raise KeyError(undefined_key.format(key, item['id']))
 
@@ -18,6 +33,3 @@ def validate_mep(info):
             raise ValueError(status_error.format(info['status'], info['id']))
     else:
         item['status'] = 'Draft'
-
-
-
