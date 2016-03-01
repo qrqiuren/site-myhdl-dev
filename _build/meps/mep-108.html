@@ -115,7 +115,7 @@ and to return a
 The converter code identifies the arguments of Signal type 
 and adds them to the port list.  </p>
 <p>The following is an example of a converitble function.</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">adder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">adder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
     <span class="nd">@always_comb</span>
     <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
        <span class="n">z</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
@@ -123,7 +123,7 @@ and adds them to the port list.  </p>
 </pre></div>
 
 
-<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">toVHDL</span><span class="p">(</span><span class="n">adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
 
@@ -135,7 +135,7 @@ method to be converted has the same requirements as a function:
 it needs a ports and returns a generator(s).</p>
 <p>Using the brief examples above a top-level convertible method might 
 look like the following:</p>
-<div class="codehilite"><pre><span class="k">class</span> <span class="nc">Adder</span><span class="p">():</span>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Adder</span><span class="p">():</span>
    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
       <span class="k">pass</span>
    <span class="k">def</span> <span class="nf">m_adder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
@@ -151,7 +151,7 @@ to create, what is often consider a piece of IP, but it is
 sufficient as an example for method conversion.</p>
 <p>To convert the method in the <em>Adder</em> object the convertible 
 method is passed to the conversion functions.</p>
-<div class="codehilite"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">MyAddr</span> <span class="o">=</span> <span class="n">Adder</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">MyAddr</span> <span class="o">=</span> <span class="n">Adder</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">MyAddr</span><span class="o">.</span><span class="n">m_adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">toVHDL</span><span class="p">(</span><span class="n">MyAddr</span><span class="o">.</span><span class="n">m_adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
@@ -172,7 +172,7 @@ to the converter code and in the
 the 
 <a href="https://bitbucket.org/jandecaluwe/myhdl/src/tip/myhdl/conversion/_analyze.py?at=default#cl-1290">visit_FunctionDev</a> 
 visitor determines the top-level ports.</p>
-<div class="codehilite"><pre><span class="n">_AnalyzeTopFuncVisitor</span><span class="o">.</span><span class="n">visit_FunctionDev</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">_AnalyzeTopFuncVisitor</span><span class="o">.</span><span class="n">visit_FunctionDev</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 
 

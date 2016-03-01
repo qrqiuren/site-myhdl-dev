@@ -124,7 +124,7 @@ important enough to warrant dedicated language support.</p>
 <p>In the past, I have suggested that this need may not be that high. For example,
 in the common case of an incrementer or decrementor, it is often necessary to
 decode the end count anyway:</p>
-<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
     <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">some_decode_action</span><span class="p">()</span>
 <span class="k">else</span><span class="p">:</span>
@@ -134,7 +134,7 @@ decode the end count anyway:</p>
 
 <p>However, I would agree that even then it could be clearer to keep the
 incrementer description separate from the decoding:</p>
-<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
     <span class="n">some_decode</span> <span class="n">action</span><span class="p">()</span>
 
 <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
@@ -154,7 +154,7 @@ assignment.</p>
 keep out of spotlights in earlier discussions :-). I believe a common use case
 for wrap-around behavior would be to describe an incrementor/decrementer using
 augmented asssignment with a variable:</p>
-<div class="codehilite"><pre><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<div class="codehilite"><pre><span></span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
 
@@ -170,7 +170,7 @@ important enough to warrant direct language support, it should be as easy to
 use as other behaviors.</p>
 <p>Finally, a parameter cannot support the following conversion
 trick:</p>
-<div class="codehilite"><pre><span class="n">a</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">N</span><span class="p">:]</span>
+<div class="codehilite"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">N</span><span class="p">:]</span>
 </pre></div>
 
 
@@ -233,7 +233,7 @@ are handled: out-of-bound values result in an error with <code>intbv</code>, and
 wrap-around with <code>modbv</code>. In particular, <code>modbv</code> would have exactly the same
 interface as the intbv. The wap-around behavior would be defined as follows,
 with <code>val</code> denoting the current value and <code>min</code>/<code>max</code> the bounds:</p>
-<div class="codehilite"><pre><span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">max</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">+</span> <span class="nb">min</span>
+<div class="codehilite"><pre><span></span><span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">max</span> <span class="o">-</span> <span class="nb">min</span><span class="p">)</span> <span class="o">+</span> <span class="nb">min</span>
 </pre></div>
 
 
@@ -242,12 +242,12 @@ integer-bitvector type. Therefore, they can be mixed transparantly in
 expressions. This should be not problem as the bound handling only occurs at
 assignment time in the assigned object.</p>
 <p>This proposal addresses the issues mentioned earlier. In particular:</p>
-<div class="codehilite"><pre><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+<div class="codehilite"><pre><span></span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
 
 <p>and</p>
-<div class="codehilite"><pre><span class="n">count</span> <span class="o">=</span> <span class="n">modbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">32</span><span class="p">:]</span>
+<div class="codehilite"><pre><span></span><span class="n">count</span> <span class="o">=</span> <span class="n">modbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">32</span><span class="p">:]</span>
 </pre></div>
 
 
@@ -272,12 +272,12 @@ some restrictions for interesting use cases. For example, a common use case for
 wrap-around behavior would be incrementors and decrementors. The analyzer could
 detect such cases and mark them. For such patterns, we could then support
 general wrap-around for non full-range objects also. For example:</p>
-<div class="codehilite"><pre><span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<div class="codehilite"><pre><span></span><span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 
 
 <p>would be converted to the Verilog/VHDL equivalent of:</p>
-<div class="codehilite"><pre><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">MAX</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="n">MAX</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
     <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">MIN</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">count</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
