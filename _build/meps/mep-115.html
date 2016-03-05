@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>How to import the myhdl libraray</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-115.html">MEP 115</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 115: How to import the myhdl libraray&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified:  by </i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>115</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe</td></tr>
+    <tr><td><strong>Status</strong></td><td>Draft</td></tr>
+    <tr><td><strong>Created</strong></td><td>05-Mar-2016</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>1.0</td></tr>
+</tbody>
+</table>
+            <h2 id="background">Background</h2>
+<p>Traditionally, the <code>myhdl</code> library is often imported using wildcard import,
+(<code>from myhdl import *</code>). For example:</p>
+<div class="codehilite"><pre>from myhdl import *
+
+@module
+def mod(...)
+
+    s = Signal(intbv(0)[8:])
+
+    @always_comb
+    def comb():
+        i = intbv(0)[4:0]
+        ...
+
+    @instance
+    def inst():
+        ...
+
+    return comb, inst, ...
+
+sim = Simulation(...)
+sim.run()
+</pre></div>
+
+
+<p>The obvious convenience is that all objects that are exported by the library are
+readily available. The rationale is that MyHDL is like a mini-language in itself
+that exports many objects. At some point, wildcard imports were considered
+acceptable in such a case according to some source, for example for the
+<code>Tkinter</code> library.</p>
+<p>However, the <a href="https://www.python.org/dev/peps/pep-0008/#imports">current Python guidelines</a> clearly state that wildcard
+import should be avoided in production code, except for some very specific
+applications. From the MyHDL perspective, the disadvantages are the following:</p>
+<ol>
+<li>As the Python guidelines state, wildcard import make it unclear which names
+are present in the namespace, confusing both readers and many automated tools.</li>
+<li>There is a chance that Python built-ins or standard library objects are
+implicitly shadowed, increasing the potential confusion. Over the years, this
+has happened twice already with MyHDL, for the <code>bin()</code> function and the <code>enum</code>
+module.  </li>
+<li>Some names may have a different meaning in the Python context, adding to the
+confusion when used unqualified. Examples in MyHDL are <code>module</code> and <code>instance</code>.</li>
+</ol>
+<p>Furthermore, the argument of MyHDL as a mini-language is somewhat misleading.
+It is explicitly the intention that MyHDL can be used in conjunction
+with any other Python library, even in unexpected ways. That is also what
+users are doing. In such scenarios, it becomes increasingly likely that
+wildcard import causes problems.</p>
+<p>The conclusion is that there should be a good way to import MyHDL objects
+without relying on wildcard import. The goal of this MEP is to investigate the
+solutions and to define a recommended approach to import the <code>myhdl</code> library.</p>
+<h2 id="explicit-import">Explicit import</h2>
+<p>An obvious way to accommodate some of the issues is by relying on explicit
+import of the required names. For example:</p>
+<div class="codehilite"><pre>from myhdl import module, Signal, intbv, always_comb, instance, Simulation
+</pre></div>
+
+
+<p>This solves the issue of the potential ambiguity of names. However, it has
+several disadvantages:</p>
+<ul>
+<li>the import line can become quite lengthy</li>
+<li>any required object name has to be added explicitly to the import line</li>
+<li>a reviewer still sees unqualified names in the code, which may be
+confusing</li>
+</ul>
+<h2 id="module-import">Module import</h2>
+<p>A straightforward approach is to import the module as is:</p>
+<div class="codehilite"><pre>import myhdl
+</pre></div>
+
+
+<p>This addresses all the issues but has one important disadvantage: some
+code may look heavy. For example:</p>
+<div class="codehilite"><pre>import myhdl
+...
+    s = myhdl.Signal(myhdl.intbv(0)[8:])
+</pre></div>
+
+
+<p>As <code>Signal</code> and <code>intbv</code> are intensely used types in behavioral descriptions,
+this is inconvenient and impractical.</p>
+<h2 id="a-dual-approach">A dual approach</h2>
+<p>To come to a good solution, we can take the viewpoint of a code reviewer and
+recognize that not all objects  serve the same purpose. Some objects are only
+used sparingly, such as <code>Simulation</code> and <code>toVerilog</code>. Others are used as
+decorators on functions. They serve as anchor points and it is important to
+define their meaning very clearly. For those objects, qualified names are
+appropriate.</p>
+<h2 id="proposal-for-a-recommended-import-strategy">Proposal for a recommended import strategy</h2>
+<div class="codehilite"><pre>import myhdl as hdl
+from myhdl import Signal, intbv
+
+@hdl.module
+def mod(...)
+
+    s = Signal(intbv(0)[8:])
+
+    @hdl.always_comb
+    def comb():
+        i = intbv(0)[4:0]
+        ...
+
+    @hdl.instance
+    def inst():
+        ...
+
+    return comb, inst, ...
+
+sim = hdl.Simulation(...)
+sim.run()
+</pre></div>
+
+
+<h2 id="alternatives">Alternatives</h2>
+<h2 id="decision">Decision</h2>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">How to import the myhdl libraray</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#explicit-import">Explicit import</a></li>
+<li><a href="#module-import">Module import</a></li>
+<li><a href="#a-dual-approach">A dual approach</a></li>
+<li><a href="#proposal-for-a-recommended-import-strategy">Proposal for a recommended import strategy</a></li>
+<li><a href="#alternatives">Alternatives</a></li>
+<li><a href="#decision">Decision</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-115.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-115'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
