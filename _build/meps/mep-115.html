@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>How to import the myhdl libraray</title>
+    <title>How to import the myhdl library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -80,7 +80,7 @@
     </ol>
 
     <div class="page-header">
-<h1>MEP 115: How to import the myhdl libraray&nbsp;&nbsp;
+<h1>MEP 115: How to import the myhdl library&nbsp;&nbsp;
 </h1>
         <p><i>Last modified: 05-Mar-2016 by Jan Decaluwe</i></p>
     </div>
@@ -98,8 +98,13 @@
 </tbody>
 </table>
             <h2 id="background">Background</h2>
-<p>Traditionally, the <code>myhdl</code> library is often imported using wildcard import,
-(<code>from myhdl import *</code>). For example:</p>
+<p>Traditionally, the <code>myhdl</code> library is often imported using wildcard import:</p>
+<div class="codehilite"><pre>from myhdl import *
+</pre></div>
+
+
+<p>The obvious convenience is that all objects that are exported by the library are
+readily available. For example:</p>
 <div class="codehilite"><pre>from myhdl import *
 
 @module
@@ -123,11 +128,10 @@ sim.run()
 </pre></div>
 
 
-<p>The obvious convenience is that all objects that are exported by the library are
-readily available. The rationale is that MyHDL is like a mini-language in itself
-that exports many objects. At some point, wildcard imports were considered
-acceptable in such a case according to some source, for example for the
-<code>Tkinter</code> library.</p>
+<p>The rationale behind wildcard import is that MyHDL is like a mini-language in
+itself that exports many objects. At some point, wildcard imports were
+considered acceptable in such a case according to some source, for example for
+the <code>Tkinter</code> library.</p>
 <p>However, the <a href="https://www.python.org/dev/peps/pep-0008/#imports">current Python guidelines</a> clearly state that wildcard
 import should be avoided in production code, except for some very specific
 applications. From the MyHDL perspective, the disadvantages are the following:</p>
@@ -181,13 +185,27 @@ code may look heavy. For example:</p>
 <p>As <code>Signal</code> and <code>intbv</code> are intensely used types in behavioral descriptions,
 this is inconvenient and impractical.</p>
 <h2 id="a-dual-approach">A dual approach</h2>
-<p>To come to a good solution, we can take the viewpoint of a code reviewer and
-recognize that not all objects  serve the same purpose. Some objects are only
-used sparingly, such as <code>Simulation</code> and <code>toVerilog</code>. Others are used as
-decorators on functions. They serve as anchor points and it is important to
-define their meaning very clearly. For those objects, qualified names are
-appropriate.</p>
+<p>To come to a good solution, we can take the standpoint of a code reviewer and
+recognize that not all objects  serve the same purpose. Some objects, like
+<code>Simulation</code> and <code>toVerilog</code>, are only used sparingly. Others are used as
+decorators on functions. They serve as anchor points in the code and it is
+important to define their meaning very clearly. For those kind of objects,
+qualified names are appropriate.</p>
+<p>On the other hand, types such as <code>Signal</code> and <code>intbv</code> are used to describe the
+detailed actual behavior. In that case, it can be more convenient to use
+non-qualified names.</p>
+<p>The conclusion is that a dual approach is appropriate, where some objects
+are referred to in a qualified, and others in a non-qualified way.</p>
 <h2 id="proposal-for-a-recommended-import-strategy">Proposal for a recommended import strategy</h2>
+<p>The dual import approach would consist of two import lines. The first line would
+be for the module itself. This could be made more make more lightweight without
+jeopardizing clarity by importing it as the shorthand <code>hdl</code>:</p>
+<div class="codehilite"><pre>import myhdl as hdl
+</pre></div>
+
+
+<p>The second import would consist a limited set of unqualified type names from
+the library. The example presented earlier would become:</p>
 <div class="codehilite"><pre>import myhdl as hdl
 from myhdl import Signal, intbv
 
@@ -213,6 +231,17 @@ sim.run()
 
 
 <h2 id="alternatives">Alternatives</h2>
+<p>An alternative for the shorthand name <code>hdl</code> could be the even shorter name <code>hw</code>,
+that stands for "hardware".</p>
+<p>Another possibility is to define the shorthand name as another namespace
+in the library itself. This would enable single line imports as follows:</p>
+<div class="codehilite"><pre>from myhdl import hdl, Signal, intbv
+</pre></div>
+
+
+<p>This would also be more direct way of enforcing the recommended shorthand name.
+On the other hand, this approach may be "too clever", and more confusing than
+the explicit two line import strategy.</p>
 <h2 id="decision">Decision</h2>
         </div>
 
@@ -222,7 +251,7 @@ sim.run()
                  data-offset-top="80"
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><strong style="font-size:90%">How to import the myhdl libraray</strong></a>
+                    <a href="#"><strong style="font-size:90%">How to import the myhdl library</strong></a>
                     <div class="toc">
 <ul>
 <li><a href="#background">Background</a></li>
