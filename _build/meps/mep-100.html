@@ -103,14 +103,14 @@ of special syntax in front of a function declaration. It refers to a decorator
 function. The decorator function automatically transforms the declared function
 into some other callable object. </p>
 <p>A decorator function <code>deco</code> is used in a decorator statement as follows:</p>
-<div class="codehilite"><pre><span class="nd">@deco</span>
+<div class="codehilite"><pre><span></span><span class="nd">@deco</span>
 <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
     <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 </pre></div>
 
 
 <p>This code is equivalent to the following template:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
     <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 <span class="n">func</span> <span class="o">=</span> <span class="n">deco</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 </pre></div>
@@ -122,7 +122,7 @@ declaration, and that the function name <code>func</code> is automatically reuse
 <h3 id="using-always_comb-as-a-decorator">Using always_comb as a decorator</h3>
 <p>At first sight, decorators may seem an esoteric feature with little relevance
 to MyHDL. However, this is not the case. Consider the usage of <code>always_comb</code>:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="k">def</span> <span class="nf">comb</span><span class="p">():</span>
         <span class="o">&lt;</span><span class="n">combinatorial</span> <span class="n">body</span><span class="o">&gt;</span>
@@ -137,7 +137,7 @@ to MyHDL. However, this is not the case. Consider the usage of <code>always_comb
 Therefore, we suspect that it should be possible to use <code>always_comb</code> as a
 decorator. And indeed, only a small backwards compatible change was required to
 make this possible. The equivalent decorator usage is as follows:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@always_comb</span>
     <span class="k">def</span> <span class="nf">comb_inst</span><span class="p">():</span>
@@ -155,7 +155,7 @@ which is a generator in this case.</p>
 <h3 id="a-generic-decorator-for-local-generator-functions">A generic decorator for local generator functions</h3>
 <p>The use of <code>always_comb</code> as a decorator is a no-brainer. However, the next
 question is: why stop there? Consider the general case of a local generator:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="k">def</span> <span class="nf">gen_func</span><span class="p">():</span>
         <span class="o">&lt;</span><span class="n">generator</span> <span class="n">body</span><span class="o">&gt;</span>
@@ -182,7 +182,7 @@ purposes.</p>
 <p>Eventually, I believe <code>instance</code> is the best choice. The meaning is: create a
 generator instance from the following generator function and reuse the function
 name as the generator name. Usage is as follows:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@instance</span>
     <span class="k">def</span> <span class="nf">inst</span><span class="p">():</span>
@@ -204,7 +204,7 @@ automatically. The functional behavior can then be described with a classic
 function instead of generator. The appriopriate name for the decorator is
 <code>always</code>: the meaning is that the function is executed whenever one of the
 events occurs. The <code>always</code> decorator is used as follows:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
     <span class="o">...</span>
     <span class="nd">@always</span><span class="p">(</span><span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">inst</span><span class="p">()</span>
@@ -215,14 +215,14 @@ events occurs. The <code>always</code> decorator is used as follows:</p>
 
 
 <p>This is equivalent to the following code:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">top</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">_func</span><span class="p">()</span>
         <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
 
     <span class="k">def</span> <span class="nf">_gen_func</span><span class="p">()</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">,</span> <span class="o">...</span> <span class="c"># the only yield</span>
+            <span class="k">yield</span> <span class="n">event1</span><span class="p">,</span> <span class="n">event2</span><span class="p">,</span> <span class="o">...</span> <span class="c1"># the only yield</span>
             <span class="n">_func</span><span class="p">()</span>
     <span class="o">...</span>
     <span class="n">inst</span> <span class="o">=</span> <span class="n">_gen_func</span><span class="p">()</span>
@@ -237,7 +237,7 @@ events occurs. The <code>always</code> decorator is used as follows:</p>
 <p>As an example, it may be useful to compare a model without decorators to an
 equivalent model with decorators. The following is a MyHDL model of a RAM,
 without decorators:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">ram</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">din</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">ram</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">din</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
 
     <span class="n">mem</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">)]</span>
 
@@ -257,7 +257,7 @@ without decorators:</p>
 
 
 <p>Using decorators this code can be rewritten as follow:</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">ram</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">din</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">ram</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">din</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">we</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
 
     <span class="n">mem</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depth</span><span class="p">)]</span>
 
@@ -278,7 +278,7 @@ without decorators:</p>
 <p>The <code>always</code> decorator can also take a delay object as its parameter. The
 following example of a clock generator illustrates how this feature can be
 used.</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">testbench</span><span class="p">():</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">testbench</span><span class="p">():</span>
     <span class="o">...</span>
     <span class="n">clock</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
     <span class="o">...</span>

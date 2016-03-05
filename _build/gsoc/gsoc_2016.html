@@ -81,7 +81,7 @@
 
     <div class="page-header">
         <h1>Google Summer of Code 2016</h1>
-        <p><i>Last modified: 11-Feb-2016 by Keerthan Jaic</i></p>
+        <p><i>Last modified: 01-Mar-2016 by Christopher Felton</i></p>
     </div>
 
     <div class="row">
@@ -162,12 +162,12 @@ is a thorough review of the program.</p>
 <p>The <a href="http://docs.myhdl.org/en/latest/index.html">MyHDL manual</a> 
 outlines how to design digital circuits with MyHDL.  MyHDL
 <a href="http://www.myhdl.org/start/installation.html">installation instructions</a> 
-throughly cover installing the MyHDL package.</p>
+thoroughly cover installing the MyHDL package.</p>
 <p>The following
 is a list of additional examples and projects that can be used 
 as first exercises and references:</p>
 <ul>
-<li><a href="http://www.myhdl.org/examples/">MyHDL Examples</a></li>
+<li><a href="http://www.myhdl.org/docs/examples/">MyHDL Examples</a></li>
 <li><a href="http://www.fpgarelated.com/showarticle/43.php">MyHDL List of Resources</a></li>
 </ul>
 <h3 id="contributing-to-myhdl-package">Contributing to MyHDL Package</h3>
@@ -189,7 +189,10 @@ the project.</p>
       <a href="http://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core">cores</a> 
       with MyHDL.</li>
 </ol>
-<p>All projects require programming in Python.</p>
+<p>All projects require programming in Python, previous knowledge of <abbr title="Hardware Description Language">HDL</abbr>
+design, and many of the MyHDL specific projects (i.e. non-cores)
+require experience with compilers (familiarity with the Python
+compiler package desirable).</p>
 <p>The MyHDL package uses the LGPL license, all work submitted to 
 the MyHDL package will be LGPL.</p>
 <h3 id="myhdl-package-project-ideas">MyHDL Package Project Ideas</h3>
@@ -201,11 +204,14 @@ This would also support <a href="http://dev.myhdl.org/meps/mep-110.html">MEP110<
 <p>This project requires knowledge of compilers and the Python 
 compiler support and packages.  This is an advanced project
 that will support the overall MyHDL conversion code structure,
-reusability, and comprehension.</p>
+reusability, and comprehension.  Students interested working on
+this project should review the <a href="http://dev.myhdl.org/meps/mep-114.html">MEP114</a>
+and its impact.  This project shall support the MEP114 <code>@mydhdl.module</code>
+inclusion.</p>
 <p>Potential mentor(s):</p>
 <p><em>.  <a href="">Oscar Diaz</a>, </em>tbd* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
 <h4 id="cosimulation-signal-extraction">Cosimulation Signal Extraction</h4>
-<p>It is possible through the foriegn language interfaces (VPI/DPI) to
+<p>It is possible through the foreign language interfaces (VPI/DPI) to
 extract all the signals in from the <a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimuation</a> simulator 
 and
 build a <code>dict</code> or <code>object</code> on the Python side.  Performing this 
@@ -223,14 +229,20 @@ general simulator knolwedge and will require Python and
 C coding.  This work will mainly be completed with the 
 <a href="http://iverilog.icarus.com/">Icarus Verilog</a> or 
 <a href="http://www.tachyon-da.com/">CVC</a> simulators.</p>
+<p>An alternative, is to parse the top-level module ports and
+automatically build the interface.  A rough version of this
+mehtod has been used in other projects.</p>
 <h4 id="2d-list-of-signal-conversion">2D List-of-Signal Conversion</h4>
 <p>The MyHDL conversion currently handles 
 <a href="http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-lists-of-signals">converting a list-of-signals</a>.
-But it is ofthen desired to use multi-dimension (list of lists) to 
+But it is often desired to use multi-dimension (list of lists) to
 structure data and/or signals.  This project will involve exploring
 the list-of-signal conversion, proposing an architecture for 
 multi-dimension conversion, a complete set of tests, and an 
 implementation for the conversion.</p>
+<h4 id="fixed-point-compiler">Fixed-point Compiler</h4>
+<p>This project will develop the backend compiler for the proposed
+<code>fixbv</code> type.  The <code>fixbv</code> has been proposed in <a href="http://dev.myhdl.org/meps/mep-111.html">MEP111</a>.</p>
 <h3 id="myhdl-cores-project-ideas">MyHDL Cores Project Ideas</h3>
 <p>The following projects are the development and/or ports of common
 building blocks used in many complex digital systems.  These are
@@ -238,9 +250,10 @@ not intended to be straight ports.  They are intended to be designed
 in the MyHDL philosophy bringing many software concepts to hardware
 design and creating modular and scalable cores.</p>
 <h4 id="gigabit-ethernet-mac">Gigabit Ethernet MAC</h4>
-<p>This project involves porting a <a href="">GEMAC</a> core to MyHDL.  The
-GEMAC is typically used to <em>stream</em> data in and out of an FPGA
-versus the lower throughput in common IO Ethernet connections.  </p>
+<p>This project involves porting a Gigabit Ethernet Medium Access 
+Controller (GEMAC) core to MyHDL.  The GEMAC is typically used 
+to <em>stream</em> data in and out of an FPGA versus the lower 
+throughput in common IO Ethernet connections.  </p>
 <p>The project has a 
 <a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_eth">reference Verilog</a> 
 design and a
@@ -255,20 +268,32 @@ is not included the default configuration should easily be set during
 instantiation.  The core should support many different standards for 
 the different type if interfaces.  The following is an example that 
 shows how the interfaces are past to the core:</p>
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<p>Dynamic MAC control via the <code>AvalonMM</code> bus with a <code>AvalonST</code>
+streaming data interface.</p>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">AvalonST</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">geth</span> <span class="o">=</span> <span class="n">m_eth_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
+<span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
 </pre></div>
 
 
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<p>Dynamic MAC control via the <code>Wishbone</code> bus with a <code>FIFOBus</code>
+streaming data interface.</p>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="n">geth</span> <span class="o">=</span> <span class="n">m_eth_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
+<span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Static configuraiton with a <code>FIFOBus</code> streaming data interface.</p>
+<div class="codehilite"><pre><span></span><span class="n">cso</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="o">.</span><span class="n">cso</span><span class="p">()</span>
+<span class="n">cso</span><span class="o">.</span><span class="n">subnet_mask</span> <span class="o">=</span> <span class="mh">0xFF00001</span>
+<span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">cso</span><span class="o">=</span><span class="n">cso</span><span class="p">)</span>
 </pre></div>
 
 
 <p>By using the interfaces and passing the interface types the 
-core become truly modular and scalable.</p>
+core becomes truly modular and scalable.</p>
 <p>This project requires digital circuit familiarity, ability 
 to read and understand Verilog and Python.  Knowledge of 
 Ethernet standards and protocols will be useful.</p>
@@ -305,15 +330,15 @@ to read and understand Verilog, and Python.  </p>
 </ul>
 <h4 id="ddr3-controller">DDR3 Controller</h4>
 <p>The project has a 
-<a href="">reference</a> 
+<strong>reference</strong>
 design to port and a
-<a href="">test framework</a>.<br />
+<strong>test framework</strong>.
 The test framework will be used to validate
 the core and encourage 
 <a href="http://www.drdobbs.com/architecture-and-design/test-driven-design/240168102">test driven design</a>.
 The core port/development should also include the 
 <a href="https://github.com/xesscorp/VHDL_Lib/blob/master/MemTest.vhd">embedded memory test</a>
-<!-- todo indentify hardware to test on --></p>
+<!-- todo identify hardware to test on --></p>
 <p>As the cores project overview description indicates, this is not 
 a simple port.  The generated core should support the functionality
 of the reference design but the core should also explore creating
@@ -327,8 +352,7 @@ external memory types and memory controller desired but
 not required.</p>
 <p>The potential mentors:</p>
 <ul>
-<li><a href="">Dave Vandenbout</a>, <em>tdb</em> on IRC, <a href="">@devbisme</a> 
-     on twitter, and  <a href="https://github.com/devbisme">@devbisme on github</a></li>
+<li>TBD</li>
 </ul>
 <h4 id="jpeg-encoder">JPEG Encoder</h4>
 <p>This project is the design and/or port of a JPEG encoder.  Same
@@ -339,7 +363,7 @@ and test framework</a> is
 the starting point for this project.  This project should 
 convert / implement one component at a time.  The following 
 is a suggested order of implementation:</p>
-<div class="codehilite"><pre>* RGB to YCBCR conversion
+<div class="codehilite"><pre><span></span>* RGB to YCBCR conversion
 * 2D DCT
 * Quantizer
 * Huffman module
@@ -416,6 +440,7 @@ a proposal.</p>
 <li><a href="#general-hierarchy-analyzer">General Hierarchy Analyzer</a></li>
 <li><a href="#cosimulation-signal-extraction">Cosimulation Signal Extraction</a></li>
 <li><a href="#2d-list-of-signal-conversion">2D List-of-Signal Conversion</a></li>
+<li><a href="#fixed-point-compiler">Fixed-point Compiler</a></li>
 </ul>
 </li>
 <li><a href="#myhdl-cores-project-ideas">MyHDL Cores Project Ideas</a><ul>
