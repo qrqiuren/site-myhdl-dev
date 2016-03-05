@@ -16,7 +16,8 @@ def process_info(info, site):
     # decode to convert to unicode for both Python 2 and 2
     at = at.decode('utf-8')
     at = at.strip("'\n")
-    at = datetime.date.fromtimestamp(int(at))
+    if at:
+        at = datetime.date.fromtimestamp(int(at))
     info['at'] = at
 
 def check_keys(item, keys):
