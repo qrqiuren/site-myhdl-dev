@@ -107,10 +107,10 @@ structure automatically.</p>
 example.</p>
 <p>Consider the following example of an uart transmitter, coded
 in synthesizable MyHDL.</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">uart_tx</span><span class="p">(</span><span class="n">tx_bit</span><span class="p">,</span> <span class="n">tx_valid</span><span class="p">,</span> <span class="n">tx_byte</span><span class="p">,</span> <span class="n">tx_clk</span><span class="p">,</span> <span class="n">tx_rst</span><span class="p">):</span>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">uart_tx</span><span class="p">(</span><span class="n">tx_bit</span><span class="p">,</span> <span class="n">tx_valid</span><span class="p">,</span> <span class="n">tx_byte</span><span class="p">,</span> <span class="n">tx_clk</span><span class="p">,</span> <span class="n">tx_rst</span><span class="p">):</span>
 
     <span class="n">index</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
-    <span class="n">st</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s1">&#39;IDLE&#39;</span><span class="p">,</span> <span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="s1">&#39;DATA&#39;</span><span class="p">)</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&#39;IDLE&#39;</span><span class="p">,</span> <span class="s">&#39;START&#39;</span><span class="p">,</span> <span class="s">&#39;DATA&#39;</span><span class="p">)</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">IDLE</span><span class="p">)</span>
 
     <span class="nd">@always</span><span class="p">(</span><span class="n">tx_clk</span><span class="o">.</span><span class="n">posedge</span><span class="p">,</span> <span class="n">tx_rst</span><span class="o">.</span><span class="n">negedge</span><span class="p">)</span>
@@ -122,7 +122,7 @@ in synthesizable MyHDL.</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">st</span><span class="o">.</span><span class="n">IDLE</span><span class="p">:</span>
                 <span class="n">tx_bit</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="k">if</span> <span class="n">tx_valid</span><span class="p">:</span> <span class="c1"># a pulse</span>
+                <span class="k">if</span> <span class="n">tx_valid</span><span class="p">:</span> <span class="c"># a pulse</span>
                     <span class="n">state</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">START</span>
             <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">st</span><span class="o">.</span><span class="n">START</span><span class="p">:</span>
                 <span class="n">tx_bit</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
@@ -160,7 +160,7 @@ signals are reset to the same value of their initial value. In particular, it
 is hard to imagine a useful case where the initial value and the reset value
 would be different.</p>
 <p>The uart in the example would be used in higher level code as follows:</p>
-<div class="codehilite"><pre><span></span><span class="n">tx_bit</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<div class="codehilite"><pre><span class="n">tx_bit</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">tx_valid</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">tx_byte</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">8</span><span class="p">:])</span>
 <span class="n">tx_clk</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -182,17 +182,17 @@ proposed to infer the reset behavior automatically.</p>
 reset values.  The solution is implemented with two new MyHDL constructs. The
 first one is a new decorator called <code>@always_seq</code>. Using this decorator, code
 with identical behavior as in the previous section can be described as follows:</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">uart_tx_2</span><span class="p">(</span><span class="n">tx_bit</span><span class="p">,</span> <span class="n">tx_valid</span><span class="p">,</span> <span class="n">tx_byte</span><span class="p">,</span> <span class="n">tx_clk</span><span class="p">,</span> <span class="n">tx_rst</span><span class="p">):</span>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">uart_tx_2</span><span class="p">(</span><span class="n">tx_bit</span><span class="p">,</span> <span class="n">tx_valid</span><span class="p">,</span> <span class="n">tx_byte</span><span class="p">,</span> <span class="n">tx_clk</span><span class="p">,</span> <span class="n">tx_rst</span><span class="p">):</span>
 
     <span class="n">index</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">))</span>
-    <span class="n">st</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s1">&#39;IDLE&#39;</span><span class="p">,</span> <span class="s1">&#39;START&#39;</span><span class="p">,</span> <span class="s1">&#39;DATA&#39;</span><span class="p">)</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="s">&#39;IDLE&#39;</span><span class="p">,</span> <span class="s">&#39;START&#39;</span><span class="p">,</span> <span class="s">&#39;DATA&#39;</span><span class="p">)</span>
     <span class="n">state</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">IDLE</span><span class="p">)</span>
 
     <span class="nd">@always_seq</span><span class="p">(</span><span class="n">tx_clk</span><span class="o">.</span><span class="n">posedge</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="n">tx_rst</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">fsm</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">st</span><span class="o">.</span><span class="n">IDLE</span><span class="p">:</span>
             <span class="n">tx_bit</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">tx_valid</span><span class="p">:</span> <span class="c1"># a pulse</span>
+            <span class="k">if</span> <span class="n">tx_valid</span><span class="p">:</span> <span class="c"># a pulse</span>
                 <span class="n">state</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">START</span>
         <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">st</span><span class="o">.</span><span class="n">START</span><span class="p">:</span>
             <span class="n">tx_bit</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
@@ -214,7 +214,7 @@ signal. It inspects the code to find the registers, and uses the initial values
 to construct the reset behavior.</p>
 <p>The second construct is a specialized signal subclass called <code>ResetSignal</code>. It
 is used as follows:</p>
-<div class="codehilite"><pre><span></span><span class="n">tx_bit</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<div class="codehilite"><pre><span class="n">tx_bit</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <span class="n">tx_valid</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">tx_byte</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">8</span><span class="p">:])</span>
 <span class="n">tx_clk</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -241,14 +241,14 @@ affected. In contrast, with the proposed technique all reset features are
 specified at single location in the <code>ResetSignal</code> constructor. Changes are
 trivial. For example, to change to an active high synchronous reset one merely
 has to change the constructor as follows:</p>
-<div class="codehilite"><pre><span></span><span class="n">tx_rst</span> <span class="o">=</span> <span class="n">ResetSignal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">async</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="n">tx_rst</span> <span class="o">=</span> <span class="n">ResetSignal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">async</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Occasionally, it is useful to have registers without reset at all. The proposed
 technique is also useful in that case. In particular, the <code>@always_seq</code>
 decorator accepts <code>None</code> as the reset argument:</p>
-<div class="codehilite"><pre><span></span><span class="nd">@always_seq</span><span class="p">(</span><span class="n">tx_clk</span><span class="o">.</span><span class="n">posedge</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="nd">@always_seq</span><span class="p">(</span><span class="n">tx_clk</span><span class="o">.</span><span class="n">posedge</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 
 

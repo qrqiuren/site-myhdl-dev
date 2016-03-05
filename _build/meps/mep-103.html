@@ -166,7 +166,7 @@ a module which is a parameter of another module. This is not a
 problem for MyHDL, but it does raise some issues.</p>
 <p>First, there would have to be some way to attach driver inputs
 "dynamically" to tristate bus instances:</p>
-<div class="codehilite"><pre><span></span><span class="n">bus</span> <span class="o">=</span> <span class="n">TristateBusModule</span><span class="p">(</span><span class="n">out</span><span class="o">=...</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="n">bus</span> <span class="o">=</span> <span class="n">TristateBusModule</span><span class="p">(</span><span class="n">out</span><span class="o">=...</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">d</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">bus</span><span class="o">.</span><span class="n">addDriver</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -192,7 +192,7 @@ might be a simpler way.</p>
 <p>An alternative idea is to model a tristate as a signal with
 some new behavior, by subclassing the <code>Signal</code> class, and
 keeping the idea to add explicit drivers:</p>
-<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tristate</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="k">class</span> <span class="nc">Tristate</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="o">...</span>
 
 <span class="n">bus</span> <span class="o">=</span> <span class="n">Tristate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -211,7 +211,7 @@ keeping the idea to add explicit drivers:</p>
 <h2 id="proposed-solution">Proposed solution</h2>
 <h3 id="description">Description</h3>
 <p>The final insight to come to the proposed solution is the following. Even though we need separate drivers, we don't necessarily need to construct them explicitly as separate signals. We can also a construct a driver "on-demand" from its tristate object, as follows:</p>
-<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TristateSignal</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="k">class</span> <span class="nc">TristateSignal</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
     <span class="o">...</span>
 
 <span class="n">bus</span> <span class="o">=</span> <span class="n">Tristate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>

@@ -109,7 +109,7 @@ version of Quartus.</p>
 be added to the toVerilog and toVHDL to disable
 "plain" Signal init and "memory" (array) init.
 Something like the following.</p>
-<div class="codehilite"><pre><span></span>toVerilog(... disable_init=False, disable_mem_init=False)
+<div class="codehilite"><pre>toVerilog(... disable_init=False, disable_mem_init=False)
 toVHDL( &quot;&quot; &quot;&quot; )
 </pre></div>
 
@@ -117,7 +117,7 @@ toVHDL( &quot;&quot; &quot;&quot; )
 <p>Arguments can always be used as ports, so configuration
 should go elsewhere. Currently function attributes are for
 such purposes:</p>
-<div class="codehilite"><pre><span></span>toVerilog.disable_init = False
+<div class="codehilite"><pre>toVerilog.disable_init = False
 </pre></div>
 
 

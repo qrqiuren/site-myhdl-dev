@@ -203,7 +203,7 @@ communicating generators, regardless of how it is built. Old code without the
 <p>The <code>module</code> decorator will become mandatory when hardware extraction is
 required, more specifically for waveform tracing and conversion. The required
 user code change is minimal:</p>
-<div class="codehilite"><pre><span></span>       old code               -&gt;            new code
+<div class="codehilite"><pre>       old code               -&gt;            new code
 ------------------------------------------------------------------
                                         @module
 def mymodule(&lt;ports&gt;):                  def mymodule(&lt;ports&gt;):
@@ -216,7 +216,7 @@ def mymodule(&lt;ports&gt;):                  def mymodule(&lt;ports&gt;):
 must be used on the functions that describe submodules too, or else an error
 will occur.</p>
 <p>Furthermore, there are API changes as follows:</p>
-<div class="codehilite"><pre><span></span>        old API                   -&gt;         new API
+<div class="codehilite"><pre>        old API                   -&gt;         new API
 -----------------------------------------------------------------------
 toVerilog(func,*args,**kwargs)    -&gt; toVerilog(func(*args,**kwargs))
 toVHDL(func,*args,**kwargs)       -&gt; toVHDL(func(*args, **kwargs))
@@ -234,7 +234,7 @@ However, because instantiation no longer occurs under fine-grained profiler
 control, those local variables names can no longer be used.</p>
 <p>Instead, the basename of an instance will be synthesized automatically from the
 name of the corresponding function and an instantiation counter as follows:</p>
-<div class="codehilite"><pre><span></span>instance_name = &#39;{function_name}_{instance_count}&#39;
+<div class="codehilite"><pre>instance_name = &#39;{function_name}_{instance_count}&#39;
 </pre></div>
 
 
@@ -243,7 +243,7 @@ instances a local name: anonymous instantiation will work too. A disadvantage is
 of course that the local variable name, which may be clearer and shorter than
 the synthesized name, is not present in the output. To accommodate this
 disadvantage, explicit naming control is possible as follows:</p>
-<div class="codehilite"><pre><span></span>inst = mymodule(&lt;signals&gt;)
+<div class="codehilite"><pre>inst = mymodule(&lt;signals&gt;)
 inst.name = &quot;myinst&quot;
 </pre></div>
 

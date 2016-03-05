@@ -159,7 +159,7 @@ refer to the variable names in the context of the string.</p>
 subsitution, be supported also? In that case, substitution can be triggered by
 simply prefixing variable with <code>$</code>.</p>
 <p>Example:</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">inc_comb</span><span class="p">(</span><span class="n">nextCount</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">inc_comb</span><span class="p">(</span><span class="n">nextCount</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 
     <span class="nd">@always_comb</span>
     <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
@@ -169,7 +169,7 @@ simply prefixing variable with <code>$</code>.</p>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">assign %(nextCount)s = (%(count)s + 1) %% %(n)s;</span>
 <span class="sd">&quot;&quot;&quot;</span>
-    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s2">&quot;wire&quot;</span>
+    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s">&quot;wire&quot;</span>
 
     <span class="k">return</span> <span class="n">logic</span>
 </pre></div>
@@ -192,7 +192,7 @@ process, or in compilation errors from invalid Verilog code. The user should
 solve this by setting the <code>driven</code> attribute for signals that are driven from
 the user-defined code. In the example code above, note the following
 assignment:</p>
-<div class="codehilite"><pre><span></span>    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s2">&quot;wire&quot;</span>
+<div class="codehilite"><pre>    <span class="n">nextCount</span><span class="o">.</span><span class="n">driven</span> <span class="o">=</span> <span class="s">&quot;wire&quot;</span>
 </pre></div>
 
 

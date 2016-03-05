@@ -109,7 +109,7 @@ and similar modelling problems. The basis of the solution is new kind of signal
 subclass, called the <em>shadow signal</em>.</p>
 <h2 id="analysis">Analysis</h2>
 <p>Consider signal slicing. In MyHDL, you take a slice as follows:</p>
-<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+<div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
 </pre></div>
 
 
@@ -148,7 +148,7 @@ syntax.</p>
 <p>To find a solution for structural slicing, let's consider the current
 workaround. If you want to use a signal slice as a signal elsewhere, you can
 define a new signal and a generator as follows:</p>
-<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">:</span><span class="mi">0</span><span class="p">])</span>
+<div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">:</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="nd">@always_comb</span>
 <span class="k">def</span> <span class="nf">slice_shadower</span><span class="p">():</span>
@@ -223,12 +223,12 @@ practice.</p>
 regular signals now have a call interface that returns a _SliceSignal:</p>
 <p><strong><code>__call__</code></strong><code>(left[, right=None])</code></p>
 <p>Therefore, instead of:</p>
-<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">_SliceSignal</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">_SliceSignal</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
 </pre></div>
 
 
 <p>you can do:</p>
-<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+<div class="codehilite"><pre><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
 </pre></div>
 
 
@@ -277,7 +277,7 @@ within generators.</p>
 a particular instance, the structure is fixed, but we want to make the design
 parametrizable by defining the permutation by a <code>mapping</code> parameter. Using
 shadow signals, the design can be described as follows:</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
 <span class="sd">&quot;&quot;&quot; Permute input bits.</span>
 
 <span class="sd">    x: output port</span>
@@ -286,7 +286,7 @@ shadow signals, the design can be described as follows:</p>
 <span class="sd">             to output bit positions</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span> <span class="c1"># index signals</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span> <span class="c"># index signals</span>
 
     <span class="n">q</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 
@@ -300,14 +300,14 @@ shadow signals, the design can be described as follows:</p>
 
 <p>Shadow signals are convertible to Verilog and VHDL.
 For example, consider the following parameter definitions:</p>
-<div class="codehilite"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
+<div class="codehilite"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
 <span class="n">mapping</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
 
 <p>The output Verilog code for this example is as follows:</p>
-<div class="codehilite"><pre><span></span><span class="k">module</span> <span class="n">permute</span> <span class="p">(</span>
+<div class="codehilite"><pre><span class="k">module</span> <span class="n">permute</span> <span class="p">(</span>
     <span class="n">x</span><span class="p">,</span>
     <span class="n">a</span>
 <span class="p">);</span>
@@ -333,9 +333,9 @@ For example, consider the following parameter definitions:</p>
 shadow signals. The circuit maps input error bits <code>i_err</code> to output error bits
 <code>o_err</code>, according to a spec. The output spec <code>o_spec</code> is a tuple of strings.
 The input spec <code>i_spec</code> is a mapping of strings to bit indices.  For example:</p>
-<div class="codehilite"><pre><span></span><span class="n">o_spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="s1">&#39;nomatch&#39;</span><span class="p">)</span>
-<span class="n">i_spec</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> 
-           <span class="s1">&#39;e&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="p">}</span>
+<div class="codehilite"><pre><span class="n">o_spec</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;other&#39;</span><span class="p">,</span> <span class="s">&#39;nomatch&#39;</span><span class="p">)</span>
+<span class="n">i_spec</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> 
+           <span class="s">&#39;e&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">&#39;f&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="p">}</span>
 </pre></div>
 
 
@@ -347,19 +347,19 @@ index is looked up in the input spec.</p>
 <p>For the design description, the idea is to assemble the individual bits for the
 <code>other</code> and <code>o_err</code> vectors in a list, and then use <code>ConcatSignal</code> to make new
 signals out of them:</p>
-<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">adapter</span><span class="p">(</span><span class="n">o_err</span><span class="p">,</span> <span class="n">i_err</span><span class="p">,</span> <span class="n">o_spec</span><span class="p">,</span> <span class="n">i_spec</span><span class="p">):</span>
+<div class="codehilite"><pre><span class="k">def</span> <span class="nf">adapter</span><span class="p">(</span><span class="n">o_err</span><span class="p">,</span> <span class="n">i_err</span><span class="p">,</span> <span class="n">o_spec</span><span class="p">,</span> <span class="n">i_spec</span><span class="p">):</span>
 
     <span class="n">nomatch</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
     <span class="n">other</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 
     <span class="n">o_err_bits</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">o_spec</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;other&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;other&#39;</span><span class="p">:</span>
             <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;nomatch&#39;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">s</span> <span class="o">==</span> <span class="s">&#39;nomatch&#39;</span><span class="p">:</span>
             <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nomatch</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i_spec</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c1"># index signal</span>
+            <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i_spec</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c"># index signal</span>
             <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
     <span class="n">o_err_vec</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">o_err_bits</span><span class="p">)</span>
 
@@ -367,7 +367,7 @@ signals out of them:</p>
     <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">i_spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">o_spec</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c1"># index signal</span>
+        <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c"># index signal</span>
         <span class="n">other_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
     <span class="n">other_vec</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">other_bits</span><span class="p">)</span>
 
@@ -383,7 +383,7 @@ signals out of them:</p>
 
 <p>For the example spec above, the convertor generates
 the following Verilog code for the design instance:</p>
-<div class="codehilite"><pre><span></span><span class="k">module</span> <span class="n">adapter</span> <span class="p">(</span>
+<div class="codehilite"><pre><span class="k">module</span> <span class="n">adapter</span> <span class="p">(</span>
     <span class="n">o_err</span><span class="p">,</span>
     <span class="n">i_err</span>
 <span class="p">);</span>
