@@ -98,13 +98,14 @@
 </tbody>
 </table>
             <h2 id="background">Background</h2>
-<p>Traditionally, the <code>myhdl</code> library is often imported using wildcard import:</p>
+<p>Traditionally, the <code>myhdl</code> library is often imported using a wildcard import, as
+follows</p>
 <div class="codehilite"><pre>from myhdl import *
 </pre></div>
 
 
-<p>The obvious convenience is that all objects that are exported by the library are
-readily available. For example:</p>
+<p>The obvious convenience is that all objects in the library are readily
+available. For example:</p>
 <div class="codehilite"><pre>from myhdl import *
 
 @module
@@ -130,29 +131,28 @@ sim.run()
 
 <p>The rationale behind wildcard import is that MyHDL is like a mini-language in
 itself that exports many objects. At some point, wildcard imports were
-considered acceptable in such a case according to some source, for example for
+considered acceptable in such a case according to some sources, for example for
 the <code>Tkinter</code> library.</p>
 <p>However, the <a href="https://www.python.org/dev/peps/pep-0008/#imports">current Python guidelines</a> clearly state that wildcard
 import should be avoided in production code, except for some very specific
 applications. From the MyHDL perspective, the disadvantages are the following:</p>
 <ol>
-<li>As the Python guidelines state, wildcard import make it unclear which names
+<li>As the Python guidelines state, wildcard import makes it unclear which names
 are present in the namespace, confusing both readers and many automated tools.</li>
-<li>There is a chance that Python built-ins or standard library objects are
+<li>There is a chance that Python builtins or standard library objects are
 implicitly shadowed, increasing the potential confusion. Over the years, this
-has happened twice already with MyHDL, for the <code>bin()</code> function and the <code>enum</code>
-module.  </li>
+has happened twice already with MyHDL, with the <code>bin()</code> function and the <code>enum</code>
+module.   </li>
 <li>Some names may have a different meaning in the Python context, adding to the
 confusion when used unqualified. Examples in MyHDL are <code>module</code> and <code>instance</code>.</li>
 </ol>
-<p>Furthermore, the argument of MyHDL as a mini-language is somewhat misleading.
-It is explicitly the intention that MyHDL can be used in conjunction
-with any other Python library, even in unexpected ways. That is also what
-users are doing. In such scenarios, it becomes increasingly likely that
-wildcard import causes problems.</p>
+<p>Furthermore, the argument of MyHDL as a mini-language is somewhat misleading. It
+is explicitly intended and encouraged that MyHDL can be used in conjunction with
+other Python libraries. That is also what users are doing. In such scenarios, it
+becomes increasingly likely that wildcard import causes problems.</p>
 <p>The conclusion is that there should be a good way to import MyHDL objects
 without relying on wildcard import. The goal of this MEP is to investigate the
-solutions and to define a recommended approach to import the <code>myhdl</code> library.</p>
+issues and to define a recommended approach to import the <code>myhdl</code> library.</p>
 <h2 id="explicit-import">Explicit import</h2>
 <p>An obvious way to accommodate some of the issues is by relying on explicit
 import of the required names. For example:</p>
@@ -178,34 +178,39 @@ confusing</li>
 code may look heavy. For example:</p>
 <div class="codehilite"><pre>import myhdl
 ...
-    s = myhdl.Signal(myhdl.intbv(0)[8:])
+
+s = myhdl.Signal(myhdl.intbv(0)[8:])
 </pre></div>
 
 
 <p>As <code>Signal</code> and <code>intbv</code> are intensely used types in behavioral descriptions,
-this is inconvenient and impractical.</p>
+this is an inconvenient distraction to code writers and reviewers.</p>
 <h2 id="a-dual-approach">A dual approach</h2>
-<p>To come to a good solution, we can take the standpoint of a code reviewer and
-recognize that not all objects  serve the same purpose. Some objects, like
-<code>Simulation</code> and <code>toVerilog</code>, are only used sparingly. Others are used as
-decorators on functions. They serve as anchor points in the code and it is
-important to define their meaning very clearly. For those kind of objects,
-qualified names are appropriate.</p>
+<p>To find good solution, we take the standpoint of a code reviewer and recognize
+that not all objects  serve the same purpose. Some objects, like <code>Simulation</code>
+and <code>toVerilog</code>, are only used sparingly. Other objects are used as decorators
+on functions. They serve as anchor points in the code and it is important to
+define their meaning very clearly. For those kind of objects, qualified names
+are appropriate.</p>
 <p>On the other hand, types such as <code>Signal</code> and <code>intbv</code> are used to describe the
 detailed actual behavior. In that case, it can be more convenient to use
-non-qualified names.</p>
+unqualified names.</p>
 <p>The conclusion is that a dual approach is appropriate, where some objects
-are referred to in a qualified, and others in a non-qualified way.</p>
+are referred to in a qualified, and others in a unqualified way.</p>
 <h2 id="proposal-for-a-recommended-import-strategy">Proposal for a recommended import strategy</h2>
-<p>The dual import approach would consist of two import lines. The first line would
-be for the module itself. This could be made more make more lightweight without
-jeopardizing clarity by importing it as the shorthand <code>hdl</code>:</p>
+<p>The dual import approach consists of two import lines: the first line for
+the module itself, the second for a limited set of unqualified names.</p>
+<p>The module import can be made more make more lightweight without
+jeopardizing clarity by importing it as the shorthand <code>hdl</code>, as follows:</p>
 <div class="codehilite"><pre>import myhdl as hdl
 </pre></div>
 
 
+<p>This import reads nicely as "import MyHDL as the <abbr title="Hardware Description Language">HDL</abbr>". Qualified
+objects also read nicely, for example as "<abbr title="Hardware Description Language">HDL</abbr> module" and "<abbr title="Hardware Description Language">HDL</abbr> simulation".</p>
 <p>The second import would consist a limited set of unqualified type names from
-the library. The example presented earlier would become:</p>
+the library, such as <code>Signal</code> and <code>intbv</code>.</p>
+<p>The example presented earlier becomes:</p>
 <div class="codehilite"><pre>import myhdl as hdl
 from myhdl import Signal, intbv
 
@@ -230,10 +235,19 @@ sim.run()
 </pre></div>
 
 
+<p>The recommendation would be that only objects that are used within behavioral
+descriptions (i.e. within generator code) can be imported in an unqualified way.
+In that case, the proposed approach can be used without additional implementation
+work.</p>
+<p>In case of ambiguity in a particular piece of code, the module shorthand is
+always available as a fallback solution. However, if qualified references are
+also required within behavioral descriptions, additional implementation work is
+needed.</p>
 <h2 id="alternatives">Alternatives</h2>
 <p>An alternative for the shorthand name <code>hdl</code> could be the even shorter name <code>hw</code>,
-that stands for "hardware".</p>
-<p>Another possibility is to define the shorthand name as another namespace
+that stands for "hardware". Qualified objects would also read nicely as
+"hardware module" or "hardware simulation".</p>
+<p>Another possibility is to define the shorthand name as another namespace object
 in the library itself. This would enable single line imports as follows:</p>
 <div class="codehilite"><pre>from myhdl import hdl, Signal, intbv
 </pre></div>
@@ -241,7 +255,8 @@ in the library itself. This would enable single line imports as follows:</p>
 
 <p>This would also be more direct way of enforcing the recommended shorthand name.
 On the other hand, this approach may be "too clever", and more confusing than
-the explicit two line import strategy.</p>
+the more explicit dual import strategy. Moreover, it would require additional
+implementation work.</p>
 <h2 id="decision">Decision</h2>
         </div>
 
