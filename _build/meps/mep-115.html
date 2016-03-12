@@ -239,10 +239,8 @@ sim.run()
 
 <p>The recommendation would be that only objects that are used within behavioral
 descriptions (i.e. within generator code) may be referred to with unqualified
-names. This approach can be used without additional implementation work.</p>
-<p>In case of ambiguity in a particular piece of code, the module shorthand is
-always available as a fallback solution. However, additional implementation work
-is required to use qualified names within behavioral descriptions.</p>
+names.  In case of ambiguity in a particular piece of code, the module shorthand
+is always available as a fallback solution.</p>
 <h2 id="alternatives">Alternatives</h2>
 <p>An alternative for the shorthand name <code>hdl</code> is the even shorter name <code>hw</code>, that
 stands for "hardware". Qualified objects would read nicely as "hardware module"
@@ -255,8 +253,7 @@ in the library itself. This would enable single line imports as follows:</p>
 
 <p>This would also be a more direct way to suggest the use of recommended shorthand
 name. On the other hand, this approach may be "too clever", and more confusing
-than the more explicit dual import strategy. Moreover, it would require
-additional implementation work.</p>
+than the more explicit dual import strategy.</p>
 <h2 id="decision">Decision</h2>
 <p><mark>To be completed</mark></p>
         </div>
