@@ -1,5 +1,5 @@
 ---
-title:  GSoC 2015 Application Template
+title:  GSoC Application Template
 layout: page
 date: 2015-03-15
 ---
@@ -25,10 +25,10 @@ on each.
 * **RSS feed**, the RSS feed for the blog that will be used 
     during the project.
 * University
-* Major
-* Current year
-* Graduation date
-* Degree 
+   * Major
+   * Current year
+   * Graduation date
+   * Degree 
 * Proposed title
 * Proposed abstract
 * Timeline
