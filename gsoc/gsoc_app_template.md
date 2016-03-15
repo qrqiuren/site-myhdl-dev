@@ -14,25 +14,25 @@ The following checklist is a summary of what each applicatoin
 should include.  See the subsequent sections for more information
 on each.
 
-   [ ] sub-org name (MyHLD).  The title of the applicaton should 
-       be "MyHDL: <project title"
-   [ ] student's name
-   [ ] email
-   [ ] telephone
-   [ ] timezone
-   [ ] github username
-   [ ] blogs
-   [ ] **RSS feed**, the RSS feed for the blog that will be used 
-       during the project.
-   [ ] University
-   [ ] Major
-   [ ] Current year
-   [ ] Graduation date
-   [ ] Degree 
-   [ ] Proposed title
-   [ ] Proposed abstract
-   [ ] Timeline
-   [ ] Link to the github PR
+* sub-org name (MyHLD).  The title of the applicaton should 
+  be "MyHDL: <project title"
+* student's name
+* email
+* telephone
+* timezone
+* github username
+* blogs
+* **RSS feed**, the RSS feed for the blog that will be used 
+    during the project.
+* University
+* Major
+* Current year
+* Graduation date
+* Degree 
+* Proposed title
+* Proposed abstract
+* Timeline
+* **Link to the github PR**
 
 You should include the following information in your proposal. 
 
