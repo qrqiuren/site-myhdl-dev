@@ -25,14 +25,14 @@ on each.
 * **RSS feed**, the RSS feed for the blog that will be used 
     during the project.
 * University
-   * Major
-   * Current year
-   * Graduation date
-   * Degree 
+    * Major
+    * Current year
+    * Graduation date
+    * Degree 
 * Proposed title
 * Proposed abstract
 * Timeline
-* **Link to the github PR**
+* **Link to the github pull-request**
 
 You should include the following information in your proposal. 
 
