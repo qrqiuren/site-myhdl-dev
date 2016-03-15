@@ -270,7 +270,7 @@ the different type if interfaces.  The following is an example that
 shows how the interfaces are past to the core:</p>
 <p>Dynamic MAC control via the <code>AvalonMM</code> bus with a <code>AvalonST</code>
 streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">AvalonST</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
 </pre></div>
@@ -278,14 +278,14 @@ streaming data interface.</p>
 
 <p>Dynamic MAC control via the <code>Wishbone</code> bus with a <code>FIFOBus</code>
 streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Static configuraiton with a <code>FIFOBus</code> streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">cso</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="o">.</span><span class="n">cso</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">cso</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="o">.</span><span class="n">cso</span><span class="p">()</span>
 <span class="n">cso</span><span class="o">.</span><span class="n">subnet_mask</span> <span class="o">=</span> <span class="mh">0xFF00001</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">cso</span><span class="o">=</span><span class="n">cso</span><span class="p">)</span>
@@ -363,7 +363,7 @@ and test framework</a> is
 the starting point for this project.  This project should 
 convert / implement one component at a time.  The following 
 is a suggested order of implementation:</p>
-<div class="codehilite"><pre>* RGB to YCBCR conversion
+<div class="codehilite"><pre><span></span>* RGB to YCBCR conversion
 * 2D DCT
 * Quantizer
 * Huffman module

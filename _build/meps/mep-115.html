@@ -100,13 +100,13 @@
             <h2 id="background">Background</h2>
 <p>Traditionally, the <code>myhdl</code> library is often imported using wildcard import, as
 follows:</p>
-<div class="codehilite"><pre>from myhdl import *
+<div class="codehilite"><pre><span></span>from myhdl import *
 </pre></div>
 
 
 <p>The obvious convenience is that all objects in the library are readily
 available. For example:</p>
-<div class="codehilite"><pre>from myhdl import *
+<div class="codehilite"><pre><span></span>from myhdl import *
 
 @module
 def mod(...)
@@ -156,7 +156,7 @@ issues and to define a recommended approach to import the <code>myhdl</code> lib
 <h2 id="explicit-import">Explicit import</h2>
 <p>An obvious way to address some of the issues is by an explicit import of the
 required names. For example:</p>
-<div class="codehilite"><pre>from myhdl import module, Signal, intbv, always_comb, instance, Simulation
+<div class="codehilite"><pre><span></span>from myhdl import module, Signal, intbv, always_comb, instance, Simulation
 </pre></div>
 
 
@@ -170,13 +170,13 @@ reviewer</li>
 </ul>
 <h2 id="module-import">Module import</h2>
 <p>A straightforward approach is to import the module as is:</p>
-<div class="codehilite"><pre>import myhdl
+<div class="codehilite"><pre><span></span>import myhdl
 </pre></div>
 
 
 <p>This addresses all the issues but has one important disadvantage: some
 code may look heavy. For example:</p>
-<div class="codehilite"><pre>import myhdl
+<div class="codehilite"><pre><span></span>import myhdl
 ...
 
 s = myhdl.Signal(myhdl.intbv(0)[8:])
@@ -204,7 +204,7 @@ are referred to with a qualified name, and others with an unqualified name.</p>
 the module itself, the second for a limited set of unqualified names.</p>
 <p>The module usage can be made more lightweight without jeopardizing clarity by
 importing it as the shorthand <code>hdl</code>, as follows:</p>
-<div class="codehilite"><pre>import myhdl as hdl
+<div class="codehilite"><pre><span></span>import myhdl as hdl
 </pre></div>
 
 
@@ -213,7 +213,7 @@ objects also read nicely, for example as "<abbr title="Hardware Description Lang
 <p>The second line imports a limited set of unqualified type names from the
 library, such as <code>Signal</code> and <code>intbv</code>.</p>
 <p>The example shown earlier now becomes:</p>
-<div class="codehilite"><pre>import myhdl as hdl
+<div class="codehilite"><pre><span></span>import myhdl as hdl
 from myhdl import Signal, intbv
 
 @hdl.module
@@ -247,7 +247,7 @@ stands for "hardware". Qualified objects would read nicely as "hardware module"
 or "hardware simulation".</p>
 <p>Another possibility is to define the shorthand name as another namespace object
 in the library itself. This would enable single line imports as follows:</p>
-<div class="codehilite"><pre>from myhdl import hdl, Signal, intbv
+<div class="codehilite"><pre><span></span>from myhdl import hdl, Signal, intbv
 </pre></div>
 
 

@@ -220,7 +220,7 @@ and required adding VPI to GHLD.  If that were the case VHPI would be used.</p>
 5.9.1 Foreign declarations</p>
 <p>Only subprograms (functions or procedures) can be imported, using the foreign attribute. 
 In this example, the sin function is imported:</p>
-<div class="codehilite"><pre> package math is
+<div class="codehilite"><pre><span></span> package math is
    function sin (v : real) return real;
    attribute foreign of sin : function is &quot;VHPIDIRECT sin&quot;;
  end math;

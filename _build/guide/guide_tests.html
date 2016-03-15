@@ -83,7 +83,7 @@
  
 <h1>Writing Tests
 </h1>
-        <p><i>Last modified: 23-Sep-2015 by Christopher Felton</i></p>
+        <p><i>Last modified: 22-Sep-2015 by Christopher Felton</i></p>
     </div>
 
     <div class="row">
@@ -126,7 +126,7 @@ to run the tests.</p>
 the issue.  An issue description is first entered into the <a href="https://github.com/jandecaluwe/myhdl/issues" title="Issue Tracker">Issue Tracker</a>.
 Then a test can be created in <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">myhdl/test/bugs/</a>
 The test name should contain the github issue number:</p>
-<div class="codehilite"><pre>test_issue_&lt;github issue #&gt;.py
+<div class="codehilite"><pre><span></span>test_issue_&lt;github issue #&gt;.py
 </pre></div>
 
 
@@ -157,7 +157,7 @@ or analyzer will need to be installed to run the conversion tests.</p>
 <p>Other simulators are supported and it is not difficult
 to add a new simulator or analyzer.</p>
 <h3 id="running-core-tests">Running core tests</h3>
-<div class="codehilite"><pre>    &gt;&gt; python setup.py develop
+<div class="codehilite"><pre><span></span>    &gt;&gt; python setup.py develop
     &gt;&gt; cd myhdl/test/core
     &gt;&gt; py.test   # or make
 </pre></div>
@@ -165,12 +165,12 @@ to add a new simulator or analyzer.</p>
 
 <p>The above command will run all the tests present in core folder. 
 If you only want to run a specific test you can do the following.</p>
-<div class="codehilite"><pre>    &gt;&gt; py.test &lt;name_of_test&gt;
+<div class="codehilite"><pre><span></span>    &gt;&gt; py.test &lt;name_of_test&gt;
 </pre></div>
 
 
 <h3 id="running-conversion-tests">Running conversion tests</h3>
-<div class="codehilite"><pre>    &gt;&gt; cd myhdl/test/conversion/general
+<div class="codehilite"><pre><span></span>    &gt;&gt; cd myhdl/test/conversion/general
     &gt;&gt; py.test --sim=(&#39;iverilog&#39;, &#39;ghdl&#39;, &#39;vlog&#39;, &#39;vcom&#39;) 
 </pre></div>
 
@@ -228,7 +228,7 @@ for more information on the pytest framework and test structure.</p>
 <h4 id="example">Example</h4>
 <p>The following is a toy example to test the <code>intbv</code> assignment 
 and bounds.</p>
-<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">pytest</span>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">import</span> <span class="nn">myhdl</span>
 <span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="n">intbv</span>
 
@@ -255,7 +255,7 @@ function is invoked similar to the conversion functions and the
 <p>The following example has a valid module and we can check the 
 conversion using the <code>analyze</code> function.  As mentioned with will
 invoke the simulator’s analysis.</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="nd">@always_comb</span>
     <span class="k">def</span> <span class="nf">digital_logic</span><span class="p">():</span>
         <span class="n">b</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">a</span>
@@ -269,7 +269,7 @@ invoke the simulator’s analysis.</p>
 
 
 <p>The above can be run with:</p>
-<div class="codehilite"><pre>   &gt;&gt; py.test —sim=iverilog test_valid_module.py
+<div class="codehilite"><pre><span></span>   &gt;&gt; py.test —sim=iverilog test_valid_module.py
 </pre></div>
 
 
@@ -277,7 +277,7 @@ invoke the simulator’s analysis.</p>
 <p>The verify function will use a convertible test bench and run the
 converted code with the Verilog or VHDL simulator.  First a 
 convertible test bench is created.</p>
-<div class="codehilite"><pre><span class="k">def</span> <span class="nf">tb_valid_module</span><span class="p">():</span>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">tb_valid_module</span><span class="p">():</span>
     <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>    
     <span class="n">tbdut</span> <span class="o">=</span> <span class="n">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 
