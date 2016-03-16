@@ -1,5 +1,5 @@
 ---
-title:  GSoC 2015 Application Template
+title:  GSoC Application Template
 layout: page
 date: 2015-03-15
 ---
@@ -7,10 +7,34 @@ date: 2015-03-15
 ## Writing your proposal
 
 MyHDL participates as a Python sub-org.  Please first review the 
-[PSF applicagtion template](https://wiki.python.org/moin/SummerOfCode/ApplicationTemplate2015).  
-You should include the following information in your proposal.  When
-submitting make sure the sub-org (MyHDL) is in the title.
+[PSF applicagtion template](https://wiki.python.org/moin/SummerOfCode/ApplicationTemplate2016).  
 
+
+The following checklist is a summary of what each applicatoin 
+should include.  See the subsequent sections for more information
+on each.
+
+* sub-org name (MyHLD).  The title of the applicaton should 
+  be "MyHDL: <project title"
+* student's name
+* email
+* telephone
+* timezone
+* github username
+* blogs
+* **RSS feed**, the RSS feed for the blog that will be used 
+    during the project.
+* University
+    * Major
+    * Current year
+    * Graduation date
+    * Degree 
+* Proposed title
+* Proposed abstract
+* Timeline
+* **Link to the github pull-request**
+
+You should include the following information in your proposal. 
 
 ### You the person
 
@@ -46,7 +70,7 @@ students start fresh.
 
 Your proposal should contain:
 
-* Proposal title, inlcude "MyHDL" in the title.
+* Proposal title, inlcude "MyHDL: <project title>" in the title.
 * Proposal abstract.  
 * Proposal detailed description and timeline.
   The [GSoC student guide](http://en.flossmanuals.net/GSoCStudentGuide/ch008_writing-a-proposal/) 
@@ -78,7 +102,7 @@ to pass and when documentaiton will be completed.  Also indicate
 numerous tests you envision being created for the project.
 
 Please do not verbatim copy text from the ideas page, or from other 
-people's discussions about your project, but rewrite it in your own 
+people's discussions about your project, rewrite it in your own 
 words. If you include any significant text or code from another 
 source in your application, it must be accompanied with a proper 
 citation. All papers or references that you use or plan to use must 
@@ -89,10 +113,11 @@ You do **not** need to format your application as a question/answer
 format for the above questions, but we expect to see all of the 
 above questions answered in your application somewhere.
 
-A google document is a good place to write a proposal.  All 
-potential mentors should be copied (shared) to the document
+The application and proposal should be writen in a google document.  
+All potential mentors should be copied (shared) to the document
 so they can comment and edit.  The proposals all need to be
-sumbitted through the [Google melange system](https://www.google-melange.com/gsoc/homepage/google/gsoc2015)
+sumbitted through the 
+[Google summer of code system](https://summerofcode.withgoogle.com/)
 
 
 ## References
