@@ -82,7 +82,7 @@
     <div class="page-header">
 <h1>MEP 114: The block decorator&nbsp;&nbsp;
 </h1>
-        <p><i>Last modified: 12-Mar-2016 by Jan Decaluwe</i></p>
+        <p><i>Last modified: 16-Mar-2016 by Jan Decaluwe</i></p>
     </div>
 
     <div class="row">
@@ -194,12 +194,15 @@ parameters upon construction. That call returns the subinstances of the object,
 which can then be verified. A <code>_BlockInstance</code> object also maintains the
 namespaces for signals and lists of signals.</p>
 <h2 id="backwards-compatibility-issues">Backwards compatibility issues</h2>
-<p>The proposed solution has one important disadvantage: it introduces some
-backwards incompatible changes.</p>
-<p>Let us first make clear what does <em>not</em> change: <mark>For simulation, everything will
+<p>The proposed solution has a significant disadvantage: it introduces some
+backwards incompatible changes and a new method-based API for simulation and
+conversion.</p>
+<p>Let us first make clear what does <em>not</em> change: <mark>For simulation, old code will
 continue to work as before.</mark> All the simulator needs is a structure of
-communicating generators, regardless of how it is built. Old code without the
-<code>block</code> decorator will continue to simulate as before.</p>
+communicating generators, regardless of how it is built. That having said, the
+new method-based API also contains simulation methods. Although the
+<code>Simulation()</code> class will still be available, it is probably easier to use the
+method-based API in most cases.</p>
 <p>The <code>block</code> decorator will become mandatory when hardware extraction is
 required, more specifically for waveform tracing and conversion. The required
 user code change is minimal:</p>
@@ -215,18 +218,50 @@ def myblock(&lt;ports&gt;):                   def myblock(&lt;ports&gt;):
 <p>However, the <code>block</code> decorator will be "viral": when used on a function, it
 must be used on the functions that describe subblocks too, or else an error
 will occur.</p>
-<p>Furthermore, there are API changes as follows:</p>
-<div class="codehilite"><pre>        old API                   -&gt;         new API
------------------------------------------------------------------------
-toVerilog(func,*args,**kwargs)    -&gt; toVerilog(func(*args,**kwargs))
-toVHDL(func,*args,**kwargs)       -&gt; toVHDL(func(*args, **kwargs))
-traceSignals(func,*args,**kwargs) -&gt; traceSignals(func(*args,**kwargs))
+<h2 id="new-api">New API</h2>
+<p>The <code>block</code> decorator enables a new, method-based API which is more consistent,
+simplifies implementation, and reduces the size of the <code>myhdl</code> namespace.</p>
+<p>The methods work on block instances, created by calling a function decorated
+with the <code>block</code> decorator:</p>
+<div class="codehilite"><pre>@block
+def myblock(&lt;ports&gt;):
+...
+return &lt;instances&gt;
+
+inst = myblock(&lt;port-associations&gt;)
+# inst supports the methods of the new API
 </pre></div>
 
 
-<p>The signature of these functions thereby becomes identical to the <code>Simulation()</code>
-constructor, improving API consistency. Like before, these function return the
-hardware data structure itself, so that they can be chained.</p>
+<p>The API looks as follows:</p>
+<h5 id="instrun_simdurationnone"><strong><code>inst.run_sim(duration=None)</code></strong></h5>
+<p>Run a simulation "forever" (default) or for a specified duration.   </p>
+<h5 id="instconfig_simbackendmyhdl-tracefalse"><strong><code>inst.config_sim(backend='myhdl', trace=False)</code></strong></h5>
+<p>Optional simulation configuration.</p>
+<ul>
+<li><code>backend</code>: Defaults to 'myhdl'.</li>
+<li><code>trace</code>: Enable waveform tracing, default False.  </li>
+</ul>
+<h5 id="instconverthdlverilog-kwargs"><strong><code>inst.convert(hdl='Verilog', **kwargs)</code></strong></h5>
+<p>Converts MyHDL code to a target <abbr title="Hardware Description Language">HDL</abbr>.</p>
+<ul>
+<li><code>hdl</code>: 'VHDL' or 'Verilog'. Defaults to Verilog.</li>
+</ul>
+<p>Supported keyword arguments:</p>
+<ul>
+<li><code>path</code>: Destination folder. Defaults to current working dir.   </li>
+<li><code>name</code>: Module and output file name. Defaults to <code>self.mod.__name__</code>.      </li>
+<li><code>trace</code>: Whether the testbench should dump all signal waveforms. Defaults to
+False.   </li>
+<li><code>tb</code>: Verilog only. Specifies whether a testbench should be created.
+Defaults to True.   </li>
+<li><code>timescale</code>: timescale parameter. Defaults to '1ns/10ps'. Verilog only.   </li>
+</ul>
+<h5 id="instverify_convert"><strong><code>inst.verify_convert()</code></strong></h5>
+<p>Verify conversion output, by comparing target <abbr title="Hardware Description Language">HDL</abbr> simulation log with MyHDL
+simulation log.   </p>
+<h5 id="instanalyze_convert"><strong><code>inst.analyze_convert()</code></strong></h5>
+<p>Analyze conversion output by compilation with target <abbr title="Hardware Description Language">HDL</abbr> compiler.   </p>
 <h2 id="instance-naming">Instance naming</h2>
 <p>A visible change in the output will be the naming of instances. Previously,
 their names were based on local variable names in the instantiating function.
@@ -291,6 +326,14 @@ used term <em>block diagram</em> basically refers to the same concept.</p>
 <li><a href="#the-block-decorator">The block decorator</a></li>
 <li><a href="#implementation">Implementation</a></li>
 <li><a href="#backwards-compatibility-issues">Backwards compatibility issues</a></li>
+<li><a href="#new-api">New API</a><ul>
+<li><a href="#instrun_simdurationnone">inst.run_sim(duration=None)</a></li>
+<li><a href="#instconfig_simbackendmyhdl-tracefalse">inst.config_sim(backend='myhdl', trace=False)</a></li>
+<li><a href="#instconverthdlverilog-kwargs">inst.convert(hdl='Verilog', **kwargs)</a></li>
+<li><a href="#instverify_convert">inst.verify_convert()</a></li>
+<li><a href="#instanalyze_convert">inst.analyze_convert()</a></li>
+</ul>
+</li>
 <li><a href="#instance-naming">Instance naming</a></li>
 <li><a href="#introduction-path">Introduction path</a></li>
 <li><a href="#why-is-it-called-block">Why is it called block?</a></li>
