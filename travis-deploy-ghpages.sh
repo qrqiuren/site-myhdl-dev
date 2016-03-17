@@ -4,7 +4,6 @@ rev=$(git rev-parse --short HEAD)
 repo_url="https://myhdl-bot:$GH_TOKEN@github.com/myhdl/site-myhdl-dev.git"
 pages_dir=~/myhdl/ghpages
 
-git log meps/mep-105.md
 git clone -b gh-pages $repo_url $pages_dir
 rsync -az --delete --exclude .git --exclude CNAME _build/ $pages_dir/
 
