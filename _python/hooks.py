@@ -14,6 +14,7 @@ def process_info(info, site):
     an = an.strip("'\n")
     info['an'] = an
     at = co(["git", "log", "-1", "--format='%at'", info['fn']])
+    print(at)
     # decode to convert to unicode for both Python 2 and 2
     at = at.decode('utf-8')
     at = at.strip("'\n")
