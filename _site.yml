@@ -1,5 +1,8 @@
 brand: MyHDL / dev
 
+ignore_patterns:
+  - travis-deploy-ghpages.sh
+
 reflinks:
     myhdl-site: 
         url: http://www.myhdl.org 
