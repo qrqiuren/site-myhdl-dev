@@ -408,13 +408,16 @@ but without "over-architecting" for a particular microarchitecture style.</p>
 <p>The goal of this project is to develop a simple 32 bit RISC-V CPU with support for integer operations,
 and tools to simplify CPU design and experimentation with MyHDL(such as computing the CPI of the processor with various workloads).
 These tools could be generalized to work with other CPUs designed in MyHDL.</p>
-<p>The various stages of this project include:
-    * Developing a pure-python decoder for ISA simulations and testing the decoding hardware.
-    * Implementing a decoder in MyHDL and writing tests for it.
-    * A working RTL implementation of the CPU in MyHDL without pipelining. This Essentially an ISA simulator, but it can be used to sanity check future implemtations.
-    * A two or three stage pipeline which can be put on a modern FPGA at a reasonable frequency.
-    * A 'proper' six stage in-order pipeline like the Rocket core.
-    * Experimenting with other microarchitectural techniques such as multiple-issue, Out of Order execution.</p>
+<p>The various stages of this project include:</p>
+<div class="codehilite"><pre><span></span>* Developing a pure-python decoder for ISA simulations and testing the decoding hardware.
+* Implementing a decoder in MyHDL and writing tests for it.
+* A working RTL implementation of the CPU in MyHDL without pipelining. This Essentially an ISA simulator, but it can be used to sanity check future implemtations.
+* A two or three stage pipeline which can be put on a modern FPGA at a reasonable frequency.
+* A &#39;proper&#39; six stage in-order pipeline like the Rocket core.
+* Experimenting with other microarchitectural techniques such as multiple-issue, Out of Order execution.
+</pre></div>
+
+
 <p>The focus of this project is not just to make a working RISC-V implementation, there are loads of those already out there.
 Instead, we will focus on demonstrating the benifits of Python and MyHDL for CPU design and Computer Architecture research.
 Additionally, the shortcomings discovered(such as requiring excessively verbose code for certain kinds of tasks)
