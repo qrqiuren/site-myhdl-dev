@@ -13,5 +13,5 @@ if [[ -n $(git status -s) ]]; then
   git config user.email "myhdl-bot@users.noreply.github.con"
   git config push.default simple
   git commit --all -m "rebuild pages at ${rev}"
-  git push
+  git push -q
 fi
