@@ -1,5 +1,8 @@
 language: python
 
+git:
+  depth: 999999
+
 install: pip install urubu
 
 script: make
