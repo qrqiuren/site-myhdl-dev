@@ -1,17 +1,17 @@
 #!/bin/bash
 
 rev=$(git rev-parse --short HEAD)
-repo_url="https://myhdl-bot:$GH_TOKEN@github.com/myhdl/site-myhdl-dev"
-worktree_dir=~/build
+repo_url="https://myhdl-bot:$GH_TOKEN@github.com/myhdl/site-myhdl-dev.git"
+pages_dir=~/myhdl/ghpages
 
-# Travis has a very old version of git without worktree support.
-# git worktree add -b gh-pages $worktree_dir origin/gh-pages
-git clone -b gh-pages $repo_url $worktree_dir
-rsync -avz --delete --exclude .git --exclude CNAME _build/ $worktree_dir/
+git clone -b gh-pages $repo_url $pages_dir
+rsync -avz --delete --exclude .git --exclude CNAME _build/ $pages_dir/
 
-cd $worktree_dir
+cd $pages_dir
 if [[ -n $(git status -s) ]]; then
   git config user.name "MyHDL Bot"
   git config user.email "myhdl-bot@users.noreply.github.con"
+  git config push.default simple
   git commit --all -m "rebuild pages at ${rev}"
+  git push
 fi
