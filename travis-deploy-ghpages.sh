@@ -10,7 +10,7 @@ rsync -avz --delete --exclude .git --exclude CNAME _build/ $pages_dir/
 cd $pages_dir
 if [[ -n $(git status -s) ]]; then
   git config user.name "MyHDL Bot"
-  git config user.email "myhdl-bot@users.noreply.github.con"
+  git config user.email "myhdl-bot@users.noreply.github.com"
   git config push.default simple
   git commit --all -m "rebuild pages at ${rev}"
   git push -q
