@@ -109,13 +109,13 @@
 <h3 id="instance-hierarchy">Instance Hierarchy</h3>
 <p>It is a common convention in tree based hierarchies like file systems to use a forward slash '/' or a backslash '\' as a separator. Backslashes are used in escaping identifiers so a forward slash is probably the better delimiter or the two.</p>
 <p>Verilog Example</p>
-<div class="codehilite"><pre><span class="kt">wire</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="n">signal</span> <span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="kt">wire</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="n">signal</span> <span class="p">;</span>
 <span class="kt">wire</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom_signal</span> <span class="p">;</span>
 </pre></div>
 
 
 <p>VHDL example</p>
-<div class="codehilite"><pre><span class="k">signal</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="k">signal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="k">signal</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom</span><span class="o">/</span><span class="k">signal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
 <span class="k">signal</span> <span class="err">\</span><span class="n">top</span><span class="o">/</span><span class="n">middle</span><span class="o">/</span><span class="n">bottom_signal</span> <span class="o">:</span> <span class="kt">std_logic</span><span class="p">;</span>
 </pre></div>
 
@@ -123,12 +123,12 @@
 <h3 id="interface-membership">Interface membership</h3>
 <p>In many programming languages, (including python), the "." operator is used to access attributes of an object. By using the "." in signal names, this would mirror the myHDL code that accessed the interface member to begin with.</p>
 <p>Verilog Example</p>
-<div class="codehilite"><pre><span class="k">assign</span> <span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span>  <span class="o">=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span> <span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="k">assign</span> <span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span>  <span class="o">=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span> <span class="p">;</span>
 </pre></div>
 
 
 <p>VHDL Example</p>
-<div class="codehilite"><pre><span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span><span class="err">\</span> <span class="o">&lt;=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span><span class="err">\</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="err">\</span><span class="n">spi_master</span><span class="p">.</span><span class="n">mosi</span><span class="err">\</span> <span class="o">&lt;=</span> <span class="err">\</span><span class="n">spi_slave</span><span class="p">.</span><span class="n">miso</span><span class="err">\</span><span class="p">;</span>
 </pre></div>
 
 

@@ -81,7 +81,7 @@
 
     <div class="page-header">
         <h1>Google Summer of Code 2016</h1>
-        <p><i>Last modified: 16-Mar-2016 by Christopher Felton</i></p>
+        <p><i>Last modified: 17-Mar-2016 by Keerthan Jaic</i></p>
     </div>
 
     <div class="row">
@@ -272,7 +272,7 @@ the different type if interfaces.  The following is an example that
 shows how the interfaces are past to the core:</p>
 <p>Dynamic MAC control via the <code>AvalonMM</code> bus with a <code>AvalonST</code>
 streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">AvalonST</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
 </pre></div>
@@ -280,14 +280,14 @@ streaming data interface.</p>
 
 <p>Dynamic MAC control via the <code>Wishbone</code> bus with a <code>FIFOBus</code>
 streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Static configuraiton with a <code>FIFOBus</code> streaming data interface.</p>
-<div class="codehilite"><pre><span class="n">cso</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="o">.</span><span class="n">cso</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">cso</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="o">.</span><span class="n">cso</span><span class="p">()</span>
 <span class="n">cso</span><span class="o">.</span><span class="n">subnet_mask</span> <span class="o">=</span> <span class="mh">0xFF00001</span>
 <span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="n">eth_inst</span> <span class="o">=</span> <span class="n">gemac_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">cso</span><span class="o">=</span><span class="n">cso</span><span class="p">)</span>
@@ -365,7 +365,7 @@ and test framework</a> is
 the starting point for this project.  This project should 
 convert / implement one component at a time.  The following 
 is a suggested order of implementation:</p>
-<div class="codehilite"><pre>* RGB to YCBCR conversion
+<div class="codehilite"><pre><span></span>* RGB to YCBCR conversion
 * 2D DCT
 * Quantizer
 * Huffman module
@@ -399,6 +399,31 @@ implementations.</p>
 <p>This project requires digital circuit familiarity and experience 
 with VHDL. A background on computer architecture and 
 microcontrollers is desired but not required.</p>
+<h4 id="risc-v-cpu-and-tools">RISC-V CPU and tools</h4>
+<p>RISC-V is an open ISA freely available for all types of use.
+The RISC-V ISA has been designed with small, fast, and low-power real-world implementations in mind,
+but without "over-architecting" for a particular microarchitecture style.</p>
+<p>There are various implementations available in Chisel<a href="https://github.com/ucb-bar/riscv-sodor">1</a><a href="https://github.com/ucb-bar/rocket">2</a>,
+<a href="https://github.com/ucb-bar/vscale">Verilog</a> and <a href="https://bitbucket.org/casl/shakti_public">Bluespec</a></p>
+<p>The goal of this project is to develop a simple 32 bit RISC-V CPU with support for integer operations,
+and tools to simplify CPU design and experimentation with MyHDL(such as computing the CPI of the processor with various workloads).
+These tools could be generalized to work with other CPUs designed in MyHDL.</p>
+<p>The various stages of this project include:
+    * Developing a pure-python decoder for ISA simulations and testing the decoding hardware.
+    * Implementing a decoder in MyHDL and writing tests for it.
+    * A working RTL implementation of the CPU in MyHDL without pipelining. This Essentially an ISA simulator, but it can be used to sanity check future implemtations.
+    * A two or three stage pipeline which can be put on a modern FPGA at a reasonable frequency.
+    * A 'proper' six stage in-order pipeline like the Rocket core.
+    * Experimenting with other microarchitectural techniques such as multiple-issue, Out of Order execution.</p>
+<p>The focus of this project is not just to make a working RISC-V implementation, there are loads of those already out there.
+Instead, we will focus on demonstrating the benifits of Python and MyHDL for CPU design and Computer Architecture research.
+Additionally, the shortcomings discovered(such as requiring excessively verbose code for certain kinds of tasks)
+will be used to propose MyHDL enhancements or create support libraries.</p>
+<p>The potential mentors for this project are:</p>
+<ul>
+<li>Keerthan Jaic, <em>jck</em> on IRC and
+     <a href="https://github.com/jck">@jck on github</a></li>
+</ul>
 <h4 id="other-cores">Other Cores</h4>
 <p>There are an unlimited number of cores that can be implemented
 with MyHDL.  Any core can be proposed but will not have the 
@@ -451,6 +476,7 @@ a proposal.</p>
 <li><a href="#ddr3-controller">DDR3 Controller</a></li>
 <li><a href="#jpeg-encoder">JPEG Encoder</a></li>
 <li><a href="#leros-tiny-processor">Leros tiny processor</a></li>
+<li><a href="#risc-v-cpu-and-tools">RISC-V CPU and tools</a></li>
 <li><a href="#other-cores">Other Cores</a></li>
 </ul>
 </li>

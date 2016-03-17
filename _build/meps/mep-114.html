@@ -206,7 +206,7 @@ method-based API in most cases.</p>
 <p>The <code>block</code> decorator will become mandatory when hardware extraction is
 required, more specifically for waveform tracing and conversion. The required
 user code change is minimal:</p>
-<div class="codehilite"><pre>       old code               -&gt;            new code
+<div class="codehilite"><pre><span></span>       old code               -&gt;            new code
 ------------------------------------------------------------------
                                         @block
 def myblock(&lt;ports&gt;):                   def myblock(&lt;ports&gt;):
@@ -223,7 +223,7 @@ will occur.</p>
 simplifies implementation, and reduces the size of the <code>myhdl</code> namespace.</p>
 <p>The methods work on block instances, created by calling a function decorated
 with the <code>block</code> decorator:</p>
-<div class="codehilite"><pre>@block
+<div class="codehilite"><pre><span></span>@block
 def myblock(&lt;ports&gt;):
 ...
 return &lt;instances&gt;
@@ -269,7 +269,7 @@ However, because instantiation no longer occurs under fine-grained profiler
 control, those local variables names can no longer be used.</p>
 <p>Instead, the basename of an instance will be synthesized automatically from the
 name of the corresponding function and an instantiation counter as follows:</p>
-<div class="codehilite"><pre>instance_name = &#39;{function_name}_{instance_count}&#39;
+<div class="codehilite"><pre><span></span>instance_name = &#39;{function_name}_{instance_count}&#39;
 </pre></div>
 
 
@@ -278,7 +278,7 @@ instances a local name: anonymous instantiation will work too. A disadvantage is
 of course that the local variable name, which may be clearer and shorter than
 the synthesized name, is not present in the output. To accommodate this
 disadvantage, explicit naming control is possible as follows:</p>
-<div class="codehilite"><pre>inst = myblock(&lt;signals&gt;)
+<div class="codehilite"><pre><span></span>inst = myblock(&lt;signals&gt;)
 inst.name = &quot;myinst&quot;
 </pre></div>
 
