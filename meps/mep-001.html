@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MEP Purpose and Guidelines</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-001.html">MEP 1</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 1: MEP Purpose and Guidelines&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified: 07-Feb-2015 by Jan Decaluwe</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>1</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe, Günter Dannoritzer</td></tr>
+    <tr><td><strong>Status</strong></td><td>Active</td></tr>
+    <tr><td><strong>Created</strong></td><td>18-May-2011</td></tr>
+</tbody>
+</table>
+            <h2 id="what-is-a-mep">What is a MEP?</h2>
+<p>MEP stands for MyHDL Enhancement Proposal. A MEP is a design document providing
+information to the MyHDL community, or describing a new feature for MyHDL. The
+MEP should provide a concise technical specification of the feature and a
+rationale for the feature.</p>
+<p>The MEP concept is heavily inspired by the
+<a href="http://www.python.org/dev/peps/pep-0001">PEP</a>, the Python Enhancement Proposal. 
+In the Python world, the PEP works very well, and a MEP is basically a
+simplified version for our purposes.</p>
+<p>We intend MEPs to be the primary mechanisms for proposing new features, for
+collecting community input on an issue, and for documenting the design
+decisions that have gone into MyHDL. The MEP author is responsible for building
+consensus within the community and documenting dissenting opinions.</p>
+<h2 id="mep-development">MEP development</h2>
+<p>MEPs are maintained on the MyHDL development website, which is developed in 
+the <a href="https://github.com/myhdl/site-myhdl-dev" title="MyHDL development website repository">MyHDL development website repository</a>. This is a public repository that documents
+the history of a MEP.</p>
+<p>The main responsibility of a MEP lies with its author. Before starting a new
+MEP, its idea should be discussed on the MyHDL mailing list.</p>
+<h2 id="policy">Policy</h2>
+<p>In the development phase, the MEP is assigned the <em>Draft</em> status. When fully
+developed and provided with a functional implementation, the MEP can get the
+status <em>Final</em>, documenting that the content of the MEP is ready to be
+implemented into MyHDL.</p>
+<p>A MEP can also become <em>Rejected</em> if it turned out to be not a good idea.</p>
+<p>The right to change the status of a MEP from <em>Draft</em> belongs exclusively to Jan
+Decaluwe.</p>
+<p>Once the MEP has the status <em>Final</em> and it is implemented in the source
+code, the MyHDL version will be added to the MEP document. From this time on,
+the text of the document will be frozen. A <em>Final</em> MEP should not be changed,
+except for spelling mistakes or language corrections from a neutral
+proofreader. It is intended to document the MyHDL development history for
+experts. </p>
+<p>In case the functionality described in a MEP needs to be altered or extended, a
+new MEP shall be created, describing the new desired implementation. The new
+MEP will live through the same steps as the MEP process describes. The new MEP
+should cross reference the MEP its implementation is based on.</p>
+<p>In case the new MEP will replace an implementation of an existing MEP, the old
+MEP will get the status <em>Replaced</em> as soon as the new MEP achieves the status
+<em>Final</em>. Both MEPs should cross reference each other.</p>
+<p>Informational MEPs may also get the status <em>Active</em> if they are not meant
+to be completed. This MEP is an example. </p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">MEP Purpose and Guidelines</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#what-is-a-mep">What is a MEP?</a></li>
+<li><a href="#mep-development">MEP development</a></li>
+<li><a href="#policy">Policy</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-001.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-001'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

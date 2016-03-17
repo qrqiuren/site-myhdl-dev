@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tristate and bidirectional signals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-103.html">MEP 103</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 103: Tristate and bidirectional signals&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified: 24-Dec-2013 by Jan Decaluwe</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>103</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe</td></tr>
+    <tr><td><strong>Status</strong></td><td>Final</td></tr>
+    <tr><td><strong>Created</strong></td><td>10-May-2007</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.7</td></tr>
+</tbody>
+</table>
+            <h2 id="background">Background</h2>
+<p>In the author's opinion, there is almost never a good reason to
+use on-chip tristates. Tristates often create problems related to reliability,
+power consumption and testability. Furthermore, a better implementation of
+the required functionality can usually be
+found with standard CMOS logic. The only true advantage of tristates
+is to save on pins and routing wires. At the PCB level, this is a significant
+advantage, but on-chip it is basically irrelevant.</p>
+<p>The principal target public for MyHDL are chip designers. For that reason,
+tristate support was not a priority.
+But of course, even chip designers need to get to the outside world at some
+point and therefore, it is inevitable that they encounter the need for
+tristate and bidirectional signals eventually.</p>
+<p>So, the time has come to enhance MyHDL with support for tristate (and
+bidirectional) signals.</p>
+<h2 id="analysis">Analysis</h2>
+<h3 id="introduction">Introduction</h3>
+<p>Several possibilities for supporting tristate signals
+were considered and rejected. The process
+is summarized below. This is useful to understand the issues and the
+proposed solution later.</p>
+<h3 id="representation-of-the-tristate-value">Representation of the tristate value</h3>
+<p>In a hardware implementation, a wire is said to be tristated when it is not driven. HDLs that want to support tristates need a way to model this situation. The common technique is to introduce a special value, traditionally called <code>Z</code>, to represent the "value" of a tristated wire.</p>
+<p>We have to decide how to do this in MyHDL. Note that the tristate value is actually intended to model the <em>absence</em> of a (driven) value. In plain Python, we have already have an object that models "no value": the <code>None</code> object. MyHDL follows a minimalistic approach: we reuse as much we can from plain Python. Therefore, the natural choice for the representation of a tristate value in MyHDL is the <code>None</code> object.</p>
+<h3 id="the-myhdl-signal">The MyHDL signal</h3>
+<p>The MyHDL documentation suggests that the MyHDL signal is modeled after the VHDL signal. However, this is not accurate: the MyHDL signal is
+a much simpler object. For example, it doesn't have support for resolution
+functions, and therefore cannot be used as-is to model tristate signals.</p>
+<h3 id="enhancing-the-myhdl-signal">Enhancing the MyHDL signal</h3>
+<p>A first idea is to enhance the MyHDL signal with native tristate support.
+Similar to VHDL, each generator in which the signal is assigned
+would define a separate "driver", and the final value would
+be found by resolving the values of all drivers.</p>
+<p>The problem is that we would have to make the distinction between signal
+assignments within a generator (corresponding to a single driver), and
+signal assignments in separate generators (corresponding to separate
+drivers). This would require an additional
+code inspection and compilation step before we can simulate the design.
+This is something that we want to avoid.</p>
+<h3 id="explicit-drivers">Explicit drivers</h3>
+<p>The problem described in the previous section can be solved
+by making the designer work with separate driver objects
+explicitly. Each driver would be
+attached to a central object modeling the tristate signal,
+that calculates and drives the resolved output signal.</p>
+<p>This is not that bad as it may sound at first. Some designers find it
+natural to think in terms of separate drivers to a tristate signal, as it
+corresponds to the hardware implementation. Also, it is what Verilog
+designers typically do, because the Verilog <code>reg</code> cannot
+be used to resolve tristate values or model bidirectionals. Instead,
+each driver is modeled using a <code>reg</code> that is then assigned to a
+<code>wire</code> (or <code>tri</code>). The <code>wire</code> resolves all its drivers to find its final 
+value.</p>
+<p>The remaining question is what the "resolving object" should be and how
+to attach the drivers to it.</p>
+<h3 id="modeling-a-tristate-bus-as-a-module">Modeling a tristate bus as a module</h3>
+<p>One straightforward idea is to model a tristate bus as a special
+generic module that takes the driver signals as its inputs, and 
+has the resolved
+signal as its output. This idea is attractive because it would not
+require any changes to the MyHDL simulation machinery.</p>
+<p>However, the usage model would be quite different from other modules.
+When a module wants to talk (i.e. read and write) to a tristate
+bus, it is natural that the bus itself is a parameter in the
+interface. We would thus have
+a module which is a parameter of another module. This is not a
+problem for MyHDL, but it does raise some issues.</p>
+<p>First, there would have to be some way to attach driver inputs
+"dynamically" to tristate bus instances:</p>
+<div class="codehilite"><pre><span></span><span class="n">bus</span> <span class="o">=</span> <span class="n">TristateBusModule</span><span class="p">(</span><span class="n">out</span><span class="o">=...</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">bus</span><span class="o">.</span><span class="n">addDriver</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+
+<p>More importantly, while the bus parameter in the interface would technically be
+a module instance, it would "look" like a signal. This might create confusion:
+for example, an instance has to be returned somewhere for the
+simulator to know about it, while signals are known "automatically"
+(because they register themselves upon creation).
+Also, some key MyHDL functions, such as <code>traceSignals</code> and the
+conversion functions <code>toVerilog</code> and <code>toVHDL</code>, inspect the design
+hierarchy and track the signals used at each level. Significant
+changes would be required to find tristate signals modeled as
+module instances as well.</p>
+<p>Of course, it would be possible to modify MyHDL so that tristate
+instances would be treated in a special way, similar to signals.
+Or it could be interesting to introduce objects similar to
+SystemVerilog interfaces for this purpose. However, there
+might be a simpler way.</p>
+<h3 id="modeling-a-tristate-signal-using-a-signal-subclass">Modeling a tristate signal using a Signal subclass</h3>
+<p>An alternative idea is to model a tristate as a signal with
+some new behavior, by subclassing the <code>Signal</code> class, and
+keeping the idea to add explicit drivers:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Tristate</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="o">...</span>
+
+<span class="n">bus</span> <span class="o">=</span> <span class="n">Tristate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">bus</span><span class="o">.</span><span class="n">addDriver</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The tristate signal is not assigned directly. Instead, assignments occur to its drivers. The tristate signal resolves all driver values to determine its final value.</p>
+<p>This solution solves the issues of the previous alternative. As the tristate signal is technically implemented  as a true signal, all MyHDL services for signals remain available.</p>
+<p>However, there are still some issues. The most important issue is related to the initial value of the tristate signal. When a plain MyHDL signal is constructed, the constructor takes a value as its argument. This value specifies two things: the expected type of the signal value, and its initial value. For a tristate signal, the natural initial value is the tristate value <code>None</code>. However, we cannot construct it with value <code>None</code> because then we don't have the type information for the non-tristate value.</p>
+<p>For a <code>Tristate</code> object itself, there is not really a problem because it belongs to a different class (albeit a <code>Signal</code> subclass). We could still construct it with some value specifying the type, but define its initial value as being <code>None</code>. However, when the drivers are constructed with plain signals, they will all have the normal signal behavior. Unless special measures are taken, this will obviously result in immediate contention.</p>
+<p>Of course, there are ways to solve this problem. The initial value of a driver might be modified automatically when it is first added to its tristate signal. Or we may introduce further special signal-like objects with the required behavior for drivers. But again we must ask ourselves whether there is no simpler and more intuitive solution.</p>
+<p>A minor related overhead of this solution is that the value types of the drivers may be conflicting. So this would have to checked also.</p>
+<h2 id="proposed-solution">Proposed solution</h2>
+<h3 id="description">Description</h3>
+<p>The final insight to come to the proposed solution is the following. Even though we need separate drivers, we don't necessarily need to construct them explicitly as separate signals. We can also a construct a driver "on-demand" from its tristate object, as follows:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">TristateSignal</span><span class="p">(</span><span class="n">Signal</span><span class="p">)</span>
+    <span class="o">...</span>
+
+<span class="n">bus</span> <span class="o">=</span> <span class="n">Tristate</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">bus</span><span class="o">.</span><span class="n">driver</span><span class="p">()</span>
+</pre></div>
+
+
+<p>In this way, a driver is automatically connected to its tristate signal and the issues described in the previous section disappear. A driver can simply reuse the value type from the corresponding tristate signal. Also, it can be initialized to <code>None</code> without further complications.</p>
+<h3 id="user-interface">User interface</h3>
+<p><strong><code>class TristateSignal</code></strong><code>(val, [delay=0])</code></p>
+<ul>
+<li>This class is used to construct a new tristate signal. The underlying type is specified by the <code>val</code> parameter. Optionally, a delay can be specified.</li>
+<li>It is a subclass of <code>Signal</code> and has the same attributes, with one exception: it doesn't support the <code>next</code> attribute. Consequently, direct signal assignment to a tristate signal is not supported.</li>
+<li>The initial value is the tristate value <code>None</code>.</li>
+<li>The current value of a tristate is determined by resolving the values from its drivers. When exactly one driver value is different from <code>None</code>, that is the resolved value; otherwise it is <code>None</code>. When more than one driver value is different from <code>None</code>, a contention warning is issued.</li>
+</ul>
+<p>This class has the following method:</p>
+<p><strong><code>driver</code></strong><code>()</code></p>
+<ul>
+<li>Returns a new driver to the tristate signal. It is initialized to <code>None</code>.</li>
+<li>A driver object is an instance of a special <code>Signal</code> subclass. In particular, its <code>next</code> attribute can be used to assign a new value to it.</li>
+</ul>
+<h3 id="conversion-to-verilog-and-vhdl">Conversion to Verilog and VHDL</h3>
+<p>It should be possible to convert the proposed modeling solution to equivalent Verilog and VHDL code.</p>
+<h2 id="status">Status</h2>
+<p>A experimental reference implementation, for simulation only, is included in development version 0.6dev4</p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Tristate and bidirectional signals</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#analysis">Analysis</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#representation-of-the-tristate-value">Representation of the tristate value</a></li>
+<li><a href="#the-myhdl-signal">The MyHDL signal</a></li>
+<li><a href="#enhancing-the-myhdl-signal">Enhancing the MyHDL signal</a></li>
+<li><a href="#explicit-drivers">Explicit drivers</a></li>
+<li><a href="#modeling-a-tristate-bus-as-a-module">Modeling a tristate bus as a module</a></li>
+<li><a href="#modeling-a-tristate-signal-using-a-signal-subclass">Modeling a tristate signal using a Signal subclass</a></li>
+</ul>
+</li>
+<li><a href="#proposed-solution">Proposed solution</a><ul>
+<li><a href="#description">Description</a></li>
+<li><a href="#user-interface">User interface</a></li>
+<li><a href="#conversion-to-verilog-and-vhdl">Conversion to Verilog and VHDL</a></li>
+</ul>
+</li>
+<li><a href="#status">Status</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-103.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-103'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

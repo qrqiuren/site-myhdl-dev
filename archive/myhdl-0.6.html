@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MyHDL 0.6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li class="active"><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/archive/">Archive</a></li>
+       <li class="active">MyHDL 0.6</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>MyHDL 0.6
+    &nbsp;&nbsp;<small class="nobr">12-May-2009</small>
+</h1>
+        <p><i>Last modified: 12-Feb-2016 by Jan Decaluwe</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+            <h2 id="status">Status</h2>
+<p>0.6 has been released.</p>
+<h2 id="to-do">To do</h2>
+<ul>
+<li><i class="fa fa-check-square-o"></i> RAM support using array types </li>
+<li><i class="fa fa-check-square-o"></i> operators with signed operands </li>
+<li><i class="fa fa-check-square-o"></i> augmented operators </li>
+<li><i class="fa fa-check-square-o"></i> enhanced <code>print</code> statement support </li>
+<li><i class="fa fa-check-square-o"></i> user-defined VHDL support </li>
+<li><i class="fa fa-check-square-o"></i> <code>inout</code> handling</li>
+<li><i class="fa fa-check-square-o"></i> enhance <code>toVerilog</code> so that it can work with the new verification method also.
+In particular, <code>print</code> statements should be handled properly.</li>
+<li><i class="fa fa-check-square-o"></i> write conversion verification test benches for some cookbook examples</li>
+<li><i class="fa fa-check-square-o"></i> include date/tool info in conversion output </li>
+<li><i class="fa fa-check-square-o"></i> review <code>if __debug__</code> functionality with new verification capabilities  </li>
+<li><i class="fa fa-check-square-o"></i> encoding attributes to enumeration types  </li>
+<li><i class="fa fa-check-square-o"></i> use a package in a separate file for general VHDL output code </li>
+</ul>
+<h2 id="open-issues">Open issues</h2>
+<h3 id="name-clashes">Name clashes</h3>
+<ul>
+<li>
+<p>Find a good solution to avoid name clashes. In the Verilog output, I relied on using <code>_</code> as a prefix, but because VHDL doesn't allow this, and I want a general solution, this needs to change.</p>
+</li>
+<li>
+<p>Find a good solution to avoid name clashes with Verilog and VHDL keywords.</p>
+</li>
+</ul>
+<h3 id="rom-inference-support">Rom inference support</h3>
+<p>Currently, ROMs are inferred from case statements, as in Verilog. Users and synthesis tools may prefer arrays of integers. Feedback welcome.</p>
+<h3 id="user-defined-vhdl-code">User-defined VHDL code</h3>
+<p><del>It is straightforward to support the <code>__toVHDL__</code> attribute for
+user-defined VHDL, similar to the Verilog solution. This may not be sufficient
+however, because VHDL requires instantiated components to be declared in the
+code. We may have to add a way to add such user-defined declarations.</del></p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">MyHDL 0.6</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#status">Status</a></li>
+<li><a href="#to-do">To do</a></li>
+<li><a href="#open-issues">Open issues</a><ul>
+<li><a href="#name-clashes">Name clashes</a></li>
+<li><a href="#rom-inference-support">Rom inference support</a></li>
+<li><a href="#user-defined-vhdl-code">User-defined VHDL code</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

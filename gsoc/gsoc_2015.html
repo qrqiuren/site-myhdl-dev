@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Summer of Code 2015</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/gsoc/">Google Summer of Code</a></li>
+       <li class="active">Google Summer of Code 2015</li>
+    </ol>
+
+    <div class="page-header">
+        <h1>Google Summer of Code 2015</h1>
+        <p><i>Last modified: 26-Mar-2015 by Christopher Felton</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+            <h2 id="myhdl-project-introduction">MyHDL Project Introduction</h2>
+<p><a href="http://www.myhdl.org">MyHDL</a> is a Python package that extends Python 
+as a hardware description language (<abbr title="Hardware Description Language">HDL</abbr>).  MyHDL empowers implementation
+of complex digital circuits that can be targeted towards ASIC and
+FPGA technologies.</p>
+<p><a href="http://www.jandecaluwe.com/">Jan Decaluwe</a> is the creator and 
+<a href="http://en.wikipedia.org/wiki/Benevolent_dictator_for_life">BDFL</a>. The 
+MyHDL project has been around for many years and has had many successes
+bringing a modern and software influenced approach to <abbr title="Hardware Description Language">HDL</abbr> development.
+MyHDL has been used for various FPGA projects and numerous
+<a href="http://en.wikipedia.org/wiki/Application-specific_integrated_circuit">ASIC</a> 
+projects <a href="https://www.ll.mit.edu/HPEC/agendas/proc07/Day2/12_Dillon_Poster.pdf" title="Accelerating Algorithm">1</a>.</p>
+<p>The following are good starting points to learn more about 
+MyHDL:</p>
+<ul>
+<li><a href="http://docs.myhdl.org/en/latest/manual/preface.html">MyHDL Manual Intro</a></li>
+<li><a href="http://www.myhdl.org/start/why.html">Why MyHDL</a></li>
+<li><a href="http://www.myhdl.org/start/whatitisnot.html">What MyHDL is Not</a></li>
+</ul>
+<h2 id="myhdl-community">MyHDL Community</h2>
+<p>The <a href="http://www.myhdl.org/support/community.html">MyHDL mailing-list</a> 
+and the #myhdl IRC channel on <a href="http://www.freenode.net">Freenode</a> 
+can be used to interact with the MyHDL community.  Most questions 
+can be answered in one of these two outlets.  There is also a 
+<a href="http://stackoverflow.com/questions/tagged/myhdl">MyHDL tag</a> on 
+stackoverflow.</p>
+<ul>
+<li>IRC #myhdl channel on <a href="http://www.freenode.net">Freenode</a></li>
+<li><a href="http://www.myhdl.org/support/community.html">MyHDL mailing-list</a></li>
+<li><a href="http://github.com/jandecaluwe/myhdl">MyHDL repository on github</a></li>
+<li><a href="https://twitter.com/MyHDL">MyHDL on twitter</a></li>
+</ul>
+<p>The IRC channel is informal and typically a question
+will be part of a time-limited conversation.  On the mailing-list 
+more users/developers will have a chance to comment on the question 
+and the question will receive more feedback over time.  </p>
+<p>Before a question
+is posted to the mailing-list care should be taken to construct a 
+useful question.  Simple guidelines for questions on the mailing-list:</p>
+<ol>
+<li>Limit the scope of the questions. </li>
+<li>Briefly state what is to be accomplish.</li>
+<li>Give a small example embedded in the question.</li>
+<li>Clearly state the question in the context of the 
+      simplified problem.</li>
+<li>It is ok to link original code (or attach) as a 
+      reference but it should not be required to answer 
+      the question.</li>
+</ol>
+<p>Example, don't post code and state: "it doesn't work, help".<br />
+Determine where the issues is and create a specific question 
+to the problems independent of the context of the project.
+The easier the question is to understand and test (e.g 
+removing extraneous information) the faster the question 
+will be answered.</p>
+<p>Mentors will be in a position to help dig through the project
+code.  To get the highest probability of a timely and useful
+answer the above recommendation should be used when posting 
+to the mailing-list.</p>
+<p>This exhaustive essay on, 
+<a href="http://www.catb.org/esr/faqs/smart-questions.html">interacting and getting questions answered by asking 
+well-thought questions</a>, 
+is a good guide.</p>
+<h2 id="writing-your-application">Writing Your Application</h2>
+<p>A <a href="http://dev.myhdl.org/gsoc/gsoc_app_template.html">common template</a> 
+is available to help bootstrap the student proposals.  For more 
+information on GSoC see the <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">GSoC website</a>
+in particular the <a href="http://www.google-melange.com/gsoc/document/show/gsoc_program/google/gsoc2015/help_page#8._When_can_I_apply_for_Google_Summer_of">student FAQ</a> 
+is a good place to start for new students and the <a href="http://en.flossmanuals.net/GSoCStudentGuide/">student guide</a>
+is a thorough review of the program.</p>
+<h2 id="getting-started-with-myhdl">Getting Started with MyHDL</h2>
+<h3 id="using-myhdl">Using MyHDL</h3>
+<p>The <a href="http://docs.myhdl.org/en/latest/index.html">MyHDL manual</a> 
+outlines how to design digital circuits with MyHDL.  MyHDL
+<a href="http://www.myhdl.org/start/installation.html">installation instructions</a> 
+throughly cover installing the MyHDL package.</p>
+<p>The following
+is a list of additional examples and projects that can be used 
+as first exercises and references:</p>
+<ul>
+<li><a href="http://www.myhdl.org/examples/">MyHDL Examples</a></li>
+<li><a href="http://www.fpgarelated.com/showarticle/43.php">MyHDL List of Resources</a></li>
+</ul>
+<h3 id="contributing-to-myhdl-package">Contributing to MyHDL Package</h3>
+<p>The MyHDL project has outlined a 
+<a href="http://dev.myhdl.org/guide.html">development process</a> 
+that should be followed by each participant.  This includes
+writing <a href="http://dev.myhdl.org/meps/mep-001.html">enhancement proposals</a> 
+for projects that contribute directly to the MyHDL package.  Certain
+project ideas are based on existing MEPs.  The student proposal 
+will be natural start to a MEP if needed.</p>
+<p>The <strong>cores</strong> developed with MyHDL are intended to be 
+incorporated into a single repository <a href="https://github.com/cfelton/minnesota" title="Target Repository">3</a> at the end of 
+the project.</p>
+<h2 id="project-ideas">Project Ideas</h2>
+<p>The project ideas fall into two categories: </p>
+<ol>
+<li>Enhancements to the MyHDL package. </li>
+<li>Implementing 
+      <a href="http://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core">cores</a> 
+      with MyHDL.</li>
+</ol>
+<p>All projects require programming in Python.</p>
+<p>The MyHDL package uses the LGPL license, all work submitted to 
+the MyHDL package will be LGPL.</p>
+<h3 id="myhdl-package-project-ideas">MyHDL Package Project Ideas</h3>
+<h4 id="refactor-conversion-code">Refactor Conversion Code</h4>
+<p>This project will involve refactoring the conversion such that code 
+can be shared between conversion utilities.</p>
+<p>This project requires knowledge of compilers and the Python 
+compiler support and packages.  This is an advanced project
+that will support the overall MyHDL conversion code structure,
+reusability, and comprehension.</p>
+<p>Potential mentors:</p>
+<p><em>. <a href="">Christopher Felton</a>, </em>cfelton* on IRC,
+      <a href="">@FeltonChris</a> on twitter, and <a href="https://github.com/cfelton">@cfelton on github</a></p>
+<h4 id="general-hierarchy-analyzer">General Hierarchy Analyzer</h4>
+<p>This development is intended to have a single hierarchy analyzer.
+This analyzers will use the common components from the rest of the
+conversion code and provide additional reusable components. 
+This would also support <a href="http://dev.myhdl.org/meps/mep-110.html">MEP110</a>.</p>
+<p>This project requires knowledge of compilers and the Python 
+compiler support and packages.  This is an advanced project
+that will support the overall MyHDL conversion code structure,
+reusability, and comprehension.</p>
+<p>Potential mentor(s):</p>
+<p><em>.  <a href="">Oscar Diaz</a>, </em>tbd* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
+<h4 id="cosimulation-signal-extraction">Cosimulation Signal Extraction</h4>
+<p>It is possible through the foriegn language interfaces (VPI/DPI) to
+extract all the signals in from the <a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimuation</a> simulator 
+and
+build a <code>dict</code> or <code>object</code> on the Python side.  Performing this 
+action will simplify and automate connecting a Python/MyHDL 
+verification environment to a Verilog/VHDL simulation.</p>
+<p>This project will require a student to investigate the MyHDL 
+<a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimulation</a> and 
+research the simulator 
+foriegn-language-interfaces, in particular VPI and/or DPI 
+for Verilog Cosimulations and VHPI for VHDL simulations
+(note Cosimulation with VHDL is not currently possible due
+to the lack of open-source simulators with a complete VHPI
+or other FLI).  This task requires moderate skill level, 
+general simulator knolwedge and will require Python and
+C coding.  This work will mainly be completed with the 
+<a href="http://iverilog.icarus.com/">Icarus Verilog</a> or 
+<a href="http://www.tachyon-da.com/">CVC</a> simulators.</p>
+<h4 id="2d-list-of-signal-conversion">2D List-of-Signal Conversion</h4>
+<p>The MyHDL conversion currently handles 
+<a href="http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-lists-of-signals">converting a list-of-signals</a>.
+But it is ofthen desired to use multi-dimension (list of lists) to 
+structure data and/or signals.  This project will involve exploring
+the list-of-signal conversion, proposing an architecture for 
+multi-dimension conversion, a complete set of tests, and an 
+implementation for the conversion.</p>
+<h4 id="initial-value-support">Initial Value Support</h4>
+<p>Most synthesis tools (e.g FPGA Quartus, xst, Vivado) support 
+<a href="http://dev.myhdl.org/ideas/initial-values.html">initial condition mechanisms</a>.
+This project would involve complete investigation which synthesis
+tools support intial conditions (variable, Signal, and RAM).  Once
+the supported methods are determined a proposal and implemenation 
+for initial conditions will be developed.</p>
+<h3 id="myhdl-cores-project-ideas">MyHDL Cores Project Ideas</h3>
+<p>The following projects are the development and/or ports of common
+building blocks used in many complex digital systems.  These are
+not intended to be straight ports.  They are intended to be designed
+in the MyHDL philosophy bringing many software concepts to hardware
+design and creating modular and scalable cores.</p>
+<h4 id="gigabit-ethernet-mac">Gigabit Ethernet MAC</h4>
+<p>This project involves porting a <a href="">GEMAC</a> core to MyHDL.  The
+GEMAC is typically used to <em>stream</em> data in and out of an FPGA
+versus the lower throughput in common IO Ethernet connections.  </p>
+<p>The project has a 
+<a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_eth">reference Verilog</a> 
+design and a
+<a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_eth">test framework</a>.<br />
+The test framework will be used to validate
+the core and encourage 
+<a href="http://www.drdobbs.com/architecture-and-design/test-driven-design/240168102">test driven design</a>.</p>
+<p>Like all the cores being implemented in MyHDL these cores should
+be designed bus agnostic.  The GEMAC requires in/out data-path and
+optional memory-map interface.  If the optional memory-map interface
+is not included the default configuration should easily be set during
+instantiation.  The core should support many different standards for 
+the different type if interfaces.  The following is an example that 
+shows how the interfaces are past to the core:</p>
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">AvalonMM</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">databus</span> <span class="o">=</span> <span class="n">AvalonST</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">geth</span> <span class="o">=</span> <span class="n">m_eth_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">mmbus</span> <span class="o">=</span> <span class="n">Wishbone</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">databus</span> <span class="o">=</span> <span class="n">FIFOBus</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="n">geth</span> <span class="o">=</span> <span class="n">m_eth_lite</span><span class="p">(</span><span class="n">glbl</span><span class="p">,</span> <span class="n">databus</span><span class="p">,</span> <span class="n">mmbus</span><span class="p">)</span>
+</pre></div>
+
+
+<p>By using the interfaces and passing the interface types the 
+core become truly modular and scalable.</p>
+<p>This project requires digital circuit familiarity, ability 
+to read and understand Verilog and Python.  Knowledge of 
+Ethernet standards and protocols will be useful.</p>
+<p>Hardware testing is not an explicit requirement of this project
+but would be a great addition.</p>
+<p>The potential mentors for this project are:</p>
+<ol>
+<li><a href="http://guy-eschemann.de/">Guy Eschemann</a>, <em>tbd</em> on IRC, <a href="">@geschema</a> on
+      twitter, and <a href="https://github.com/geschema">@geschema on github</a></li>
+</ol>
+<h4 id="hdmi-source-sink">HDMI Source / Sink</h4>
+<p>An HDMI controller sources and sinks a video stream.  The core 
+performs the required encoding and decoding to an HDMI link.
+It also provides a mechanism to "query" the connected device.</p>
+<p>The project has a 
+<a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_hdmi">reference Verilog</a> 
+design and a
+<a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_hdmi">test framework</a>.<br />
+The test framework will be used to validate
+the core and encourage 
+<a href="http://www.drdobbs.com/architecture-and-design/test-driven-design/240168102">test driven design</a>.</p>
+<p>This project requires digital circuit familiarity, ability 
+to read and understand Verilog, and Python.  </p>
+<p>The potential mentors for this project are:</p>
+<ul>
+<li>
+<p><a href="">Eldon Nelson</a>, <em>tbd</em> on IRC and
+     <a href="https://github.com/tenthousandfailures">@tenthousandfailures on github</a></p>
+</li>
+<li>
+<p><a href="">Christopher Felton</a>, <em>cfelton</em> on IRC,
+     <a href="">@FeltonChris</a> on twitter, and <a href="https://github.com/cfelton">@cfelton on github</a></p>
+</li>
+</ul>
+<h4 id="sdram-controller">SDRAM Controller</h4>
+<p>The project has a 
+<a href="https://github.com/xesscorp/VHDL_Lib/blob/master/SdramCntl.vhd">reference VHDL</a> 
+design to port and a
+<a href="https://github.com/cfelton/minnesota/tree/master/test/test_cores/test_sdram">test framework</a>.<br />
+The test framework will be used to validate
+the core and encourage 
+<a href="http://www.drdobbs.com/architecture-and-design/test-driven-design/240168102">test driven design</a>.
+The core port/development should also include the 
+<a href="https://github.com/xesscorp/VHDL_Lib/blob/master/MemTest.vhd">embedded memory test</a>
+Although not explicitly required for the project it would be beneficial
+if the core was tested on <a href="http://www.xess.com/shop/product/xula2-lx25/">hardware</a>.</p>
+<p>As the general cores project description indicated, this is not 
+a simple port.  The generated core should support the functionality
+of the reference design but the core should also explore creating
+a core that is modular and scalable.  It should be explored if 
+a single controller can be designed to support multiple interfaces
+and standards.  This typically involves advanced usage of elaboration
+code.</p>
+<p>This project requires digital circuit familiarity, ability 
+to read and understand Verilog, and Python.  Knowledge of 
+external memory types and memory controller desired but 
+not required.</p>
+<p>The potential mentors:</p>
+<ul>
+<li><a href="">Dave Vandenbout</a>, <em>tdb</em> on IRC, <a href="">@devbisme</a> 
+     on twitter, and  <a href="https://github.com/devbisme">@devbisme on github</a></li>
+</ul>
+<h4 id="jpeg-encoder">JPEG Encoder</h4>
+<p>This project is the design and/or port of a JPEG encoder.  Same
+as the other core projects, the goal is to demonstrate a modern <abbr title="Hardware Description Language">HDL</abbr>
+implementation usign MyHDL.  Hardware versions of JPEG encoders are
+common for (basic) video compression.  The <a href="http://github.com/cfelton/test_jpeg">reference core 
+and test framework</a> is 
+the starting point for this project.  This project should 
+convert / implement one component at a time.  The following 
+is a suggested order of implementation:</p>
+<div class="codehilite"><pre><span></span>* RGB to YCBCR conversion
+* 2D DCT
+* Quantizer
+* Huffman module
+* Misc: FIFOs, etc.
+* Top-level
+</pre></div>
+
+
+<p>This project requires digital circuit familiarity, ability 
+to read and understand Verilog, and Python.  </p>
+<h4 id="leros-tiny-processor">Leros tiny processor</h4>
+<p>Leros is a tiny soft-core processor optimized for low-cost FPGAs , 
+written in technology-agnostic VHDL. The architecture is a 
+pipelined 16-bit accumulator, designed with a balance of
+logic resources and on-chip memory.</p>
+<p>Tiny processors applications include:</p>
+<ul>
+<li>Implement complex states machines with a tiny 
+  processor and a tiny assembler program.</li>
+<li>Implement intelligent peripheral device for auxiliary functions.</li>
+<li>Many-core applications and massive parallel algorithms.</li>
+</ul>
+<p>This project has the architecture documentation and a reference 
+VHDL design to port. The project will include not only the port 
+but also the test framework and testbenches in MyHDL to use test 
+driven design features. A user guide for the processor core is also 
+planned in the project.</p>
+<p>Test on real hardware is desirable, in order to compare logic 
+resources usage and real performance of both MyHDL and VHDL 
+implementations.</p>
+<p>This project requires digital circuit familiarity and experience 
+with VHDL. A background on computer architecture and 
+microcontrollers is desired but not required.</p>
+<h4 id="other-cores">Other Cores</h4>
+<p>There are an unlimited number of cores that can be implemented
+with MyHDL.  Any core can be proposed but will not have the 
+existing support as above project ideas.  If a student has a 
+particular core they would like to port to or implement with 
+MyHDL, start a conversation with the community and generate 
+a proposal.</p>
+<h3 id="potential-mentors">Potential Mentors</h3>
+<ul>
+<li><a href="https://github.com/cfelton">@cfelton</a></li>
+<li><a href="https://github.com/geschema">@geschema</a></li>
+<li><a href="https://github.com/devbisme">@devbisme</a></li>
+<li><a href="https://github.com/tenthousandfailures">@tenthousandfailures</a></li>
+<li><a href="https://github.com/dargor0">@dargor0</a></li>
+<li><a href="https://github.com/hgomersall">@hgomerall</a> </li>
+<li><a href="https://github.com/tompdillon">@tompdillon</a></li>
+<li><a href="https://github.com/josyb">@josyb</a></li>
+</ul>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Google Summer of Code 2015</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#myhdl-project-introduction">MyHDL Project Introduction</a></li>
+<li><a href="#myhdl-community">MyHDL Community</a></li>
+<li><a href="#writing-your-application">Writing Your Application</a></li>
+<li><a href="#getting-started-with-myhdl">Getting Started with MyHDL</a><ul>
+<li><a href="#using-myhdl">Using MyHDL</a></li>
+<li><a href="#contributing-to-myhdl-package">Contributing to MyHDL Package</a></li>
+</ul>
+</li>
+<li><a href="#project-ideas">Project Ideas</a><ul>
+<li><a href="#myhdl-package-project-ideas">MyHDL Package Project Ideas</a><ul>
+<li><a href="#refactor-conversion-code">Refactor Conversion Code</a></li>
+<li><a href="#general-hierarchy-analyzer">General Hierarchy Analyzer</a></li>
+<li><a href="#cosimulation-signal-extraction">Cosimulation Signal Extraction</a></li>
+<li><a href="#2d-list-of-signal-conversion">2D List-of-Signal Conversion</a></li>
+<li><a href="#initial-value-support">Initial Value Support</a></li>
+</ul>
+</li>
+<li><a href="#myhdl-cores-project-ideas">MyHDL Cores Project Ideas</a><ul>
+<li><a href="#gigabit-ethernet-mac">Gigabit Ethernet MAC</a></li>
+<li><a href="#hdmi-source-sink">HDMI Source / Sink</a></li>
+<li><a href="#sdram-controller">SDRAM Controller</a></li>
+<li><a href="#jpeg-encoder">JPEG Encoder</a></li>
+<li><a href="#leros-tiny-processor">Leros tiny processor</a></li>
+<li><a href="#other-cores">Other Cores</a></li>
+</ul>
+</li>
+<li><a href="#potential-mentors">Potential Mentors</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

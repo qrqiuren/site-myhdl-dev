@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conversion of Top-Level Methods</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-108.html">MEP 108</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 108: Conversion of Top-Level Methods&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified: 13-Aug-2014 by Christopher Felton</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>108</td></tr>
+    <tr><td><strong>Author</strong></td><td>Christopher Felton</td></tr>
+    <tr><td><strong>Status</strong></td><td>Final</td></tr>
+    <tr><td><strong>Created</strong></td><td>10-Feb-2012</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.8</td></tr>
+</tbody>
+</table>
+            <h2 id="introduction">Introduction</h2>
+<p>This MEP is intended to add support for top-level methods in 
+conversion.  Using classes/objects to organize digital hardware 
+can be a natural and a useful development approach for complex 
+and modular IP.  </p>
+<p>In the latest release version, 0.7, top-level methods are not 
+convertible because the object reference (<code>self</code>) is treated 
+as a port.  For top-level methods to be convertible the object
+reference (<code>self</code>) needs to be ignored.</p>
+<h2 id="example-existing-function-conversion">Example (existing function conversion)</h2>
+<p>MyHDL converts MyHDL functions, which represent a hardware 
+module, to Verilog and VHDL.  For a function to be convertible
+it needs <a href="http://docs.myhdl.org/en/latest/manual/intro.html#signals-ports-and-concurrency">ports</a> 
+and to return a 
+<a href="http://docs.myhdl.org/en/latest/manual/background.html#a-small-tutorial-on-generators">MyHDL generator(s)</a>.
+The converter code identifies the arguments of Signal type 
+and adds them to the port list.  </p>
+<p>The following is an example of a converitble function.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">adder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
+       <span class="n">z</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">logic</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">toVHDL</span><span class="p">(</span><span class="n">adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+
+<h2 id="proposed-enhancement">Proposed Enhancement</h2>
+<p>As mentioned the enhancement proposed is to add top-level method 
+conversion support.  The 
+method to be converted has the same requirements as a function:
+it needs a ports and returns a generator(s).</p>
+<p>Using the brief examples above a top-level convertible method might 
+look like the following:</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Adder</span><span class="p">():</span>
+   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">pass</span>
+   <span class="k">def</span> <span class="nf">m_adder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+      <span class="nd">@always_comb</span>
+      <span class="k">def</span> <span class="nf">logic</span><span class="p">():</span>
+         <span class="n">z</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+      <span class="k">return</span> <span class="n">logic</span>
+</pre></div>
+
+
+<p>The above example isn't a good example why a class would be used
+to create, what is often consider a piece of IP, but it is 
+sufficient as an example for method conversion.</p>
+<p>To convert the method in the <em>Adder</em> object the convertible 
+method is passed to the conversion functions.</p>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">MyAddr</span> <span class="o">=</span> <span class="n">Adder</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">toVerilog</span><span class="p">(</span><span class="n">MyAddr</span><span class="o">.</span><span class="n">m_adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">toVHDL</span><span class="p">(</span><span class="n">MyAddr</span><span class="o">.</span><span class="n">m_adder</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+
+
+<p>In the above example and with the existing (0.7) conversion code the
+<code>self</code> argument in the "m_adder" method will be converted to a 
+port in the lower-level Verilog/VHDL.</p>
+<h2 id="implementation-comments">Implementation Comments</h2>
+<h3 id="top-function-visitor">Top Function Visitor</h3>
+<p>The use of the <code>self</code> argument, is only an issue for the 
+top-level method parsing.  This is because the parser flattens 
+the design and the ports are not analyzed for functions and methods
+lower in the hierarchy.  </p>
+<p>A top-level function or method is passed 
+to the converter code and in the
+<a href="https://bitbucket.org/jandecaluwe/myhdl/src/tip/myhdl/conversion/_analyze.py">analyze module</a> 
+the 
+<a href="https://bitbucket.org/jandecaluwe/myhdl/src/tip/myhdl/conversion/_analyze.py?at=default#cl-1290">visit_FunctionDev</a> 
+visitor determines the top-level ports.</p>
+<div class="codehilite"><pre><span></span><span class="n">_AnalyzeTopFuncVisitor</span><span class="o">.</span><span class="n">visit_FunctionDev</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+
+
+<p>In the above node visitor a method is identified and the first 
+argument is skipped.</p>
+<h3 id="extract-hierarchy">Extract Hierarchy</h3>
+<p>The 
+<a href="https://bitbucket.org/jandecaluwe/myhdl/diff/myhdl/_extractHierarchy.py?diff2=d61bf91023b7&amp;at=0.8-dev">extract hierarchy</a> 
+is modified to identify the methods
+that describe hardware and determine if conversion 
+function/method attributes are present.  The extractor 
+checks for an argument named <code>self</code> and retrieves the function
+from <code>self</code>.  If a function is bound to <code>self</code> the extractor 
+will use it in the extract hierarchy.</p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Conversion of Top-Level Methods</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#example-existing-function-conversion">Example (existing function conversion)</a></li>
+<li><a href="#proposed-enhancement">Proposed Enhancement</a></li>
+<li><a href="#implementation-comments">Implementation Comments</a><ul>
+<li><a href="#top-function-visitor">Top Function Visitor</a></li>
+<li><a href="#extract-hierarchy">Extract Hierarchy</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-108.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-108'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Conversion of Interfaces</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-107.html">MEP 107</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 107: Conversion of Interfaces&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified: 20-Jan-2014 by Christopher Felton</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>107</td></tr>
+    <tr><td><strong>Author</strong></td><td>Christopher Felton</td></tr>
+    <tr><td><strong>Status</strong></td><td>Draft</td></tr>
+    <tr><td><strong>Created</strong></td><td>19-Jan-2012</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.9</td></tr>
+</tbody>
+</table>
+            <h2 id="introduction">Introduction</h2>
+<p>An interface is an object passed as a port to a 
+MyHDL module and has one or more Signal objects as 
+attributes.</p>
+<p>The following is a proposal to add conversion support 
+for attributes that are a Signal type.  In this
+MEP a collection of attributes that are a type Signal 
+will be referred to as an interface.  Attributes are 
+anything to the right of the "dot" in an expression.</p>
+<p>This proposal is to add unique name creation for attributes
+in the converted code (when the attribute is a convertible
+type).  It is important to state that using attributes is 
+fully support in MyHDL 0.7 for modeling and simulation 
+except when used in the sensitivity list as discussed in the
+mailing-list.</p>
+<p>For more information on Python classes and attributes see
+the following <a href="http://docs.python.org/tutorial/classes.html">1</a></p>
+<p>The rest of this enhancement proposal will outline the 
+addition of attributes to the MyHDL convertible subset 
+of the Python programming language.  Through the rest 
+of this document the term "interface(s)" will be used to
+refer to attributes of a convertible type.</p>
+<h2 id="name-expansion">Name Expansion</h2>
+<p>The desired approach is to generate a unique name for a
+Signal that is part of an interface.  If an expression 
+includes an interface a unique net name will be generated
+for the Signal, example:</p>
+<p>myobj.x.next = yourobj.y + silly.samsobj.z</p>
+<p>The conversion utilities would determine if the type 
+referenced is a Signal and then create a unique name
+for the Signal.  The following is an example of the 
+name expansion:</p>
+<p>myobj_x = yourobj_y + silly_samsobj_z</p>
+<p>The converter will simply use the interface's reference 
+name as part of the net name.  The same rules that apply
+to the hierarchy naming will be included.  The above might
+be convert to something like the following to avoid name
+collision:</p>
+<p>mod1i_mod2i_myobj_x = mod1i_mod2i_yourobj_y + mod1i_mod2i_silly_samsobj_z</p>
+<p>In other cases a data structure might not contain a Signal but a 
+constant (literal).  In this case the conversion method will 
+dig down to find the constant and use the constant value.</p>
+<p>Required support:</p>
+<ul>
+<li>Expansion of Signal interface names</li>
+<li>Interfaces as ports, including top-level ports</li>
+<li>Interfaces as sensitivity lists</li>
+<li>Resolution of data in data structures</li>
+</ul>
+<p>In general, interfaces can be used, as long as the final 
+referenced object is a convertible type (Signal, int, 
+long, bool, intbv).  All of the above is supported for 
+MyHDL modeling in MyHDL 0.7, except for the "interfaces
+as sensitivity lists" as discussed on the mailing-list.</p>
+<p>This feature is similar to the VHDL record and SystemVerilog
+interfaces.  The idea is that signals can be logically 
+grouped.  Logically grouping signals is extremely useful 
+in large complex designs.</p>
+<h2 id="conversion-guidelines">Conversion Guidelines</h2>
+<ol>
+<li>
+<p>The attribute referenced is a convertible type</p>
+<ol>
+<li>
+<p>Left hand side : Signal of type intbv or bool</p>
+</li>
+<li>
+<p>Right hand side : int, long, bool, intbv or a 
+     Signal of type int, long, bool, intbv</p>
+</li>
+</ol>
+</li>
+<li>
+<p>The object being referenced will be represented in 
+      the converted code as a long-net-name. Long-net-names 
+      are derived by object.attribute path</p>
+</li>
+<li>
+<p>Class path name extension, the name will simply replace
+      the "." in the Python source with an "_" in the target
+      conversion <abbr title="Hardware Description Language">HDL</abbr></p>
+</li>
+<li>
+<p>Hierarchy name rules.  The same rules that avoid 
+      name conflict for local Signals will be used in 
+      name extension</p>
+</li>
+</ol>
+<h2 id="examples">Examples</h2>
+<h3 id="example-1">Example 1</h3>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">class</span> <span class="nc">MyObj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">8</span><span class="p">:])</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">4</span><span class="p">:])</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">9</span><span class="p">:])</span>
+
+<span class="k">def</span> <span class="nf">m_ex1</span><span class="p">(</span><span class="n">clk</span><span class="p">,</span> <span class="n">xyz</span><span class="p">):</span>
+
+   <span class="nd">@always</span><span class="p">(</span><span class="n">clk</span><span class="o">.</span><span class="n">posedge</span><span class="p">)</span>
+   <span class="k">def</span> <span class="nf">hdl</span><span class="p">():</span>
+      <span class="n">xyz</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">xyz</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">xyz</span><span class="o">.</span><span class="n">y</span>
+
+   <span class="k">return</span> <span class="n">hdl</span>
+
+<span class="n">clk</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">xyz</span> <span class="o">=</span> <span class="n">MyObj</span><span class="p">()</span>
+<span class="n">toVerilog</span><span class="p">(</span><span class="n">m_ex1</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">xyz</span><span class="p">)</span>
+<span class="n">toVHDL</span><span class="p">(</span><span class="n">m_ex1</span><span class="p">,</span> <span class="n">clk</span><span class="p">,</span> <span class="n">xyz</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Verilog conversion for example 1</p>
+<div class="codehilite"><pre><span></span><span class="c1">// File: m_ex1.v</span>
+<span class="c1">// Generated by MyHDL 0.9dev</span>
+<span class="c1">// Date: Mon Jan 20 20:12:41 2014</span>
+
+<span class="no">`timescale</span> <span class="mh">1</span><span class="n">ns</span><span class="o">/</span><span class="mh">10</span><span class="n">ps</span>
+
+<span class="k">module</span> <span class="n">m_ex1</span> <span class="p">(</span>
+    <span class="n">clk</span><span class="p">,</span>
+    <span class="n">xyz_y</span><span class="p">,</span>
+    <span class="n">xyz_x</span><span class="p">,</span>
+    <span class="n">xyz_z</span>
+<span class="p">);</span>
+
+
+<span class="k">input</span> <span class="n">clk</span><span class="p">;</span>
+<span class="k">input</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">xyz_y</span><span class="p">;</span>
+<span class="k">input</span> <span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">xyz_x</span><span class="p">;</span>
+<span class="k">output</span> <span class="p">[</span><span class="mh">8</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">xyz_z</span><span class="p">;</span>
+<span class="kt">reg</span> <span class="p">[</span><span class="mh">8</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">xyz_z</span><span class="p">;</span>
+
+<span class="k">always</span> <span class="p">@(</span><span class="k">posedge</span> <span class="n">clk</span><span class="p">)</span> <span class="k">begin</span><span class="o">:</span> <span class="no">M_EX1_HDL</span>
+    <span class="n">xyz_z</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">xyz_x</span> <span class="o">+</span> <span class="n">xyz_y</span><span class="p">);</span>
+<span class="k">end</span>
+
+<span class="k">endmodule</span>
+</pre></div>
+
+
+<p>VHDL conversion for the example 1</p>
+<div class="codehilite"><pre><span></span><span class="c1">-- File: m_ex1.vhd</span>
+<span class="c1">-- Generated by MyHDL 0.9dev</span>
+<span class="c1">-- Date: Mon Jan 20 20:12:41 2014</span>
+
+
+<span class="k">library</span> <span class="nn">IEEE</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">IEEE.std_logic_1164.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">IEEE.numeric_std.</span><span class="k">all</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">std.textio.</span><span class="k">all</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">work.pck_myhdl_09.</span><span class="k">all</span><span class="p">;</span>
+
+<span class="k">entity</span> <span class="nc">m_ex1</span> <span class="k">is</span>
+    <span class="k">port</span> <span class="p">(</span>
+        <span class="n">clk</span><span class="o">:</span> <span class="k">in</span> <span class="kt">std_logic</span><span class="p">;</span>
+        <span class="n">xyz_y</span><span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">3</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="n">xyz_x</span><span class="o">:</span> <span class="k">in</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">7</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="n">xyz_z</span><span class="o">:</span> <span class="k">out</span> <span class="kt">unsigned</span><span class="p">(</span><span class="mi">8</span> <span class="k">downto</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="k">end</span> <span class="k">entity</span> <span class="nc">m_ex1</span><span class="p">;</span>
+
+
+<span class="k">architecture</span> <span class="nc">MyHDL</span> <span class="k">of</span> <span class="nc">m_ex1</span> <span class="k">is</span>
+
+<span class="k">begin</span>
+
+<span class="nc">M_EX1_HDL</span><span class="o">:</span> <span class="k">process</span> <span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">is</span>
+<span class="k">begin</span>
+    <span class="k">if</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clk</span><span class="p">)</span> <span class="k">then</span>
+        <span class="n">xyz_z</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">resize</span><span class="p">(</span><span class="n">xyz_x</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">+</span> <span class="n">xyz_y</span><span class="p">);</span>
+    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
+<span class="k">end</span> <span class="k">process</span> <span class="nc">M_EX1_HDL</span><span class="p">;</span>
+
+<span class="k">end</span> <span class="k">architecture</span> <span class="nc">MyHDL</span><span class="p">;</span>
+</pre></div>
+
+
+<h3 id="example-2">Example 2</h3>
+<p>Embedded memory-mapped buses are common in designs.  The 
+following is a simple memory-mapped bus definition and 
+an example of a conversion using the bus.  The conversion
+code is only a snippet of the full converted code, relevant
+code with the name extension.</p>
+<div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">BareBoneBus</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wr</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rd</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ack</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rdat</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">8</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wdat</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">8</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addr</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">16</span><span class="p">:])</span>
+</pre></div>
+
+
+<p>Verilog conversion for example 2</p>
+<div class="codehilite"><pre><span></span><span class="k">always</span> <span class="p">@(</span><span class="k">posedge</span> <span class="n">clock</span><span class="p">)</span> <span class="k">begin</span><span class="o">:</span> <span class="no">M_SIMPLE_GL_RTL</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">reset</span> <span class="o">==</span> <span class="mh">1</span><span class="p">)</span> <span class="k">begin</span>
+        <span class="n">gl_bb_rdat</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+        <span class="n">leds</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+        <span class="n">gl_lled</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+        <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+    <span class="k">end</span>
+    <span class="k">else</span> <span class="k">begin</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">gl_bb_rd</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)))</span> <span class="k">begin</span>
+            <span class="n">gl_bb_rdat</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">gl_bb_wr</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)))</span> <span class="k">begin</span>
+            <span class="n">gl_lled</span> <span class="o">&lt;=</span> <span class="n">gl_bb_wdat</span><span class="p">;</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b1</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="k">else</span> <span class="k">begin</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">;</span>
+        <span class="k">end</span>
+        <span class="n">leds</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+
+
+<p>VHDL conversion for the example 2</p>
+<div class="codehilite"><pre><span></span><span class="nc">M_SIMPLE_GL_RTL</span><span class="o">:</span> <span class="k">process</span> <span class="p">(</span><span class="n">clock</span><span class="p">)</span> <span class="k">is</span>
+<span class="k">begin</span>
+    <span class="k">if</span> <span class="n">rising_edge</span><span class="p">(</span><span class="n">clock</span><span class="p">)</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">reset</span> <span class="o">=</span> <span class="sc">&#39;1&#39;</span><span class="p">)</span> <span class="k">then</span>
+            <span class="n">gl_bb_rdat</span> <span class="o">&lt;=</span> <span class="n">to_unsigned</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+            <span class="n">leds</span> <span class="o">&lt;=</span> <span class="n">to_unsigned</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+            <span class="n">gl_lled</span> <span class="o">&lt;=</span> <span class="n">to_unsigned</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">);</span>
+            <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+        <span class="k">else</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">bool</span><span class="p">(</span><span class="n">gl_bb_rd</span><span class="p">)</span> <span class="k">and</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span> <span class="k">then</span>
+                <span class="n">gl_bb_rdat</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
+                <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="sc">&#39;1&#39;</span><span class="p">;</span>
+            <span class="k">elsif</span> <span class="p">(</span><span class="n">bool</span><span class="p">(</span><span class="n">gl_bb_wr</span><span class="p">)</span> <span class="k">and</span> <span class="p">(</span><span class="n">gl_bb_addr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span> <span class="k">then</span>
+                <span class="n">gl_lled</span> <span class="o">&lt;=</span> <span class="n">gl_bb_wdat</span><span class="p">;</span>
+                <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="sc">&#39;1&#39;</span><span class="p">;</span>
+            <span class="k">else</span>
+                <span class="n">gl_bb_ack</span> <span class="o">&lt;=</span> <span class="sc">&#39;0&#39;</span><span class="p">;</span>
+            <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
+            <span class="n">leds</span> <span class="o">&lt;=</span> <span class="n">gl_lled</span><span class="p">;</span>
+        <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
+    <span class="k">end</span> <span class="k">if</span><span class="p">;</span>
+<span class="k">end</span> <span class="k">process</span> <span class="nc">M_SIMPLE_GL_RTL</span><span class="p">;</span>
+</pre></div>
+
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Interfaces provide a powerful method to encapsulate signals and 
+to group signals that are associated. The straight-forward net-name 
+extraction creates a unique net in the lower-level HDLs that can be 
+mapped back to the Signal in a data structure. </p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>Keerthan Jaic implemented this MEP (interface conversion) in
+0.9, this was no small task!  Jan Decaluwe provided feedback
+that provided clarity and focus.</p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Conversion of Interfaces</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#name-expansion">Name Expansion</a></li>
+<li><a href="#conversion-guidelines">Conversion Guidelines</a></li>
+<li><a href="#examples">Examples</a><ul>
+<li><a href="#example-1">Example 1</a></li>
+<li><a href="#example-2">Example 2</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-107.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-107'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

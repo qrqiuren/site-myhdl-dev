@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Writing Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="active" class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/guide/">Guide</a></li>
+       <li class="active">Writing Tests</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>Writing Tests
+</h1>
+        <p><i>Last modified: 22-Sep-2015 by Christopher Felton</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+            <h2 id="introduction">Introduction</h2>
+<p>The MyHDL project contains an extensive test suite.  The tests 
+are critical to the quality and expansion of the project.  As 
+a developer (new or not) one of the first things you will do 
+is write a test.  This document is an introduction to the MyHDL
+test suite.</p>
+<h2 id="myhdl-test-suite">MyHDL test suite</h2>
+<p>The test suite contains two main sets of tests:</p>
+<ul>
+<li>
+<p>Core: The core tests all the hardware description types and
+  extensions in the package.  In the repository core tests can be 
+  found under: <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/core">myhdl/test/core</a></p>
+</li>
+<li>
+<p>Conversion: The conversion tests verify the conversion 
+  from MyHDL to Verilog and VHDL.  In the repository conversion 
+  tests can be found under: <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion">myhdl/test/conversion</a></p>
+</li>
+</ul>
+<p>The conversion tests are most often added under <a href="https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/conversion/general">myhdl/test/conversion/general</a>
+and make use of <a href="http://docs.myhdl.org/en/latest/whatsnew/0.6.html#conversion-of-test-benches">convertible testbenches</a>
+There are additional conversion tests that use cosimulation but these
+tests are not covered in this document.</p>
+<!-- link references used above -->
+
+<p>The test suite uses <a href="http://pytest.org">pytest</a> as a
+test framework and test runner.  The MyHDL development follows a 
+test-driven-design (TDD) methodology, in most cases this involves
+having a test generated before a feature is added or a bug is 
+fixed.</p>
+<p>The <a href="http://pytest.org">pytest</a> package will need to be installed 
+to run the tests.</p>
+<p>As bugs or issues are discovered tests are created to reproduce
+the issue.  An issue description is first entered into the <a href="https://github.com/jandecaluwe/myhdl/issues" title="Issue Tracker">Issue Tracker</a>.
+Then a test can be created in <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">myhdl/test/bugs/</a>
+The test name should contain the github issue number:</p>
+<div class="codehilite"><pre><span></span>test_issue_&lt;github issue #&gt;.py
+</pre></div>
+
+
+<p>The tests in the <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">bugs</a> directory are a mix of core and 
+conversion tests depending on the issue.  The tests in this directory need to
+be invoked similar to the tests in the conversion/general (see below).</p>
+<h3 id="hdl-simulators"><abbr title="Hardware Description Language">HDL</abbr> simulators</h3>
+<p>In addition to <a href="http://pytest.org">pytest</a> an <abbr title="Hardware Description Language">HDL</abbr> simulator will be 
+required to run the conversion tests.  The following is a list of 
+simulators commonly used with the conversion tests.  A simulator 
+or analyzer will need to be installed to run the conversion tests.</p>
+<ul>
+<li>
+<p>Icarus Verilog (iverilog): Icarus Verilog is a Verilog simulation 
+  and synthesis tool.  Icarus is an <a href="https://github.com/steveicarus/iverilog">open-source project</a></p>
+</li>
+<li>
+<p>GHDL (ghdl): GHDL is an open source VHDL simulator. An <a href="http://design4hardware.blogspot.com/2015/04/install-ghdl.html">installation 
+  guide</a> is available. </p>
+</li>
+<li>
+<p>Modelsim (vcom, vlog): vcom and vlog are VHDL and Verilog compilers, 
+  respectively.  They ship with <a href="http://www.mentor.com/products/fv/modelsim/">ModelSim by MentorGraphics</a>.
+  For installation tips <a href="http://mattaw.blogspot.com/2014/05/making-modelsim-altera-starter-edition.html">this guide</a> 
+  is useful.</p>
+</li>
+</ul>
+<p>Other simulators are supported and it is not difficult
+to add a new simulator or analyzer.</p>
+<h3 id="running-core-tests">Running core tests</h3>
+<div class="codehilite"><pre><span></span>    &gt;&gt; python setup.py develop
+    &gt;&gt; cd myhdl/test/core
+    &gt;&gt; py.test   # or make
+</pre></div>
+
+
+<p>The above command will run all the tests present in core folder. 
+If you only want to run a specific test you can do the following.</p>
+<div class="codehilite"><pre><span></span>    &gt;&gt; py.test &lt;name_of_test&gt;
+</pre></div>
+
+
+<h3 id="running-conversion-tests">Running conversion tests</h3>
+<div class="codehilite"><pre><span></span>    &gt;&gt; cd myhdl/test/conversion/general
+    &gt;&gt; py.test --sim=(&#39;iverilog&#39;, &#39;ghdl&#39;, &#39;vlog&#39;, &#39;vcom&#39;) 
+</pre></div>
+
+
+<p>The <code>--sim</code> command line argument is used to select the simulator 
+used in the tests.  Many of the tests in the <a href="(https://github.com/jandecaluwe/myhdl/tree/master/myhdl/test/bugs).">test/bugs</a> 
+also verify converted results.  The bug/issue tests will need the 
+<code>--sim</code> argument.</p>
+<h2 id="writing-tests">Writing tests</h2>
+<!-- @todo: some intro here -->
+
+<h3 id="general-guidelines">General guidelines</h3>
+<ul>
+<li>
+<p>Keep it Simple: tests do not have to be complex hardware designs. 
+  They should be simple enough to quickly understand.</p>
+</li>
+<li>
+<p>Focus on a specific feature/function: a test should target a 
+  specific feature or issue.  This reduces complicated tests that 
+  can be difficult to understand and maintain.</p>
+</li>
+<li>
+<p>Fully tested: for the feature/issue being tested make sure all 
+  aspects are tested.  Test expected failures as well as expected 
+  success.</p>
+</li>
+<li>
+<p>Debug friendly:  Try and provide as much information as possible 
+  when a test detects an error.  This will assist in future debugging.</p>
+</li>
+</ul>
+<!-- @todo: new section name -->
+
+<h3 id="using-pytest">Using <code>py.test</code></h3>
+<p>The following is a brief overview of the test structure using the 
+<a href="pytest.org">pytest</a> style.  Refer to the <a href="pytest.org">pytest site</a> 
+for more information on the pytest framework and test structure.</p>
+<!-- @todo: brief summary of  pytest -->
+
+<ul>
+<li>
+<p>Files with names <code>test_*.py</code> and functions with names <code>test_*</code> will
+  be executed by the <code>py.test</code> runner.</p>
+</li>
+<li>
+<p>Functions with names <code>test_*</code> will be executed as tests by the
+  test runner.</p>
+</li>
+<li>
+<p>Use Python's <code>assert</code> statements in the functions to validate 
+  expected results and responses.</p>
+</li>
+</ul>
+<h4 id="example">Example</h4>
+<p>The following is a toy example to test the <code>intbv</code> assignment 
+and bounds.</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">myhdl</span>
+<span class="kn">from</span> <span class="nn">myhdl</span> <span class="kn">import</span> <span class="n">intbv</span>
+
+<span class="k">def</span> <span class="nf">test_intbv_assign</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">8</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+     <span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">assert</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">4</span>
+    <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">[:]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9</span>
+</pre></div>
+
+
+<h3 id="writing-conversion-tests">Writing conversion tests</h3>
+<p>The MyHDL package has simulators that are registered in the code
+base.  As mentioned above a registered simulator is selected by
+using the <code>--sim=&lt;sim&gt;</code> argument with <code>py.test</code>.  Two functions 
+can be used with the registered simulators to verify converted code.<br />
+The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> and <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.verify">verify</a> functions.</p>
+<p>The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> function is used to verify the converted 
+code passes the analysis stage (compilation).  The <a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.conversion.analyze">analyze</a> 
+function is invoked similar to the conversion functions and the 
+<a href="http://docs.myhdl.org/en/stable/manual/reference.html#myhdl.traceSignals">traceSignals</a>.</p>
+<h4 id="example-using-analyze">Example using <code>analyze</code></h4>
+<p>The following example has a valid module and we can check the 
+conversion using the <code>analyze</code> function.  As mentioned with will
+invoke the simulator’s analysis.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">digital_logic</span><span class="p">():</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">a</span>
+    <span class="k">return</span> <span class="n">rtl</span>
+
+
+<span class="k">def</span> <span class="nf">test_valid_analyze</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+    <span class="k">assert</span> <span class="n">analyze</span><span class="p">(</span><span class="n">my_module_exposes_issue</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+
+
+<p>The above can be run with:</p>
+<div class="codehilite"><pre><span></span>   &gt;&gt; py.test —sim=iverilog test_valid_module.py
+</pre></div>
+
+
+<h4 id="example-using-verify">Example using <code>verify</code></h4>
+<p>The verify function will use a convertible test bench and run the
+converted code with the Verilog or VHDL simulator.  First a 
+convertible test bench is created.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">tb_valid_module</span><span class="p">():</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>    
+    <span class="n">tbdut</span> <span class="o">=</span> <span class="n">my_valid_module</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+    <span class="nd">@instance</span>
+    <span class="k">def</span> <span class="nf">tbstim</span><span class="p">():</span>
+        <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="bp">False</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">yield</span> <span class="n">delay</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="o">==</span> <span class="bp">True</span>
+
+    <span class="k">return</span> <span class="n">tbdut</span><span class="p">,</span> <span class="n">tbstim</span>
+
+
+<span class="k">def</span> <span class="nf">test_valid_verify</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">verify</span><span class="p">(</span><span class="n">tb_valid_module</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</pre></div>
+
+
+<p>If the above is added to the same file, we can invoke py.test 
+test same as above and the second test will be run as well.</p>
+<p>A template that can be used with Eclipse and othe editors 
+can be found <a href="https://gist.github.com/josyb/81a837f3ff3dd3eaae2a">here</a></p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Writing Tests</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#myhdl-test-suite">MyHDL test suite</a><ul>
+<li><a href="#hdl-simulators">HDL simulators</a></li>
+<li><a href="#running-core-tests">Running core tests</a></li>
+<li><a href="#running-conversion-tests">Running conversion tests</a></li>
+</ul>
+</li>
+<li><a href="#writing-tests">Writing tests</a><ul>
+<li><a href="#general-guidelines">General guidelines</a></li>
+<li><a href="#using-pytest">Using py.test</a><ul>
+<li><a href="#example">Example</a></li>
+</ul>
+</li>
+<li><a href="#writing-conversion-tests">Writing conversion tests</a><ul>
+<li><a href="#example-using-analyze">Example using analyze</a></li>
+<li><a href="#example-using-verify">Example using verify</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

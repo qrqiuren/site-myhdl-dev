@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>VHDL Cosimulation with GHDL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li class="active"><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/ideas/">Ideas</a></li>
+       <li class="active">VHDL Cosimulation with GHDL</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>VHDL Cosimulation with GHDL
+</h1>
+        <p><i>Last modified: 18-Mar-2014 by Jan Decaluwe</i></p>
+    </div>
+
+    <div class="row">
+
+          <div class="col-md-9 content" role="main">
+            <p>With the MyHDL release 0.6 VHDL conversion is supported.  At the
+time of the release it was not known if there was an open-source
+VHDL simulator that supported foreign interface for Cosimulation.<br />
+This page was created to capture information needed to implemented the
+foreign interface for <a href="http://ghdl.free.fr/">GHDL</a>.</p>
+<p>GHDL is a VHDL compiler / simulator built
+on top of gcc.  It is actively supported 
+and developed which makes it an ideal choice for a open-source
+VHDL simulator to integrate with MyHDL.</p>
+<p>The first item that needs to be determined is which foreign interface to 
+use VPI or VHPI.  </p>
+<h2 id="vpi-or-vhpi">VPI or VHPI</h2>
+<p>This is an ongoing investigation below is essentially a log of recent information.</p>
+<p><strong>03-Feb-2010</strong></p>
+<p><strong>VPI</strong> is part of the Verilog PLI standard and a subset
+of VPI has been added to GHDL to support
+<a href="http://ivi.sourceforge.net/">IVI</a>. According to a newsgroup post 
+VPI might not be the best option because VPI has not been maintained
+in many years. But on the GHDL website there
+are some examples of the VPI interface available.  And using the examples
+as a template the cver VPI implementation can be compiled and loaded 
+into GHDL.  Nothing interesting was done with
+the interface other than compiling and loading in a
+simulation.  </p>
+<p><a href="/ideas/vhdl-cosim/ghdl-vpi.html" title="Modifications to GHDL VPI Examples">Here</a> are the code modifications to compile
+the MyHDL VPI interface and load it in GHDL.</p>
+<p><strong>VHPI</strong> is the VHDL standard equivalent of VPI. 
+There is 
+<a href="http://ghdl.free.fr/ghdl/Interfacing-to-other-languages.html#Interfacing-to-other-languages">some mention of VHPI</a> but I have not come across any examples or created 
+a working example. </p>
+<p>At this point it is unclear which interface to use.  More information will be posted 
+to this page as it is available.</p>
+<h3 id="cver-vpi-functions-and-ghdl-support">Cver VPI Functions and GHDL Support</h3>
+<p>The following is a table of the VPI functions used as part of the
+cver implementation and the known status in <a href="http://ghdl.free.fr/"> GHDL</a>.</p>
+<table class="table">
+<thead>
+<tr>
+<th>VPI Function</th>
+<th>GHDL Status</th>
+<th>MyHDL Usage</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vpi_printf</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_control</td>
+<td>unknown</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vpi_get_time</td>
+<td>unknown</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vpi_handle</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_iterate</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_get</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_get_str</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_scan</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_register_cb</td>
+<td>supported</td>
+<td></td>
+<td>Demonstrated in vpi1.c example</td>
+</tr>
+<tr>
+<td>vpi_free_object</td>
+<td>unknown</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vpi_put_value</td>
+<td>unknown</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>vpi_register_systf</td>
+<td>unknown</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ghdl-vhpi-support">GHDL VHPI Support</h3>
+<p>If the VHPI was to be used a new set of C code will need to be implemented.
+VHPI would be the secondary choice and only used if VPI support was too minimal
+and required adding VPI to GHLD.  If that were the case VHPI would be used.</p>
+<p>Quote from the GHDL manual:</p>
+<p>"""</p>
+<p>5.9 Interfacing to other languages</p>
+<p>Interfacing with foreign languages is possible only on GNU/Linux systems.</p>
+<p>You can define a subprogram in a foreign language (such as C or Ada) and import it in a VHDL design.
+5.9.1 Foreign declarations</p>
+<p>Only subprograms (functions or procedures) can be imported, using the foreign attribute. 
+In this example, the sin function is imported:</p>
+<div class="codehilite"><pre><span></span> package math is
+   function sin (v : real) return real;
+   attribute foreign of sin : function is &quot;VHPIDIRECT sin&quot;;
+ end math;
+
+ package body math is
+   function sin (v : real) return real is
+   begin
+     assert false severity failure;
+   end sin;
+ end math;
+</pre></div>
+
+
+<p>"""</p>
+<p>The VHPI seems too limiting at this point in time.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>No conclusion yet!</p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">VHDL Cosimulation with GHDL</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#vpi-or-vhpi">VPI or VHPI</a><ul>
+<li><a href="#cver-vpi-functions-and-ghdl-support">Cver VPI Functions and GHDL Support</a></li>
+<li><a href="#ghdl-vhpi-support">GHDL VHPI Support</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>

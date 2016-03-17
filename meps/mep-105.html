@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shadow signals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap-flatly.min.css" rel="stylesheet" media="screen">
+    <!-- customizations -->
+    <link href="/css/site.css" rel="stylesheet" media="screen">
+    <!-- pygments -->
+    <link href="/css/syntax.css" rel="stylesheet" media="screen">
+    <!-- icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/media/myhdl_favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48954307-1', 'myhdl.org');
+  ga('send', 'pageview');
+
+</script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">MyHDL / dev</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-left">
+ 
+            <li class="dropdown">
+              <a href="/guide/" class="dropdown-toggle" data-toggle="dropdown">Guide <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/guide/guide.html">Guide</a></li>    
+                <li><a href="/guide/guide_tests.html">Writing Tests</a></li>    
+              </ul>
+            </li>
+            <li class="active"><a href="/meps/">MEPs</a></li>
+            <li><a href="/tasks/">Tasks</a></li>
+            <li><a href="/ideas/">Ideas</a></li>
+            <li><a href="/archive/">Archive</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/info.html">Info</a></li>
+          </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+<div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/meps/">MEPs</a></li>
+<li><a href="/meps/mep-105.html">MEP 105</a></li>
+    </ol>
+
+    <div class="page-header">
+<h1>MEP 105: Shadow signals&nbsp;&nbsp;
+</h1>
+        <p><i>Last modified: 25-Dec-2013 by Jan Decaluwe</i></p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-7 content" role="main">
+<table class="table table-striped table-condensed preamble">
+<tbody>
+    <tr><td><strong>MEP</strong></td><td>105</td></tr>
+    <tr><td><strong>Author</strong></td><td>Jan Decaluwe</td></tr>
+    <tr><td><strong>Status</strong></td><td>Final</td></tr>
+    <tr><td><strong>Created</strong></td><td>19-Jun-2009</td></tr>
+    <tr><td><strong>MyHDL-version</strong></td><td>0.7</td></tr>
+</tbody>
+</table>
+            <h2 id="introduction">Introduction</h2>
+<p>Compared to mainstream HDLs, MyHDL signals are less flexible. For example,
+slicing a signal returns a slice of the current value. For behavioral code,
+this is just fine. However, it implies that you cannot use such as slice in
+structural descriptions. In other words, a signal slice cannot be used as a
+signal. Obviously, this behavior is restrictive and confusing to users of
+mainstream HDLs.</p>
+<p>In this MEP, we will propose a solution for most use cases of signal slicing
+and similar modelling problems. The basis of the solution is new kind of signal
+subclass, called the <em>shadow signal</em>.</p>
+<h2 id="analysis">Analysis</h2>
+<p>Consider signal slicing. In MyHDL, you take a slice as follows:</p>
+<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+
+
+<p>Under the hood, the slicing operation is delegated to the signal's current
+value, just like for any other operator. Within behavioral code - the code you
+write within a generator - this works just like expected. However, it is clear
+that such a slice is useless when writing structural code. Structure requires
+signals as composing elements, not plain values.</p>
+<p>This behavior is restrictive and confusing because in HDLs such as Verilog and
+VHDL, signal slices can indeed be used as signals. To understand this better,
+let's define two forms of slicing:</p>
+<dl class="dl-horizontal">
+<dt>Behavioral slicing</dt>
+<dd>Slicing is delegated to the current signal value. 
+This is how MyHDL signals behave, as described above.</dd>
+<dt>Structural slicing</dt>
+<dd>The slice behaves as another signal.</dd>
+</dl>
+<p>It is clear that behavioral slicing is easy and cheap. On the other hand,
+structural slicing in its most general form is complex and expensive.
+Structural slices should behave as some kind of proxy objects of the original
+signal, reflecting and propagating changes to the original signal. At the same
+time, they should be behave as signals themselves.</p>
+<p>In Verilog and VHDL, structural and behavioral slicing are supported by the
+same slicing syntax. If you think about it, this is remarkable, because the two
+forms of slicing are so different in behavior and complexity. In Verilog and
+VHDL, this is possible because they are compiled languages. From the context,
+the compiler can find out whether behavioral or structural slicing should be
+used. Obviously, it will avoid the complexities of structural slicing within
+code that merely needs a slice of the current signal value.</p>
+<p>In MyHDL, we don't have this luxury as there is no compiler. Slicing therefore
+behaves the same in all contexts. As the primary focus of MyHDL is behavioral
+descriptions, signal slicing is implemented in the easy way, as behavioral
+slicing. To support structural slicing, we will need new concepts and new
+syntax.</p>
+<p>To find a solution for structural slicing, let's consider the current
+workaround. If you want to use a signal slice as a signal elsewhere, you can
+define a new signal and a generator as follows:</p>
+<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">m</span><span class="o">-</span><span class="n">n</span><span class="p">:</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nd">@always_comb</span>
+<span class="k">def</span> <span class="nf">slice_shadower</span><span class="p">():</span>
+    <span class="n">sl</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="n">m</span><span class="p">:</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+
+
+<p>While this may feel redundant and inconvenient, it works just fine
+functionally. It is also conceptually simple. However, note that this
+workaround is not fully general. It works perfectly for reading signal slices
+elsewhere in the code. However, it doesn't work for <em>driving</em> signal slices.
+Nor is there an obvious similar solution for that functionality. In short, we
+have a good and simple workaround for reading but not for driving. Let's
+reflect on this to see whether it is a problem or not.</p>
+<p>Reading and driving a signal are not symmetrical. Reading may occur on any
+place in the design without any problem. However, for the most common case of
+unresolved signals, driving should normally happen from a single generator
+only. In Verilog and VHDL, it is possible to write to exclusive parts of such a
+signal from different processes or always blocks. But even then, I wouldn't
+call that good practice. I don't think many users would miss that functionality
+if it were not available. My conclusion is that it is not a problem if we don't
+have a solution to drive signal slices structurally. Reading signal slices
+should cover most, if not all, of the practical use cases.</p>
+<p>To summarize, my conclusion for structural slicing is as follows:</p>
+<ul>
+<li><strong>Read-only is OK</strong>. 
+A solution that only covers reading slices is just fine.</li>
+<li><strong>Delta cycles are OK</strong>. 
+In Verilog and VHDL, a structural slice directly refers to the original signal.
+In the MyHDL workaround as describe above, we simply introduce a new signal
+that follows the original slice after a delta cycle. But this is just fine:
+delta cycles are intended to maintain illusion of zero time delays while
+preserving proper event ordering.</li>
+</ul>
+<p>We have come up with a solution that basically implements the workaround
+automatically. However, structural slicing is not the only modeling issue.
+Obviously, indexing is a similar problem. Moreover, other modeling problems can
+be interpreted and solved in a similar way. Therefore, the first step is an
+abstract signal subclass that implements the general ideas outlined above: the
+shadow signal.</p>
+<h2 id="introducing-shadow-signals">Introducing shadow signals</h2>
+<p>A shadow signal is related to another signal or signals as a shadow
+to its parent object. It follows any change to its parent signal
+or signals directly. However, it is not the same as the original:
+in particular, the user cannot assign to a shadow signal. Also,
+there may be a delta cycle delay between a change in the original
+and the corresponding change in the shadow signal. Finally, to
+be useful, the shadow signal performs some kind of transformation
+of the values of its parent signal or signals.</p>
+<p>A shadow signal is convenient because it is directly constructed
+from its parent signals. The constructor infers everything that's needed:
+the type info, the initial value, and the transformation of the
+parent signal values. For simulation, the transformation is defined by
+a generator which is automatically created and added to the list of
+generators to be simulated. For conversion, the constructor defines
+a piece of dedicated Verilog and VHDL code which is automatically
+added to the convertor output.</p>
+<h2 id="concrete-shadow-signal-subclasses">Concrete shadow signal subclasses</h2>
+<h3 id="_slicesignal">_SliceSignal</h3>
+<p>The original inspiration for shadow signals was to a have solution for
+structural slicing. This is the purpose of the <code>_SliceSignal</code> 
+subclass.</p>
+<p><strong><code>class _SliceSignal</code></strong><code>(sig, left[, right=None])</code></p>
+<p>This class implements read-only structural slicing and indexing. It creates a
+new signal that shadows the slice or index of the parent signal <code>sig</code>. If the
+<code>right</code> parameter is ommitted, you get indexing instead of slicing.  Parameters
+<code>left</code>  and <code>right</code> have the usual meaning for slice indices: in particular,
+<code>left</code> is non-inclusive but <code>right</code> is inclusive. <code>sig</code> should be appropriate
+for slicing and indexing, which means it should be based on <code>intbv</code> in
+practice.</p>
+<p>The class constructors is not intended to be used explicitly. Instead,
+regular signals now have a call interface that returns a _SliceSignal:</p>
+<p><strong><code>__call__</code></strong><code>(left[, right=None])</code></p>
+<p>Therefore, instead of:</p>
+<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">_SliceSignal</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</pre></div>
+
+
+<p>you can do:</p>
+<div class="codehilite"><pre><span></span><span class="n">sl</span> <span class="o">=</span> <span class="n">sig</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Obviously, the call interface was intended to be similar to a slicing
+interface. Of course, it is not exacly the same which may seem inconvenient. On
+the other hand, there are Python functions with a similar slicing functionality
+and a similar interface, such as the <code>range</code> function.  Moreover, the call
+interface conveys the notion that something is being constructed, which is what
+really happens.</p>
+<h3 id="concatsignal">ConcatSignal</h3>
+<p><code>_SliceSignal</code> creates a shadow signal on a part of another signal. The
+opposite is also useful: a signal that shadows a composition of other signals.
+This is the purpose of the <code>ConcatSignal</code> subclass.</p>
+<p><strong><code>class ConcatSignal</code></strong><code>(*args)</code></p>
+<p>This class creates a new signal that shadows the concatenation of its parent
+signal values. You can pass an arbitrary number of signals to the constructor.
+The signal arguments should be bit-oriented with a defined number of bits.</p>
+<h3 id="tristatesignal">TristateSignal</h3>
+<p>As often is the case, the idea of shadow signals had some useful side effects.
+In particular, I realized that the <code>TristateSignal</code> proposed in <a href="/meps/mep-103.html" title="Tristate and bidirectional signals">Tristate and bidirectional signals</a>
+could be interpreted as a shadow signal of its drivers. With the machinery of
+the shadow signal in place, it became easier to support this for simulation and
+conversion.</p>
+<p><strong><code>class TristateSignal</code></strong><code>(val)</code></p>
+<p>A shadow signal that supports tristate values. For more info,
+see <a href="/meps/mep-103.html" title="Tristate and bidirectional signals">Tristate and bidirectional signals</a>.</p>
+<h2 id="methodology-notes">Methodology notes</h2>
+<p>Shadow signals are intended to be constructed at elaboration time, that is,
+before the simulation or conversion starts.  If required, it may be possible to
+lift this restriction for modeling (not for conversion), but I don't think this
+will be necessary.</p>
+<p>The implication is that shadow signals should be constructed outside generator
+code (like other signals normally.) A happy side effect is that you can use any
+Python code in the book to construct them, without compromising convertibility.
+Therefore, they should be ideal to describe complex structures and convert them
+to Verilog and VHDL.</p>
+<p>Be careful though. Shadow signals, being signals, are expensive and slow
+compared to plain variables. Using them to describe complex structures
+elegantly is fine. For other purposes, prefer behavioral code and variables
+within generators.</p>
+<h2 id="examples">Examples</h2>
+<p>The examples are taken from design problems described
+<a href="http://www.antfarm.org/blog/aaronf/2008/02/myhdl_example_permute.html">here</a>.</p>
+<h3 id="a-permutation-circuit">A permutation circuit</h3>
+<p>Consider a circuit whose output should be a permutation of the inputs bits. In
+a particular instance, the structure is fixed, but we want to make the design
+parametrizable by defining the permutation by a <code>mapping</code> parameter. Using
+shadow signals, the design can be described as follows:</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+<span class="sd">&quot;&quot;&quot; Permute input bits.</span>
+
+<span class="sd">    x: output port</span>
+<span class="sd">    a: input port</span>
+<span class="sd">    mapping: tuple that maps input bit indices </span>
+<span class="sd">             to output bit positions</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">]</span> <span class="c1"># index signals</span>
+
+    <span class="n">q</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">assign</span><span class="p">():</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">q</span>
+
+    <span class="k">return</span> <span class="n">assign</span>
+</pre></div>
+
+
+<p>Shadow signals are convertible to Verilog and VHDL.
+For example, consider the following parameter definitions:</p>
+<div class="codehilite"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="n">intbv</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The output Verilog code for this example is as follows:</p>
+<div class="codehilite"><pre><span></span><span class="k">module</span> <span class="n">permute</span> <span class="p">(</span>
+    <span class="n">x</span><span class="p">,</span>
+    <span class="n">a</span>
+<span class="p">);</span>
+
+<span class="k">output</span> <span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">x</span><span class="p">;</span>
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">x</span><span class="p">;</span>
+<span class="k">input</span> <span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">a</span><span class="p">;</span>
+
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">q</span><span class="p">;</span>
+
+<span class="k">assign</span> <span class="n">q</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mh">0</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">q</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mh">2</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">q</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mh">1</span><span class="p">];</span>
+
+<span class="k">assign</span> <span class="n">x</span> <span class="o">=</span> <span class="n">q</span><span class="p">;</span>
+
+<span class="k">endmodule</span>
+</pre></div>
+
+
+<h3 id="an-error-bit-adapter-circuit">An error bit adapter circuit</h3>
+<p>A more complicated example shows the capabilities of inline scripting with
+shadow signals. The circuit maps input error bits <code>i_err</code> to output error bits
+<code>o_err</code>, according to a spec. The output spec <code>o_spec</code> is a tuple of strings.
+The input spec <code>i_spec</code> is a mapping of strings to bit indices.  For example:</p>
+<div class="codehilite"><pre><span></span><span class="n">o_spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;other&#39;</span><span class="p">,</span> <span class="s1">&#39;nomatch&#39;</span><span class="p">)</span>
+<span class="n">i_spec</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;a&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span> 
+           <span class="s1">&#39;e&#39;</span> <span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span> <span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="p">}</span>
+</pre></div>
+
+
+<p>Strings 'other' and 'nomatch' are special. 'nomatch' specifies that the output
+error bit on that position should be assigned to zero. 'other' specifies a bit
+that is the or-ing of all input error bits whose string key is not present in
+the output spec.  For other output spec strings, the corresponding input bit
+index is looked up in the input spec.</p>
+<p>For the design description, the idea is to assemble the individual bits for the
+<code>other</code> and <code>o_err</code> vectors in a list, and then use <code>ConcatSignal</code> to make new
+signals out of them:</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">adapter</span><span class="p">(</span><span class="n">o_err</span><span class="p">,</span> <span class="n">i_err</span><span class="p">,</span> <span class="n">o_spec</span><span class="p">,</span> <span class="n">i_spec</span><span class="p">):</span>
+
+    <span class="n">nomatch</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">other</span> <span class="o">=</span> <span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">o_err_bits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">o_spec</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;other&#39;</span><span class="p">:</span>
+            <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;nomatch&#39;</span><span class="p">:</span>
+            <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nomatch</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i_spec</span><span class="p">[</span><span class="n">s</span><span class="p">])</span> <span class="c1"># index signal</span>
+            <span class="n">o_err_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
+    <span class="n">o_err_vec</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">o_err_bits</span><span class="p">)</span>
+
+    <span class="n">other_bits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">i_spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">o_spec</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">bit</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="c1"># index signal</span>
+        <span class="n">other_bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
+    <span class="n">other_vec</span> <span class="o">=</span> <span class="n">ConcatSignal</span><span class="p">(</span><span class="o">*</span><span class="n">other_bits</span><span class="p">)</span>
+
+    <span class="nd">@always_comb</span>
+    <span class="k">def</span> <span class="nf">assign</span><span class="p">():</span>
+        <span class="n">nomatch</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="p">(</span><span class="n">other_vec</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">o_err</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">o_err_vec</span>
+
+    <span class="k">return</span> <span class="n">assign</span>
+</pre></div>
+
+
+<p>For the example spec above, the convertor generates
+the following Verilog code for the design instance:</p>
+<div class="codehilite"><pre><span></span><span class="k">module</span> <span class="n">adapter</span> <span class="p">(</span>
+    <span class="n">o_err</span><span class="p">,</span>
+    <span class="n">i_err</span>
+<span class="p">);</span>
+
+<span class="k">output</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">o_err</span><span class="p">;</span>
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">o_err</span><span class="p">;</span>
+<span class="k">input</span> <span class="p">[</span><span class="mh">5</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">i_err</span><span class="p">;</span>
+
+<span class="kt">wire</span> <span class="n">nomatch</span><span class="p">;</span>
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">o_err_vec</span><span class="p">;</span>
+<span class="kt">wire</span> <span class="n">other</span><span class="p">;</span>
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">other_vec</span><span class="p">;</span>
+
+<span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">0</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">1</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">other</span><span class="p">;</span>
+<span class="k">assign</span> <span class="n">o_err_vec</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nomatch</span><span class="p">;</span>
+<span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">2</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">4</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">3</span><span class="p">];</span>
+<span class="k">assign</span> <span class="n">other_vec</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i_err</span><span class="p">[</span><span class="mh">5</span><span class="p">];</span>
+
+<span class="k">assign</span> <span class="n">nomatch</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+<span class="k">assign</span> <span class="n">other</span> <span class="o">=</span> <span class="p">(</span><span class="n">other_vec</span> <span class="o">!=</span> <span class="mh">0</span><span class="p">);</span>
+<span class="k">assign</span> <span class="n">o_err</span> <span class="o">=</span> <span class="n">o_err_vec</span><span class="p">;</span>
+
+<span class="k">endmodule</span>
+</pre></div>
+
+
+<h2 id="status-and-conclusion">Status and conclusion</h2>
+<p>A initial version of shadow signal support has been pushed to the mercurial
+repository under development version 0.7dev. There are some unit tests that
+check basic functionality, but there are no appropriate usage, type or value
+checks. The purpose is to get feedback from the community to see if shadow
+signals solve the problems they are intended to solve.</p>
+        </div>
+
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">Shadow signals</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#analysis">Analysis</a></li>
+<li><a href="#introducing-shadow-signals">Introducing shadow signals</a></li>
+<li><a href="#concrete-shadow-signal-subclasses">Concrete shadow signal subclasses</a><ul>
+<li><a href="#_slicesignal">_SliceSignal</a></li>
+<li><a href="#concatsignal">ConcatSignal</a></li>
+<li><a href="#tristatesignal">TristateSignal</a></li>
+</ul>
+</li>
+<li><a href="#methodology-notes">Methodology notes</a></li>
+<li><a href="#examples">Examples</a><ul>
+<li><a href="#a-permutation-circuit">A permutation circuit</a></li>
+<li><a href="#an-error-bit-adapter-circuit">An error bit adapter circuit</a></li>
+</ul>
+</li>
+<li><a href="#status-and-conclusion">Status and conclusion</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
+
+<div class="col-md-8">
+<hr class="half-rule">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+var disqus_config = function () {
+this.page.url = 'http://www.myhdl.org/meps/mep-105.html'; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/meps/mep-105'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//myhdl.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div>
+
+    </div>
+
+    <div class="footer">
+        <div style="margin: 8px">
+<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+window.__gcfg = {
+    lang: 'en-US'
+};
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+<script type="text/javascript" src="http://www.reddit.com/static/button/button1.js"></script>        </div>
+        <p></p>
+        <p>
+           <a href="https://github.com/myhdl/site-myhdl-dev"><i class="fa fa-github"></i>Website source</a>
+        <p>
+           Content licensed under the
+           <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a> license.
+           See <a href="/terms-of-use.html">Terms of Use</a>
+        </p> 
+        <p>
+           Powered by <a href="http://urubu.jandecaluwe.com">Urubu</a>
+        </p> 
+    </div>
+</div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/bootstrap.min.js"></script>
+
+  </body>
+</html>
