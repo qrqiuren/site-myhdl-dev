@@ -1,5 +1,10 @@
 language: python
 
+git:
+  depth: 999999
+
+cache: pip
+
 install: pip install urubu
 
 script: make
