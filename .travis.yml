@@ -1,10 +1,5 @@
 language: python
 
-addons:
-  apt:
-    packages:
-      - git
-
 install: pip install urubu
 
 script: make
