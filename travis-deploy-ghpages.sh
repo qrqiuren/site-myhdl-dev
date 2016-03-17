@@ -2,7 +2,7 @@
 
 #NOTE: GH_TOKEN is a secret variable. DO NOT echo it anywhere.
 msg=$(git log -1 --format="rebuild pages at %h%nAuthor: %an%n%B")
-echo $msg
+echo "$msg"
 repo_url="https://myhdl-bot:$GH_TOKEN@github.com/myhdl/site-myhdl-dev.git"
 pages_dir=~/myhdl/ghpages
 

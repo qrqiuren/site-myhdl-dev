@@ -4,6 +4,8 @@ git:
   depth: 999999
 
 cache: pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 
 install: 
   - pip install -U pip wheel
