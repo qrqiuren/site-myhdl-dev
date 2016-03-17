@@ -7,20 +7,17 @@ def process_info(info, site):
     if info['layout'] == 'mep':
         validate_mep(info)
     # site developers should have git
-    print(info['fn'])
     an = co(["git", "log", "-1", "--format='%an'", info['fn']])
     # decode to convert to unicode for both Python 2 and 2
     an = an.decode('utf-8')
     an = an.strip("'\n")
     info['an'] = an
     at = co(["git", "log", "-1", "--format='%at'", info['fn']])
-    print(at)
     # decode to convert to unicode for both Python 2 and 2
     at = at.decode('utf-8')
     at = at.strip("'\n")
     if at:
         at = datetime.date.fromtimestamp(int(at))
-        print(at)
     info['at'] = at
 
 def check_keys(item, keys):
