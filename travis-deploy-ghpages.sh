@@ -18,5 +18,5 @@ fi
 git config user.name "MyHDL Bot"
 git config user.email "myhdl-bot@users.noreply.github.com"
 git config push.default simple
-git commit --all -m "rebuild pages at ${msg}"
+git commit --all -m "${msg}"
 git push -q
