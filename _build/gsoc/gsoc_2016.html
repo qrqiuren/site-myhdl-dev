@@ -403,7 +403,7 @@ microcontrollers is desired but not required.</p>
 <p>RISC-V is an open ISA freely available for all types of use.
 The RISC-V ISA has been designed with small, fast, and low-power real-world implementations in mind,
 but without "over-architecting" for a particular microarchitecture style.</p>
-<p>There are various implementations available in Chisel<a href="https://github.com/ucb-bar/riscv-sodor">1</a><a href="https://github.com/ucb-bar/rocket">2</a>,
+<p>There are various implementations available in Chisel(<a href="https://github.com/ucb-bar/riscv-sodor">1</a>,<a href="https://github.com/ucb-bar/rocket">2</a>),
 <a href="https://github.com/ucb-bar/vscale">Verilog</a> and <a href="https://bitbucket.org/casl/shakti_public">Bluespec</a></p>
 <p>The goal of this project is to develop a simple 32 bit RISC-V CPU with support for integer operations,
 and tools to simplify CPU design and experimentation with MyHDL(such as computing the CPI of the processor with various workloads).
@@ -412,7 +412,7 @@ These tools could be generalized to work with other CPUs designed in MyHDL.</p>
 <ul>
 <li>Developing a pure-python decoder for ISA simulations and testing the decoding hardware.</li>
 <li>Implementing a decoder in MyHDL and writing tests for it.</li>
-<li>A working RTL implementation of the CPU in MyHDL without pipelining. This Essentially an ISA simulator, but it can be used to sanity check future implemtations.</li>
+<li>A working RTL implementation of the CPU in MyHDL without pipelining. This Essentially an ISA simulator, but it can be used to sanity check future implementations.</li>
 <li>A two or three stage pipeline which can be put on a modern FPGA at a reasonable frequency.</li>
 <li>A 'proper' six stage in-order pipeline like the Rocket core.</li>
 <li>Experimenting with other microarchitectural techniques such as multiple-issue, Out of Order execution.</li>
