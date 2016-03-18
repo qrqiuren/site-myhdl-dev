@@ -82,7 +82,7 @@
     <div class="page-header">
 <h1>MEP 114: The block decorator&nbsp;&nbsp;
 </h1>
-        <p><i>Last modified: 16-Mar-2016 by Jan Decaluwe</i></p>
+        <p><i>Last modified: 18-Mar-2016 by Jan Decaluwe</i></p>
     </div>
 
     <div class="row">
@@ -244,6 +244,9 @@ inst = myblock(&lt;port-associations&gt;)
 <li><code>backend</code>: Defaults to 'myhdl'.</li>
 <li><code>trace</code>: Enable waveform tracing, default False.  </li>
 </ul>
+<h5 id="instquit_sim"><strong><code>inst.quit_sim()</code></strong></h5>
+<p>Quit an active simulation. This is method is currently required because
+only a single simulation can be active.</p>
 <h5 id="instconverthdlverilog-kwargs"><strong><code>inst.convert(hdl='Verilog', **kwargs)</code></strong></h5>
 <p>Converts MyHDL code to a target <abbr title="Hardware Description Language">HDL</abbr>.</p>
 <ul>
@@ -331,6 +334,7 @@ used term <em>block diagram</em> basically refers to the same concept.</p>
 <li><a href="#new-api">New API</a><ul>
 <li><a href="#instrun_simdurationnone">inst.run_sim(duration=None)</a></li>
 <li><a href="#instconfig_simbackendmyhdl-tracefalse">inst.config_sim(backend='myhdl', trace=False)</a></li>
+<li><a href="#instquit_sim">inst.quit_sim()</a></li>
 <li><a href="#instconverthdlverilog-kwargs">inst.convert(hdl='Verilog', **kwargs)</a></li>
 <li><a href="#instverify_convert">inst.verify_convert()</a></li>
 <li><a href="#instanalyze_convert">inst.analyze_convert()</a></li>
