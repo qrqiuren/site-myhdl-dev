@@ -81,7 +81,7 @@
 
     <div class="page-header">
         <h1>Google Summer of Code 2016</h1>
-        <p><i>Last modified: 19-Mar-2016 by dargor0</i></p>
+        <p><i>Last modified: 19-Mar-2016 by Christopher Felton</i></p>
     </div>
 
     <div class="row">
@@ -155,8 +155,8 @@ is a good guide.</p>
 <h2 id="writing-your-gsoc-application">Writing Your GSoC Application</h2>
 <p>A <a href="http://dev.myhdl.org/gsoc/gsoc_app_template.html">common template</a> 
 is available to help bootstrap the student proposals.  For more 
-information on GSoC see the <a href="https://www.google-melange.com/gsoc/homepage/google/gsoc2015">GSoC website</a>
-in particular the <a href="http://www.google-melange.com/gsoc/document/show/gsoc_program/google/gsoc2015/help_page#8._When_can_I_apply_for_Google_Summer_of">student FAQ</a> 
+information on GSoC see the <a href="https://developers.google.com/open-source/gsoc/">GSoC website</a>
+in particular the <a href="https://developers.google.com/open-source/gsoc/faq#students">student FAQ</a> 
 is a good place to start for new students and the <a href="http://en.flossmanuals.net/GSoCStudentGuide/">student guide</a>
 is a thorough review of the program.</p>
 <h2 id="getting-started-with-myhdl">Getting Started with MyHDL</h2>
@@ -191,8 +191,8 @@ the project.</p>
       <a href="http://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core">cores</a> 
       with MyHDL.</li>
 </ol>
-<p>All projects require programming in Python, previous knowledge of <abbr title="Hardware Description Language">HDL</abbr>
-design, and many of the MyHDL specific projects (i.e. non-cores)
+<p>All projects require programming in Python, previous knowledge of 
+<abbr title="Hardware Description Language">HDL</abbr> design, and many of the MyHDL specific projects (i.e. non-cores)
 require experience with compilers (familiarity with the Python
 compiler package desirable).</p>
 <p>The MyHDL package uses the LGPL license, all work submitted to 
@@ -208,7 +208,7 @@ compiler support and packages.  This is an advanced project
 that will support the overall MyHDL conversion code structure,
 reusability, and comprehension.  Students interested working on
 this project should review the <a href="http://dev.myhdl.org/meps/mep-114.html">MEP114</a>
-and its impact.  This project shall support the MEP114 <code>@mydhdl.module</code>
+and its impact.  This project shall support the MEP114 <code>@mydhdl.block</code>
 inclusion.</p>
 <p>Potential mentor(s):</p>
 <p><em>.  <a href="">Oscar Diaz</a>, </em>dargor0* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
@@ -231,7 +231,7 @@ general simulator knolwedge and will require Python and
 C coding.  This work will mainly be completed with the 
 <a href="http://iverilog.icarus.com/">Icarus Verilog</a> or 
 <a href="http://www.tachyon-da.com/">CVC</a> simulators.</p>
-<p>An alternative, is to parse the top-level module ports and
+<p>An alternative, is to parse the top-level block ports and
 automatically build the interface.  A rough version of this
 mehtod has been used in other projects.</p>
 <h4 id="2d-list-of-signal-conversion">2D List-of-Signal Conversion</h4>
@@ -368,7 +368,7 @@ is a suggested order of implementation:</p>
 <div class="codehilite"><pre><span></span>* RGB to YCBCR conversion
 * 2D DCT
 * Quantizer
-* Huffman module
+* Huffman block
 * Misc: FIFOs, etc.
 * Top-level
 </pre></div>
