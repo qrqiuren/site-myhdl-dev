@@ -81,7 +81,7 @@
 
     <div class="page-header">
         <h1>Google Summer of Code 2016</h1>
-        <p><i>Last modified: 17-Mar-2016 by Keerthan Jaic</i></p>
+        <p><i>Last modified: 19-Mar-2016 by dargor0</i></p>
     </div>
 
     <div class="row">
@@ -211,7 +211,7 @@ this project should review the <a href="http://dev.myhdl.org/meps/mep-114.html">
 and its impact.  This project shall support the MEP114 <code>@mydhdl.module</code>
 inclusion.</p>
 <p>Potential mentor(s):</p>
-<p><em>.  <a href="">Oscar Diaz</a>, </em>tbd* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
+<p><em>.  <a href="">Oscar Diaz</a>, </em>dargor0* on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></p>
 <h4 id="cosimulation-signal-extraction">Cosimulation Signal Extraction</h4>
 <p>It is possible through the foreign language interfaces (VPI/DPI) to
 extract all the signals in from the <a href="http://docs.myhdl.org/en/latest/manual/cosimulation.html">Cosimuation</a> simulator 
@@ -426,6 +426,17 @@ will be used to propose MyHDL enhancements or create support libraries.</p>
 <li>Keerthan Jaic, <em>jck</em> on IRC and
      <a href="https://github.com/jck">@jck on github</a></li>
 </ul>
+<h4 id="crypto-core">Crypto core</h4>
+<p>This project is the design and test of a cryptographic core. This core should be designed to be modular, to implement various cryptographic algoritms and operation modes, suport symetric and asymetric encription, and it should be easy to extend. Recommended algorithms to implement are AES, 3DES and RSA, and operation modes to implement are ECB, CBC, CFB, OFB and CTR. </p>
+<p>Additional aspects to cover with this project are:
+   * Performance comparison against software implementation.
+   * A modular test mechanism.
+   * Study on possible implementation vulnerabilities.</p>
+<p>A reference implementation for this project is openSSL library, although there are some hardware implementations in VHDL and Verilog.</p>
+<p>Potential mentors for this project:</p>
+<ul>
+<li>Oscar Diaz, <em>dargor0</em> on IRC and <a href="https://github.com/dargor0">@dargor0 on github</a></li>
+</ul>
 <h4 id="other-cores">Other Cores</h4>
 <p>There are an unlimited number of cores that can be implemented
 with MyHDL.  Any core can be proposed but will not have the 
@@ -479,6 +490,7 @@ a proposal.</p>
 <li><a href="#jpeg-encoder">JPEG Encoder</a></li>
 <li><a href="#leros-tiny-processor">Leros tiny processor</a></li>
 <li><a href="#risc-v-cpu-and-tools">RISC-V CPU and tools</a></li>
+<li><a href="#crypto-core">Crypto core</a></li>
 <li><a href="#other-cores">Other Cores</a></li>
 </ul>
 </li>
