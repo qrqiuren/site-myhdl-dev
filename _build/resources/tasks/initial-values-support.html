@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tasks</title>
+    <title>Initial values support</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li class="active"><a href="/tasks/">Tasks</a></li>
-            <li><a href="/ideas/">Ideas</a></li>
-            <li><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -71,47 +77,48 @@
     </div>
 
 
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h1>Tasks</h1>
-                <p></p>
-                <p>Tasks to consider if you would like to help with development. 
-Check out the <a href="/tasks/guidelines.html" title="Task Guidelines">Task Guidelines</a>.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/tasks/">Tasks</a></li>
+       <li class="active">Initial values support</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>Initial values support
+</h1>
+        <p><i>Last modified:  by </i></p>
+    </div>
 
     <div class="row">
 
-
-<div class="col-md-5" role="main">
-
-<h4>Open tasks</h4>
-    <p><a href="/tasks/initial-values-support.html">Initial values support</a></p>
-    <p><a href="/tasks/indexed-constants.html">More general support of indexed constants</a></p>
-</tbody>
-</table>
-
-</div>
-
-<div class="col-md-5" role="main">
-
-<h4>Completed tasks</h4>
-<table class="table table-condensed">
+        <div class="col-md-7 content" role="main">
+<table class="table table-condensed preamble">
 <tbody>
-    <p><a href="/tasks/array-index.html">Easier way to use intbv or Signal as an array index</a></p>
-    <p><a href="/tasks/tristates.html">Support for tristates</a></p>
-    <p><a href="/tasks/conditional-expressions.html">Support for conditional expressions</a></p>
-    <p><a href="/tasks/rpm-package.html">RPM package for Fedora</a></p>
+    <tr><td><strong>Status</strong></td><td>Open</td></tr>
+    <tr><td><strong>Type</strong></td><td>conversion</td></tr>
 </tbody>
 </table>
 
-</div>
+            <p>Currently, there are often problems at the start of simulation with converted
+code. For many data types, Verilog and VHDL start at <code>X</code>, but MyHDL doesn't
+have that concept.</p>
+<p>To have a better match, it would be preferable to use initial value syntax in
+Verilog and VHDL based on the initial value of the Signal or intbv in MyHDL.
+The only reason why this is not yet done is that some synthesis tools didn't
+support this syntax some years ago, in particular Altera synthesis. It should
+be checked whether this is still the case.</p>
+<p>Note that the requirement is <em>not</em> that synthesis tools do something meaningful
+with the initial value. Proper reset at the gate level should be done with an
+explicit reset. The only goal is to have a better match at the RTL level.</p>
+<p>An option could be to make this functionality programmable, using
+an attribute of <code>toVerilog()</code> and <code>toVHDL()</code>.</p>
+<p>Lists of signals and intbv's require special attention.</p>
+        </div>
+
 
 
     </div>

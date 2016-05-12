@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MyHDL 0.6</title>
+    <title>Initial values support</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
-            <li><a href="/ideas/">Ideas</a></li>
-            <li class="active"><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -75,56 +81,99 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/archive/">Archive</a></li>
-       <li class="active">MyHDL 0.6</li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/ideas/">Ideas</a></li>
+       <li class="active">Initial values support</li>
     </ol>
 
     <div class="page-header">
  
-<h1>MyHDL 0.6
-    &nbsp;&nbsp;<small class="nobr">12-May-2009</small>
+<h1>Initial values support
 </h1>
-        <p><i>Last modified: 12-Feb-2016 by Jan Decaluwe</i></p>
+        <p><i>Last modified:  by </i></p>
     </div>
 
     <div class="row">
 
-        <div class="col-md-7 content" role="main">
-            <h2 id="status">Status</h2>
-<p>0.6 has been released.</p>
-<h2 id="to-do">To do</h2>
+          <div class="col-md-9 content" role="main">
+            <p>This page was created to keep track of the status of the initial value support.<br />
+The original open task description is available <a href="/resources/tasks/initial-values-support.html" title="Initial values support">here</a>.</p>
+<p>Below is a summary from the mailing-list.</p>
+<h3 id="enabling-initial-value-support">Enabling Initial Value Support</h3>
+<p>Initial value support can be re-enabled.  The Verilog
+upport of initial values was verified with the latest
+version of Quartus.</p>
+<p>Need to test with (list syn and sim tools)?</p>
 <ul>
-<li><i class="fa fa-check-square-o"></i> RAM support using array types </li>
-<li><i class="fa fa-check-square-o"></i> operators with signed operands </li>
-<li><i class="fa fa-check-square-o"></i> augmented operators </li>
-<li><i class="fa fa-check-square-o"></i> enhanced <code>print</code> statement support </li>
-<li><i class="fa fa-check-square-o"></i> user-defined VHDL support </li>
-<li><i class="fa fa-check-square-o"></i> <code>inout</code> handling</li>
-<li><i class="fa fa-check-square-o"></i> enhance <code>toVerilog</code> so that it can work with the new verification method also.
-In particular, <code>print</code> statements should be handled properly.</li>
-<li><i class="fa fa-check-square-o"></i> write conversion verification test benches for some cookbook examples</li>
-<li><i class="fa fa-check-square-o"></i> include date/tool info in conversion output </li>
-<li><i class="fa fa-check-square-o"></i> review <code>if __debug__</code> functionality with new verification capabilities  </li>
-<li><i class="fa fa-check-square-o"></i> encoding attributes to enumeration types  </li>
-<li><i class="fa fa-check-square-o"></i> use a package in a separate file for general VHDL output code </li>
+<li><i class="fa fa-check-square-o"></i> Quartus latest</li>
+<li><i class="fa fa-square-o"> </i> ISE (xst) latest</li>
+<li><i class="fa fa-square-o"> </i> cver</li>
+<li><i class="fa fa-square-o"> </i> icarus</li>
 </ul>
-<h2 id="open-issues">Open issues</h2>
-<h3 id="name-clashes">Name clashes</h3>
-<ul>
+<p>See below for some preliminary results.</p>
+<h3 id="function-attributes-to-disable-initial-values">Function Attributes to Disable Initial Values</h3>
+<p>None will <em>not</em> be added to intbv.  An argument will
+be added to the toVerilog and toVHDL to disable
+"plain" Signal init and "memory" (array) init.
+Something like the following.</p>
+<div class="codehilite"><pre><span></span>toVerilog(... disable_init=False, disable_mem_init=False)
+toVHDL( &quot;&quot; &quot;&quot; )
+</pre></div>
+
+
+<p>Arguments can always be used as ports, so configuration
+should go elsewhere. Currently function attributes are for
+such purposes:</p>
+<div class="codehilite"><pre><span></span>toVerilog.disable_init = False
+</pre></div>
+
+
+<h3 id="toverilog-initial-values">toVerilog Initial Values</h3>
+<p>toVerilog will only create initial values for Signals converted to register
+types.</p>
+<h3 id="initial-values-for-memories">Initial Values for Memories</h3>
+<p>Initial values for memories (list of signals) will be
+generated.  If feasible the synthesizable versions 
+of the memory init values will be generated <a href="http://www.altera.com/literature/hb/qts/qts_qii51007.pdf">1</a>.</p>
+<h3 id="some-results">Some Results</h3>
+<h4 id="altera-quartus-111sp2-verilog">Altera Quartus (11.1sp2) Verilog</h4>
+<ol>
 <li>
-<p>Find a good solution to avoid name clashes. In the Verilog output, I relied on using <code>_</code> as a prefix, but because VHDL doesn't allow this, and I want a general solution, this needs to change.</p>
+<p>Initial values.  The reg initial values don't
+     error during synthesis (added these manually).</p>
 </li>
 <li>
-<p>Find a good solution to avoid name clashes with Verilog and VHDL keywords.</p>
+<p>The initial block for RAM init values didn't
+     error during synthesis and generated initial
+     values for the RAM (generated a .mif file with
+     the correct init values).</p>
 </li>
-</ul>
-<h3 id="rom-inference-support">Rom inference support</h3>
-<p>Currently, ROMs are inferred from case statements, as in Verilog. Users and synthesis tools may prefer arrays of integers. Feedback welcome.</p>
-<h3 id="user-defined-vhdl-code">User-defined VHDL code</h3>
-<p><del>It is straightforward to support the <code>__toVHDL__</code> attribute for
-user-defined VHDL, similar to the Verilog solution. This may not be sufficient
-however, because VHDL requires instantiated components to be declared in the
-code. We may have to add a way to add such user-defined declarations.</del></p>
+<li>
+<p>ROM <em>no</em> BRAM used for ROM tested at size
+     8x2048?</p>
+</li>
+</ol>
+<h4 id="altera-quartus-111sp2-vhdl">Altera Quartus (11.1sp2) VHDL</h4>
+<p>TBC</p>
+<h4 id="xilinx-ise-134-verilog">Xilinx ISE (13.4) Verilog</h4>
+<ol>
+<li>
+<p>Initial values.  The reg initial values don't
+     error during synthesis (added these manually).</p>
+</li>
+<li>
+<p>The initial block for RAM init values didn't
+     error during synthesis.  Not clear if the 
+     initial values would be loaded (file generated)</p>
+</li>
+<li>
+<p>TBD</p>
+</li>
+</ol>
+<h4 id="xilinx-ise-134-vhdl">Xilinx ISE (13.4) VHDL</h4>
+<p>TBC </p>
+<p>@todo : create a table for the above information.</p>
+<p>Some test code here: <a href="https://bitbucket.org/cfelton/examples/src/tip/ramrom">https://bitbucket.org/cfelton/examples/src/tip/ramrom</a></p>
         </div>
 
         <div class="col-md-3" role="navigation">
@@ -133,15 +182,18 @@ code. We may have to add a way to add such user-defined declarations.</del></p>
                  data-offset-top="80"
                  data-offset-bottom="60">
                 <div class="well">
-                    <a href="#"><strong style="font-size:90%">MyHDL 0.6</strong></a>
+                    <a href="#"><strong style="font-size:90%">Initial values support</strong></a>
                     <div class="toc">
 <ul>
-<li><a href="#status">Status</a></li>
-<li><a href="#to-do">To do</a></li>
-<li><a href="#open-issues">Open issues</a><ul>
-<li><a href="#name-clashes">Name clashes</a></li>
-<li><a href="#rom-inference-support">Rom inference support</a></li>
-<li><a href="#user-defined-vhdl-code">User-defined VHDL code</a></li>
+<li><a href="#enabling-initial-value-support">Enabling Initial Value Support</a></li>
+<li><a href="#function-attributes-to-disable-initial-values">Function Attributes to Disable Initial Values</a></li>
+<li><a href="#toverilog-initial-values">toVerilog Initial Values</a></li>
+<li><a href="#initial-values-for-memories">Initial Values for Memories</a></li>
+<li><a href="#some-results">Some Results</a><ul>
+<li><a href="#altera-quartus-111sp2-verilog">Altera Quartus (11.1sp2) Verilog</a></li>
+<li><a href="#altera-quartus-111sp2-vhdl">Altera Quartus (11.1sp2) VHDL</a></li>
+<li><a href="#xilinx-ise-134-verilog">Xilinx ISE (13.4) Verilog</a></li>
+<li><a href="#xilinx-ise-134-vhdl">Xilinx ISE (13.4) VHDL</a></li>
 </ul>
 </li>
 </ul>

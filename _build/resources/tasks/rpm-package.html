@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Archive</title>
+    <title>RPM package for Fedora</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
-            <li><a href="/ideas/">Ideas</a></li>
-            <li class="active"><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -71,39 +77,41 @@
     </div>
 
 
-<div class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h1>Archive</h1>
-                <p>Old or obsolete documents. For background reading.</p>
-                
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container">
+
+    <ol class="breadcrumb">
+       <li><a href="/">Home</a></li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/tasks/">Tasks</a></li>
+       <li class="active">RPM package for Fedora</li>
+    </ol>
+
+    <div class="page-header">
+ 
+<h1>RPM package for Fedora
+</h1>
+        <p><i>Last modified:  by </i></p>
+    </div>
 
     <div class="row">
 
-        <div class="col-md-6" role="main">
-                <h4><a href="/archive/0.8.html">MyHDL 0.8</a>&nbsp;&nbsp;
-                    <small>04-Jul-2012</small></h4>
-                <p></p>
-                <h4><a href="/archive/0.7.html">MyHDL 0.7</a>&nbsp;&nbsp;
-                    <small>24-Apr-2012</small></h4>
-                <p></p>
-                <h4><a href="/archive/myhdl-0.6.html">MyHDL 0.6</a>&nbsp;&nbsp;
-                    <small>12-May-2009</small></h4>
-                <p></p>
-                <h4><a href="/archive/tovhdl.html">The toVHDL project</a>&nbsp;&nbsp;
-                    <small>02-Nov-2007</small></h4>
-                <p></p>
-                <h4><a href="/archive/myhdl-0.5.html">MyHDL 0.5</a>&nbsp;&nbsp;
-                    <small>19-Oct-2006</small></h4>
-                <p></p>
+        <div class="col-md-7 content" role="main">
+<table class="table table-condensed preamble">
+<tbody>
+    <tr><td><strong>Status</strong></td><td>Completed</td></tr>
+    <tr><td><strong>Type</strong></td><td>installation</td></tr>
+</tbody>
+</table>
+
+            <p>Fedora Electronic Lab suggests to create an RPM package for Fedora.  For more
+information, and help to get started, see the MyHDL newsgroup.  (Search for
+'fedora' in the subject.)</p>
+<p>This task has been completed, it is available in Fedora and Fedora Electronic
+Lab.</p>
+<p><code>$sudo yum install python-myhdl</code></p>
         </div>
+
+
 
     </div>
 

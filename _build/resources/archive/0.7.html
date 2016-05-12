@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Support for conditional expressions</title>
+    <title>MyHDL 0.7</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li class="active"><a href="/tasks/">Tasks</a></li>
-            <li><a href="/ideas/">Ideas</a></li>
-            <li><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -75,32 +81,63 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/tasks/">Tasks</a></li>
-       <li class="active">Support for conditional expressions</li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/archive/">Archive</a></li>
+       <li class="active">MyHDL 0.7</li>
     </ol>
 
     <div class="page-header">
  
-<h1>Support for conditional expressions
+<h1>MyHDL 0.7
+    &nbsp;&nbsp;<small class="nobr">24-Apr-2012</small>
 </h1>
-        <p><i>Last modified: 18-Mar-2014 by Jan Decaluwe</i></p>
+        <p><i>Last modified:  by </i></p>
     </div>
 
     <div class="row">
 
         <div class="col-md-7 content" role="main">
-<table class="table table-condensed preamble">
-<tbody>
-    <tr><td><strong>Status</strong></td><td>Completed</td></tr>
-</tbody>
-</table>
-
-            <p>Python 2.5 introduced conditional expressions. The task is to add conversion
-support for them.</p>
-<p>It should be possible to map the simplest cases to a single assign statement in
-Verilog, as is currently done for simple signal assignments.</p>
+            <h2 id="requirements">Requirements</h2>
+<p>Python 2.6.</p>
+<h2 id="status">Status</h2>
+<p>MyHDL 0.7 has been released.</p>
+<h2 id="new-features">New features</h2>
+<ul>
+<li>deprecated compiler package -&gt; ast package to prepare for the future.</li>
+<li>shadow signals and applications</li>
+<li>better support of list of signals in always_comb</li>
+<li>doc strings in output, both "official" and other ones</li>
+<li>new options to control Verilog output</li>
+<li>docstrings to conversion output, both official and non-official ones</li>
+<li>support for ternary operator in conversion, requires VHDL 2008 within processes</li>
+<li>use <code>__index__</code> method to use Signals and intbv's directly for indexing</li>
+<li>function attributes as an alternative to magic variables in conversion</li>
+<li>function attribute to request an instantiation, to make hierarchy support much easier</li>
+<li>Decide which new Verilog options to keep, add support for VHDL if applicable: custom header</li>
+<li>re-evaluate initial value for intbv</li>
+</ul>
+<p>--- //<a href="jan@jandecaluwe.com">Jan Decaluwe</a> 2010/10/17 14:54/</p>
         </div>
 
+        <div class="col-md-3" role="navigation">
+          <nav class="hidden-print hidden-xs hidden-sm">
+            <div class="sidebar" data-spy="affix"
+                 data-offset-top="80"
+                 data-offset-bottom="60">
+                <div class="well">
+                    <a href="#"><strong style="font-size:90%">MyHDL 0.7</strong></a>
+                    <div class="toc">
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#status">Status</a></li>
+<li><a href="#new-features">New features</a></li>
+</ul>
+</div>
+
+                </div>
+            </div>
+          </nav>
+        </div>
 
 
     </div>

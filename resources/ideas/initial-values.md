@@ -7,7 +7,7 @@ layout: wide_article
 {% from 'util.html' import open, done %}
 
 This page was created to keep track of the status of the initial value support.  
-The original open task description is available [here][/tasks/initial-values-support].
+The original open task description is available [here][../tasks/initial-values-support].
 
 Below is a summary from the mailing-list.
 

@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li><a href="/tasks/">Tasks</a></li>
-            <li class="active"><a href="/ideas/">Ideas</a></li>
-            <li><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -75,7 +81,8 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/ideas/">Ideas</a></li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/ideas/">Ideas</a></li>
        <li class="active">VHDL Cosimulation with GHDL</li>
     </ol>
 
@@ -83,7 +90,7 @@
  
 <h1>VHDL Cosimulation with GHDL
 </h1>
-        <p><i>Last modified: 18-Mar-2014 by Jan Decaluwe</i></p>
+        <p><i>Last modified:  by </i></p>
     </div>
 
     <div class="row">
@@ -113,7 +120,7 @@ as a template the cver VPI implementation can be compiled and loaded
 into GHDL.  Nothing interesting was done with
 the interface other than compiling and loading in a
 simulation.  </p>
-<p><a href="/ideas/vhdl-cosim/ghdl-vpi.html" title="Modifications to GHDL VPI Examples">Here</a> are the code modifications to compile
+<p><a href="/resources/ideas/vhdl-cosim/ghdl-vpi.html" title="Modifications to GHDL VPI Examples">Here</a> are the code modifications to compile
 the MyHDL VPI interface and load it in GHDL.</p>
 <p><strong>VHPI</strong> is the VHDL standard equivalent of VPI. 
 There is 

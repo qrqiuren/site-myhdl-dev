@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Easier way to use intbv or Signal as an array index</title>
+    <title>More general support of indexed constants</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <!-- Bootstrap -->
@@ -57,9 +57,15 @@
               </ul>
             </li>
             <li><a href="/meps/">MEPs</a></li>
-            <li class="active"><a href="/tasks/">Tasks</a></li>
-            <li><a href="/ideas/">Ideas</a></li>
-            <li><a href="/archive/">Archive</a></li>
+            <li class="active" class="dropdown">
+              <a href="/resources/" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="http://docs.myhdl.org/en/latest">Manual under development</a></li>    
+                <li><a href="/resources/tasks/">Tasks</a></li>    
+                <li><a href="/resources/ideas/">Ideas</a></li>    
+                <li><a href="/resources/archive/">Archive</a></li>    
+              </ul>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -75,15 +81,16 @@
 
     <ol class="breadcrumb">
        <li><a href="/">Home</a></li>
-       <li><a href="/tasks/">Tasks</a></li>
-       <li class="active">Easier way to use intbv or Signal as an array index</li>
+       <li><a href="/resources/">Resources</a></li>
+       <li><a href="/resources/tasks/">Tasks</a></li>
+       <li class="active">More general support of indexed constants</li>
     </ol>
 
     <div class="page-header">
  
-<h1>Easier way to use intbv or Signal as an array index
+<h1>More general support of indexed constants
 </h1>
-        <p><i>Last modified: 19-Jan-2015 by Jan Decaluwe</i></p>
+        <p><i>Last modified:  by </i></p>
     </div>
 
     <div class="row">
@@ -91,15 +98,26 @@
         <div class="col-md-7 content" role="main">
 <table class="table table-condensed preamble">
 <tbody>
-    <tr><td><strong>Status</strong></td><td>Completed, 0.7</td></tr>
-    <tr><td><strong>Type</strong></td><td>modeling</td></tr>
+    <tr><td><strong>Status</strong></td><td>Open</td></tr>
+    <tr><td><strong>Type</strong></td><td>conversion</td></tr>
 </tbody>
 </table>
 
-            <p>Currently, you can't directly use a Signal or an intbv to index an array. Such
-objects have to be converted explicitly using <code>int()</code> first.  Probably, this
-can be solved with the <code>__index__()</code> special method.  This should be tried out
-both for indexing and slicing.</p>
+            <p>Currently, indexing into a tuple of constants is supported by conversion in a
+limited way. The code has to written so that the indexing operations can be
+expanded in-place into a case statement. This is mapped to ROMs by some
+synthesis tools, such as Xilinx synthesis.</p>
+<p>It would be nicer to be able to use indexing into a tuple of constants in a
+general way. This could be done by mapping the tuple access to a function in
+Verilog and VHDL, with the index as the parameter. The function call could then
+be used and converted without restrictions. </p>
+<p>The question is what synthesis tools do with this. For example, suppose you
+call the function multiple times with different indices in the same expression.
+Some restrictions would be acceptable, as long as the basic ROM mapping feature
+still works.</p>
+<p>It may be best to include tuples of constants in the hierarchical extraction
+process to give them an unique name, like is done for signals and lists of
+signals.</p>
         </div>
 
 

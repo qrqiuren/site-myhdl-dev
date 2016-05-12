@@ -4,8 +4,6 @@ layout: home
 content:
     - guide 
     - meps
-    - tasks
-    - ideas
-    - archive
+    - resources
     - info 
 ---
