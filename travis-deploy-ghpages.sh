@@ -7,7 +7,7 @@ repo_url="https://myhdl-bot:$GH_TOKEN@github.com/myhdl/site-myhdl-dev.git"
 pages_dir=~/myhdl/ghpages
 
 git clone -b gh-pages $repo_url $pages_dir
-rsync -az --delete --exclude .git --exclude CNAME _build/ $pages_dir/
+rsync -az --delete --exclude .git _build/ $pages_dir/
 
 cd $pages_dir
 if [[ -z $(git status -s) ]]; then
