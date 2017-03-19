@@ -88,13 +88,15 @@
 
     <div class="page-header">
         <h1>Google Summer of Code 2017</h1>
-        <p><i>Last modified: 15-Jan-2017 by Christopher Felton</i></p>
+        <p><i>Last modified: 19-Mar-2017 by Christopher Felton</i></p>
     </div>
 
     <div class="row">
 
         <div class="col-md-7 content" role="main">
-            <h2 id="myhdl-project-introduction">MyHDL Project Introduction</h2>
+            <p>Go to the <a href="http://discourse.myhdl.org/t/students-thinking-about-applying-to-myhdl-for-gsoc/164/2">MyHDL forum</a>
+and introduce yourself and your interests!</p>
+<h2 id="myhdl-project-introduction">MyHDL Project Introduction</h2>
 <p><a href="http://www.myhdl.org">MyHDL</a> is a Python package that extends Python 
 as a hardware description language (<abbr title="Hardware Description Language">HDL</abbr>).  MyHDL empowers implementation
 of complex digital circuits that can be targeted towards ASIC and
@@ -198,7 +200,7 @@ compiler package desirable).</p>
 <p>The MyHDL package uses the LGPL license, all work submitted to 
 the MyHDL package will be LGPL.</p>
 <h3 id="myhdl-package-project-ideas">MyHDL Package Project Ideas</h3>
-<h4 id="fixed-point-compiler">Fixed-point Compiler</h4>
+<h4 id="fixed-point-compiler">Fixed-point compiler</h4>
 <p>This project will develop the backend compiler for the proposed
 <code>fixbv</code> type.  The <code>fixbv</code> has been proposed in <a href="http://dev.myhdl.org/meps/mep-111.html">MEP111</a>.
 This project requires extensive compiler experience and familiarity with
@@ -211,10 +213,56 @@ being considered for the project.</p>
       cfelton on IRC, <a href="https://twitter.com/FeltonChris">@FeltonChris</a> on
       twitter, and <a href="https://github.com/cfelton">@cfelton on github</a></li>
 </ol>
+<h4 id="state-machine-conversion-enhancements">State-machine conversion enhancements</h4>
+<p>With MyHDL there are many benefits implementing state-machines but
+this can be enhanced additional.  This project will implement features
+to support efficient and increased readability in state-machines
+especially in the case of using interfaces as the control signals.</p>
+<p>The potential mentors for this project are:</p>
+<ol>
+<li><a href="https://www.fpgarelated.com/blogs-1/nf/Christopher_Felton.php">Christopher L. Felton</a>,
+      cfelton on IRC, <a href="https://twitter.com/FeltonChris">@FeltonChris</a> on
+      twitter, and <a href="https://github.com/cfelton">@cfelton on github</a></li>
+</ol>
+<h4 id="converter-implemented-in-redbaron">Converter implemented in RedBaron</h4>
+<p>This is an exploratory project that will implement subset of the MyHDL
+conversion with RedBaron and explore feature enhancement like loop
+unrolling.  This project will start by showing feasibility by implementing
+current MyHDL features defined by the LRM </p>
+<ol>
+<li><a href="https://github.com/hgomersall">Henry Gomersall</a></li>
+</ol>
+<h4 id="firrtl-conversoin-support">FIRRTL conversoin support</h4>
+<p>Students interested in this project should comment on the the
+<a href="http://discourse.myhdl.org/t/potential-gsoc-ideas/163">discourse thread</a>.</p>
+<p>This is an exploratory project that will explore using FIRRTL as a
+IR in MyHDL.  The benefit would be using the tools in FIRRTL.</p>
+<p>1 <a href="https://github.com/jck">Keerthan Jaic</a></p>
+<h4 id="cosimulaton-improvements">Cosimulaton improvements</h4>
+<p>Students interested in this project should comment on the the
+<a href="http://discourse.myhdl.org/t/potential-gsoc-ideas/163">discourse thread</a>.</p>
+<p>This project is an exploratory project and will investigate enhancing
+the cosimulaiton interface by implementing a new VPI module in Rust.</p>
+<p>1 <a href="https://github.com/jck">Keerthan Jaic</a></p>
+<h4 id="all-things-waveform-viewing">All things waveform viewing</h4>
+<p>This is a core development and peripheral project that will work to
+increase tracing and waveform viewing in MyHDL.  The main goals are
+to create an efficient waveform viewing with matplotlib and embedded
+the traced waveforms in jupyter notebooks.  This has been
+<a href="https://github.com/cfelton/myhdl_exercises/blob/master/01_mex_shifty.ipynb">prototyped</a>
+but needs to be extended and needs to be more efficient.  In addition,
+the student will explore direct FST support, the MyHDL simulator will
+trace directly to FST binary format instead of only support VCD.</p>
+<ol>
+<li><a href="https://github.com/jck">Keerthan Jaic</a></li>
+<li><a href="https://www.fpgarelated.com/blogs-1/nf/Christopher_Felton.php">Christopher L. Felton</a>,
+      cfelton on IRC, <a href="https://twitter.com/FeltonChris">@FeltonChris</a> on
+      twitter, and <a href="https://github.com/cfelton">@cfelton on github</a></li>
+</ol>
 <h3 id="potential-mentors">Potential Mentors</h3>
 <ul>
 <li><a href="https://github.com/cfelton">@cfelton</a></li>
-<li><a href="https://github.com/geschema">@geschema</a></li>
+<li><a href="https://github.com/hgomersall">@hgomersall</a></li>
 <li><a href="https://github.com/josyb">@josyb</a></li>
 <li><a href="https://github.com/jck">@jck</a></li>
 </ul>
@@ -239,7 +287,12 @@ being considered for the project.</p>
 </li>
 <li><a href="#project-ideas">Project Ideas</a><ul>
 <li><a href="#myhdl-package-project-ideas">MyHDL Package Project Ideas</a><ul>
-<li><a href="#fixed-point-compiler">Fixed-point Compiler</a></li>
+<li><a href="#fixed-point-compiler">Fixed-point compiler</a></li>
+<li><a href="#state-machine-conversion-enhancements">State-machine conversion enhancements</a></li>
+<li><a href="#converter-implemented-in-redbaron">Converter implemented in RedBaron</a></li>
+<li><a href="#firrtl-conversoin-support">FIRRTL conversoin support</a></li>
+<li><a href="#cosimulaton-improvements">Cosimulaton improvements</a></li>
+<li><a href="#all-things-waveform-viewing">All things waveform viewing</a></li>
 </ul>
 </li>
 <li><a href="#potential-mentors">Potential Mentors</a></li>
