@@ -18,5 +18,6 @@ fi
 git config user.name "MyHDL Bot"
 git config user.email "myhdl-bot@users.noreply.github.com"
 git config push.default simple
-git commit --all -m "${msg}"
+git add -A
+git commit -m "${msg}"
 git push -q
